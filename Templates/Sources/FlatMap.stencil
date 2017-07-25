@@ -6,12 +6,12 @@ import Operadics
 // MARK: - {{ type.name }}
 
 extension {{ type.name }} {
-    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> {{ type.annotations.concrete }}<A.ElementType> where A: {{ type.name }} {
-		return try map(transform).joined
+    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> {{ type.annotations.concrete }}<A.ElementType{% if type.annotations.context %}, {{ type.annotations.context }}{% endif %}> where A: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %} {
+        return try map(transform).joined
     }
 }
 
-public func >>- <A,B> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> {{ type.annotations.concrete }}<B.ElementType> where A: {{ type.name }}, B: {{ type.name }} {
+public func >>- <A,B{% if type.annotations.context %},Z{% endif %}> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> {{ type.annotations.concrete }}<B.ElementType{% if type.annotations.context %}, Z{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == Z, B.{{ type.annotations.context }} == Z{% endif %}{% if type.annotations.contextRequiredProtocols %}, Z: {{ type.annotations.contextRequiredProtocols }}{% endif %} {
     return try left.flatMap(right)
 }
 

@@ -17,3 +17,9 @@ public func <*> <A,B,T> (left: A, right: B) -> Optional<T> where A: OptionalType
   	return zip(left,right).map { $0($1) }
 }
 
+// MARK: - ResultType
+
+public func <*> <A,B,T,Z> (left: A, right: B) -> Result<T,Z> where A: ResultType, B: ResultType, A.ElementType == (B.ElementType) -> T, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+  	return zip(left,right).map { $0($1) }
+}
+

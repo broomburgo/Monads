@@ -31,3 +31,17 @@ public func zip <A,B,C,D> (_ a: A, _ b: B, _ c: C, _ d: D) -> Optional<(A.Elemen
 	return a.flatMap { aValue in b.flatMap { bValue in c.flatMap { cValue in d.map { dValue in (aValue,bValue,cValue,dValue) } } } }
 }
 
+// MARK: - ResultType
+
+public func zip <A,B,Z> (_ a: A, _ b: B) -> Result<(A.ElementType,B.ElementType),Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+    return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
+}
+
+public func zip <A,B,C,Z> (_ a: A, _ b: B, _ c: C) -> Result<(A.ElementType,B.ElementType,C.ElementType),Z> where A: ResultType, B: ResultType, C: ResultType, A.ErrorType == Z, B.ErrorType == Z, C.ErrorType == Z, Z: Error {
+	return a.flatMap { aValue in b.flatMap { bValue in c.map { cValue in (aValue,bValue,cValue) } } }
+}
+
+public func zip <A,B,C,D,Z> (_ a: A, _ b: B, _ c: C, _ d: D) -> Result<(A.ElementType,B.ElementType,C.ElementType,D.ElementType),Z> where A: ResultType, B: ResultType, C: ResultType, D: ResultType, A.ErrorType == Z, B.ErrorType == Z, C.ErrorType == Z, D.ErrorType == Z, Z: Error {
+	return a.flatMap { aValue in b.flatMap { bValue in c.flatMap { cValue in d.map { dValue in (aValue,bValue,cValue,dValue) } } } }
+}
+

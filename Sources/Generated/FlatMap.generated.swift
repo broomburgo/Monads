@@ -9,7 +9,7 @@ import Operadics
 
 extension ArrayType {
     public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Array<A.ElementType> where A: ArrayType {
-		return try map(transform).joined
+        return try map(transform).joined
     }
 }
 
@@ -21,11 +21,23 @@ public func >>- <A,B> (left: A, right: @escaping (A.ElementType) throws -> B) re
 
 extension OptionalType {
     public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Optional<A.ElementType> where A: OptionalType {
-		return try map(transform).joined
+        return try map(transform).joined
     }
 }
 
 public func >>- <A,B> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Optional<B.ElementType> where A: OptionalType, B: OptionalType {
+    return try left.flatMap(right)
+}
+
+// MARK: - ResultType
+
+extension ResultType {
+    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Result<A.ElementType, ErrorType> where A: ResultType, A.ErrorType == ErrorType {
+        return try map(transform).joined
+    }
+}
+
+public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Result<B.ElementType, Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
     return try left.flatMap(right)
 }
 

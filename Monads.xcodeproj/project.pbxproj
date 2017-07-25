@@ -36,6 +36,8 @@
 		38E4B7D21F278ACF00EEC287 /* Law.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7CF1F278ACF00EEC287 /* Law.generated.swift */; };
 		38E4B7D41F278ED300EEC287 /* MonadLaws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D31F278ED300EEC287 /* MonadLaws.generated.swift */; };
 		38E4B7D61F278EDD00EEC287 /* MonadTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D51F278EDD00EEC287 /* MonadTests.generated.swift */; };
+		38E4B7D81F27968000EEC287 /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D71F27968000EEC287 /* ResultType.swift */; };
+		38E4B7D91F27968000EEC287 /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D71F27968000EEC287 /* ResultType.swift */; };
 		38F4A3B01F1E63EC003966EC /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F4A3AF1F1E63D3003966EC /* Abstract.framework */; };
 		38F4A3BA1F1E641C003966EC /* Monads.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F4A3B81F1E641C003966EC /* Monads.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38F4A3BE1F1E642E003966EC /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F4A3AE1F1E63D3003966EC /* Abstract.framework */; };
@@ -88,6 +90,7 @@
 		38E4B7CF1F278ACF00EEC287 /* Law.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Law.generated.swift; sourceTree = "<group>"; };
 		38E4B7D31F278ED300EEC287 /* MonadLaws.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadLaws.generated.swift; sourceTree = "<group>"; };
 		38E4B7D51F278EDD00EEC287 /* MonadTests.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTests.generated.swift; sourceTree = "<group>"; };
+		38E4B7D71F27968000EEC287 /* ResultType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultType.swift; sourceTree = "<group>"; };
 		38F4A3AE1F1E63D3003966EC /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/iOS/Abstract.framework; sourceTree = "<group>"; };
 		38F4A3AF1F1E63D3003966EC /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/Mac/Abstract.framework; sourceTree = "<group>"; };
 		38F4A3B61F1E641C003966EC /* Monads.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Monads.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,6 +219,7 @@
 				38E4B7931F2726B100EEC287 /* Functions.swift */,
 				38F4A3C01F1E64EA003966EC /* OptionalType.swift */,
 				3821B1211F2643CF00F75F39 /* Pure.swift */,
+				38E4B7D71F27968000EEC287 /* ResultType.swift */,
 				3821B1251F26487C00F75F39 /* Generated */,
 			);
 			path = Sources;
@@ -402,6 +406,7 @@
 				38808CF41F26A81700792FEA /* Zip.generated.swift in Sources */,
 				3821B1301F264C5400F75F39 /* FlatMap.generated.swift in Sources */,
 				38E4B79F1F27419500EEC287 /* ArrayType.swift in Sources */,
+				38E4B7D91F27968000EEC287 /* ResultType.swift in Sources */,
 				38F4A3C21F1E64EA003966EC /* OptionalType.swift in Sources */,
 				3821B1231F2643CF00F75F39 /* Pure.swift in Sources */,
 				38808CF21F26A81700792FEA /* Apply.generated.swift in Sources */,
@@ -417,6 +422,7 @@
 				38E4B79E1F27419500EEC287 /* ArrayType.swift in Sources */,
 				38808CF31F26A81700792FEA /* Zip.generated.swift in Sources */,
 				38E4B79A1F27291A00EEC287 /* Lift.generated.swift in Sources */,
+				38E4B7D81F27968000EEC287 /* ResultType.swift in Sources */,
 				38E4B7941F2726B100EEC287 /* Functions.swift in Sources */,
 				38808CF11F26A81700792FEA /* Apply.generated.swift in Sources */,
 				3821B1221F2643CF00F75F39 /* Pure.swift in Sources */,

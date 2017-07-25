@@ -164,3 +164,89 @@ public prefix func - <A> (value: A) -> Optional<Double> where A: OptionalType, A
 	return lift { -$0 }(value)
 }
 
+// MARK: - ResultType
+
+public func lift<A,T,Z>(_ function: @escaping (A.ElementType) -> T) -> (A) -> Result<T,Z> where A: ResultType, A.ErrorType == Z, Z: Error {
+	return { $0.map(function) }
+}
+
+public func bilift<A,B,T,Z>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Result<T,Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return { zip($0,$1).map(function) }
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Result<Int,Z> where A: ResultType, B: ResultType, A.ElementType == Int, B.ElementType == Int, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Result<UInt,Z> where A: ResultType, B: ResultType, A.ElementType == UInt, B.ElementType == UInt, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Result<Float,Z> where A: ResultType, B: ResultType, A.ElementType == Float, B.ElementType == Float, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Result<Double,Z> where A: ResultType, B: ResultType, A.ElementType == Double, B.ElementType == Double, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(+)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Result<Int,Z> where A: ResultType, B: ResultType, A.ElementType == Int, B.ElementType == Int, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Result<UInt,Z> where A: ResultType, B: ResultType, A.ElementType == UInt, B.ElementType == UInt, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Result<Float,Z> where A: ResultType, B: ResultType, A.ElementType == Float, B.ElementType == Float, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Result<Double,Z> where A: ResultType, B: ResultType, A.ElementType == Double, B.ElementType == Double, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(-)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Result<Int,Z> where A: ResultType, B: ResultType, A.ElementType == Int, B.ElementType == Int, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Result<UInt,Z> where A: ResultType, B: ResultType, A.ElementType == UInt, B.ElementType == UInt, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Result<Float,Z> where A: ResultType, B: ResultType, A.ElementType == Float, B.ElementType == Float, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Result<Double,Z> where A: ResultType, B: ResultType, A.ElementType == Double, B.ElementType == Double, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(*)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Result<Int,Z> where A: ResultType, B: ResultType, A.ElementType == Int, B.ElementType == Int, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Result<UInt,Z> where A: ResultType, B: ResultType, A.ElementType == UInt, B.ElementType == UInt, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Result<Float,Z> where A: ResultType, B: ResultType, A.ElementType == Float, B.ElementType == Float, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Result<Double,Z> where A: ResultType, B: ResultType, A.ElementType == Double, B.ElementType == Double, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+	return bilift(/)(left,right)
+}
+
+public prefix func - <A,Z> (value: A) -> Result<Int,Z> where A: ResultType, A.ElementType == Int, A.ErrorType == Z, Z: Error {
+	return lift { -$0 }(value)
+}
+
+public prefix func - <A,Z> (value: A) -> Result<Float,Z> where A: ResultType, A.ElementType == Float, A.ErrorType == Z, Z: Error {
+	return lift { -$0 }(value)
+}
+
+public prefix func - <A,Z> (value: A) -> Result<Double,Z> where A: ResultType, A.ElementType == Double, A.ErrorType == Z, Z: Error {
+	return lift { -$0 }(value)
+}
+

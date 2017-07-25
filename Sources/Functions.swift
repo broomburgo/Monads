@@ -9,6 +9,10 @@ enum F {
 		return { _ in value }
 	}
 
+	public static func constant <A,B> (_ value: @escaping () -> B) -> (A) -> B {
+		return { _ in value() }
+	}
+
 	public static func ignore <A> (_ value: A) {}
 
 	public static func apply <A,B> (_ function: (A) throws -> B, _ value: A) rethrows -> B {
