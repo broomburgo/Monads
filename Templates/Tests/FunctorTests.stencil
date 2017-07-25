@@ -1,0 +1,21 @@
+//: `functorLaws` definitions; requires `fixedTypesForPropertyBasedTests`
+
+import XCTest
+@testable import Monads
+import SwiftCheck
+
+class FunctorLawsTests: XCTestCase {
+    {% for type in types.all|!protocol|annotated:"functorLaws"|annotated:"fixedTypesForPropertyBasedTests" %}
+// MARK: - {{ type.name }}
+    func test{{ type.name }}() {
+        property("Functor law: identity") <- forAll { (a: {{ type.annotations.fixedTypesForPropertyBasedTests }}) in
+            Law.Functor.On{{ type.name }}.identity(a)
+        }
+
+        property("Functor law: composition") <- forAll { (a: {{ type.annotations.fixedTypesForPropertyBasedTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForPropertyBasedTests }},{{ type.annotations.fixedTypesForPropertyBasedTests }}>, ag: ArrowOf<{{ type.annotations.fixedTypesForPropertyBasedTests }},{{ type.annotations.fixedTypesForPropertyBasedTests }}>) in
+            Law.Functor.On{{ type.name }}.composition(a, af.getArrow, ag.getArrow)
+        }
+    }
+
+    {% endfor %}
+}

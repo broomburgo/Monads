@@ -1,0 +1,30 @@
+//: `applicativeLaws` definitions
+
+@testable import Monads
+import Operadics
+
+extension Law {
+    enum Applicative {
+    {% for type in types.all|!protocol|annotated:"applicativeLaws" %}
+// MARK: - {{ type.name }}
+        enum On{{ type.name }} {
+            static func identity <A> (_ value: A) -> Bool where A: Equatable {
+                return ({{ type.name }}.init(F.identity) <*> {{ type.name }}.init(value)) == {{ type.name }}.init(value)
+            }
+
+            static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
+                return ({{ type.name }}.init(f) <*> {{ type.name }}.init(value)) == {{ type.name }}.init(f(value))
+            }
+
+            static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
+                return ({{ type.name }}.init(f) <*> {{ type.name }}.init(value)) == ({{ type.name }}.init({ $0(value) }) <*> ({{ type.name }}.init(f)))
+            }
+
+            static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+                return ({{ type.name }}.init(curry(•)) <*> {{ type.name }}.init(g) <*> {{ type.name }}.init(f) <*> {{ type.name }}.init(value)) == ({{ type.name }}.init(g) <*> ({{ type.name }}.init(f) <*> {{ type.name }}.init(value)))
+            }
+        }
+
+    {% endfor %}
+    }
+}

@@ -1,0 +1,26 @@
+//: `monadLaws` definitions
+
+@testable import Monads
+import Operadics
+
+extension Law {
+    enum Monad {
+    {% for type in types.all|!protocol|annotated:"monadLaws" %}
+// MARK: - {{ type.name }}
+        enum On{{ type.name }} {
+            static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> {{ type.name }}<B>) -> Bool where A: Equatable, B: Equatable {
+                return ({{ type.name }}.init(value) >>- f) == f(value)
+            }
+
+            static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
+                return ({{ type.name }}.init(value) >>- {{ type.name }}.init) == {{ type.name }}.init(value)
+            }
+
+            static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> {{ type.name }}<B>, _ g: @escaping (B) -> {{ type.name }}<C>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+                return ({{ type.name }}.init(value) >>- f >>- g) == ({{ type.name }}.init(value) >>- { f($0) >>- g })
+            }
+        }
+
+    {% endfor %}
+    }
+}

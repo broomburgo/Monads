@@ -1,0 +1,12 @@
+//: `<*>` definitions; requires `concrete`
+
+import Operadics
+
+{% for type in types.protocols|annotated:"<*>"|annotated:"concrete" %}
+// MARK: - {{ type.name }}
+
+public func <*> <A,B,T> (left: A, right: B) -> {{ type.annotations.concrete }}<T> where A: {{ type.name }}, B: {{ type.name }}, A.ElementType == (B.ElementType) -> T {
+  	return zip(left,right).map { $0($1) }
+}
+
+{% endfor %}

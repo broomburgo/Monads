@@ -1,0 +1,18 @@
+//: `flatMap` definitions; requires `concrete`
+
+import Operadics
+
+{% for type in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+// MARK: - {{ type.name }}
+
+extension {{ type.name }} {
+    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> {{ type.annotations.concrete }}<A.ElementType> where A: {{ type.name }} {
+		return try map(transform).joined
+    }
+}
+
+public func >>- <A,B> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> {{ type.annotations.concrete }}<B.ElementType> where A: {{ type.name }}, B: {{ type.name }} {
+    return try left.flatMap(right)
+}
+
+{% endfor %}

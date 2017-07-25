@@ -1,0 +1,18 @@
+{
+  "iOS" : [
+
+  ],
+  "commitish" : "9214855c29b630ae066e0e8519f0eb52e61bb9f2",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+    {
+      "hash" : "4da90921679412aaf0170adfa6805705d198a1eecba87da66cf4d81a38a78458",
+      "name" : "Abstract"
+    }
+  ]
+}

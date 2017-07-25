@@ -1,0 +1,18 @@
+//: `zip` definitions; requires `concrete`
+
+{% for type in types.protocols|annotated:"zip"|annotated:"concrete" %}
+// MARK: - {{ type.name }}
+
+public func zip <A,B> (_ a: A, _ b: B) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType)> where A: {{ type.name }}, B: {{ type.name }} {
+    return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
+}
+
+public func zip <A,B,C> (_ a: A, _ b: B, _ c: C) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType,C.ElementType)> where A: {{ type.name }}, B: {{ type.name }}, C: {{ type.name }} {
+	return a.flatMap { aValue in b.flatMap { bValue in c.map { cValue in (aValue,bValue,cValue) } } }
+}
+
+public func zip <A,B,C,D> (_ a: A, _ b: B, _ c: C, _ d: D) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType,C.ElementType,D.ElementType)> where A: {{ type.name }}, B: {{ type.name }}, C: {{ type.name }}, D: {{ type.name }} {
+	return a.flatMap { aValue in b.flatMap { bValue in c.flatMap { cValue in d.map { dValue in (aValue,bValue,cValue,dValue) } } } }
+}
+
+{% endfor %}

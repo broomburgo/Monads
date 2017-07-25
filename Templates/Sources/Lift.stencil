@@ -1,0 +1,76 @@
+//: `lift` definitions; requires `concrete`
+
+{% macro getBilifted type operator parameter %}
+public func {{ operator }} <A,B> (left: A, right: B) -> {{ type.annotations.concrete }}<{{ parameter }}> where A: {{ type.name }}, B: {{ type.name }}, A.ElementType == {{ parameter }}, B.ElementType == {{ parameter }} {
+	return bilift({{ operator }})(left,right)
+}
+{% endmacro %}
+
+{% macro getPrefixLifted type operator parameter %}
+public prefix func {{ operator }} <A> (value: A) -> {{ type.annotations.concrete }}<{{ parameter }}> where A: {{ type.name }}, A.ElementType == {{ parameter }} {
+	return lift { {{ operator }}$0 }(value)
+}
+{% endmacro %}
+
+import Operadics
+
+{% for type in types.protocols|annotated:"lift"|annotated:"concrete" %}
+// MARK: - {{ type.name }}
+
+public func lift<A,T>(_ function: @escaping (A.ElementType) -> T) -> (A) -> {{ type.annotations.concrete }}<T> where A: {{ type.name }} {
+	return { $0.map(function) }
+}
+
+public func bilift<A,B,T>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> {{ type.annotations.concrete }}<T> where A: {{ type.name }}, B: {{ type.name }} {
+	return { zip($0,$1).map(function) }
+}
+
+{% if type.annotations.lift+ %}
+{% call getBilifted type "+" "Int" %}
+
+{% call getBilifted type "+" "UInt" %}
+
+{% call getBilifted type "+" "Float" %}
+
+{% call getBilifted type "+" "Double" %}
+{% endif %}
+
+{% if type.annotations.lift- %}
+{% call getBilifted type "-" "Int" %}
+
+{% call getBilifted type "-" "UInt" %}
+
+{% call getBilifted type "-" "Float" %}
+
+{% call getBilifted type "-" "Double" %}
+{% endif %}
+
+{% if type.annotations.lift* %}
+{% call getBilifted type "*" "Int" %}
+
+{% call getBilifted type "*" "UInt" %}
+
+{% call getBilifted type "*" "Float" %}
+
+{% call getBilifted type "*" "Double" %}
+{% endif %}
+
+{% if type.annotations.lift/ %}
+{% call getBilifted type "/" "Int" %}
+
+{% call getBilifted type "/" "UInt" %}
+
+{% call getBilifted type "/" "Float" %}
+
+{% call getBilifted type "/" "Double" %}
+{% endif %}
+
+{% if type.annotations.liftPrefix- %}
+{% call getPrefixLifted type "-" "Int" %}
+
+{% call getPrefixLifted type "-" "Float" %}
+
+{% call getPrefixLifted type "-" "Double" %}
+{% endif %}
+
+{% endfor %}

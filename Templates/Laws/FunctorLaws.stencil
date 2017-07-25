@@ -1,0 +1,24 @@
+//: `functorLaws` definitions
+
+@testable import Monads
+import Operadics
+
+extension Law {
+    enum Functor {
+    {% for type in types.all|!protocol|annotated:"functorLaws" %}
+// MARK: - {{ type.name }}
+        enum On{{ type.name }} {
+            static func identity <A> (_ value: A) -> Bool where A: Equatable {
+                return {{ type.name }}<A>.init(value).map(F.identity) == F.identity({{ type.name }}<A>.init(value))
+            }
+
+            static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+                let mapF = try! F.flip({{ type.name }}<A>.map)(f)
+                let mapG = try! F.flip({{ type.name }}<B>.map)(g)
+                return try! {{ type.name }}(value).map(g • f) == (mapG • mapF § {{ type.name }}(value))
+            }
+        }
+
+    {% endfor %}
+    }
+}
