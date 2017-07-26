@@ -95,7 +95,7 @@ extension ResultType where ElementType: ResultType, ElementType.ErrorType == Err
 	}
 }
 
-// CustomZip (ErrorType: Semigroup)
+// MARK: -  CustomZip (ErrorType: Semigroup)
 
 public func zip <A,B,Z> (_ a: A, _ b: B) -> Result<(A.ElementType,B.ElementType),Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error & Semigroup {
 	return a.run(

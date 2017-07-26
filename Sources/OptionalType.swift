@@ -1,5 +1,3 @@
-import Abstract
-
 // MARK: - Definition
 
 // sourcery: concrete = "Optional"
