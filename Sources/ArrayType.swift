@@ -3,7 +3,7 @@
 // sourcery: concrete = "Array"
 // sourcery: zip, <*>, flatMap, lift, lift-, lift*, lift/, liftPrefix-
 public protocol ArrayType: PureConstructible {
-	var run: [ElementType] { get }
+	func run(_ callback: @escaping (ElementType) throws -> ()) rethrows
 }
 
 // MARK: - Concrete
@@ -17,8 +17,8 @@ extension Array: ArrayType {
 		self = [value]
 	}
 
-	public var run: [Element] {
-		return self
+	public func run(_ callback: @escaping (Element) throws -> ()) rethrows {
+		try forEach(callback)
 	}
 }
 
@@ -27,9 +27,7 @@ extension Array: ArrayType {
 extension ArrayType {
 	public func map <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Array<A> {
 		var transformed = [A]()
-		for element in run {
-			transformed.append(try transform(element))
-		}
+		try run { transformed.append(try transform($0)) }
 		return transformed
 	}
 }
@@ -38,6 +36,8 @@ extension ArrayType {
 
 extension ArrayType where ElementType: ArrayType {
 	public var joined: Array<ElementType.ElementType> {
-		return run.reduce([]) { $0.run + $1.run }
+		var reduced = Array<ElementType.ElementType>.init()
+		run { $0.run { reduced.append($0) } }
+		return reduced
 	}
 }

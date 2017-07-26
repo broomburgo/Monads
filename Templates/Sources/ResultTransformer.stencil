@@ -1,0 +1,7 @@
+//: `transformer` definitions for `ResultType`; requires `concrete`
+
+{% for type in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+
+
+
+{% endfor %}
