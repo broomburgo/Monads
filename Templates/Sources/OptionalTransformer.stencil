@@ -1,20 +1,20 @@
 //: `transformer` definitions for `OptionalType`; requires `concrete`
 
-{% macro getReturnTypeT type1 external %}{{ type1.annotations.concrete }}<Optional<A>{% if type1.annotations.context %},{% if external %}T.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnTypeT type1 external %}{{ type1.annotations.concrete }}<Optional<A>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 
-{% macro getReturnTypeTT type1 type2 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<Optional<A>{% if type2.annotations.context %},{% if external %}T.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}T.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnTypeTT type1 type2 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<Optional<A>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 
-{% macro getReturnTypeTTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Optional<A>{% if type3.annotations.context %},{% if external %}T.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}T.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}T.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnTypeTTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Optional<A>{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 
 // MARK: - Level 1 Transformer
 {% for type1 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: OptionalType {
-	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeT type1 0 %} {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeT type1 "" %} {
 		return try map { try $0.map(transform) }
 	}
 
-	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> {% call getReturnTypeT type1 0 %}) rethrows -> {% call getReturnTypeT type1 0 %} {
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> {% call getReturnTypeT type1 "" %}) rethrows -> {% call getReturnTypeT type1 "" %} {
 		return try flatMap { try $0.run(
 			ifSome: { try transform($0) },
 			ifNone: { {{ type1.annotations.concrete }}.init(Optional.none) })
@@ -22,7 +22,7 @@ extension {{ type1.name }} where ElementType: OptionalType {
 	}
 }
 
-public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) throws -> {% call getReturnTypeT type1 1 %}) rethrows -> {% call getReturnTypeT type1 1 %} where T: {{ type1.name }}, T.ElementType: OptionalType {
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) throws -> {% call getReturnTypeT type1 "T"%}) rethrows -> {% call getReturnTypeT type1 "T"%} where T: {{ type1.name }}, T.ElementType: OptionalType {
 	return try object.flatMapT(transform)
 }
 {% endfor %}
@@ -32,11 +32,11 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 {% for type2 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: OptionalType {
-	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeTT type1 type2 0 %} {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeTT type1 type2 "" %} {
 		return try mapT { try $0.map(transform) }
 	}
 
-	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTT type1 type2 0 %}) rethrows -> {% call getReturnTypeTT type1 type2 0 %} {
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTT type1 type2 "" %}) rethrows -> {% call getReturnTypeTT type1 type2 "" %} {
 		return try flatMapT { try $0.run(
 			ifSome: { try transform($0) },
 			ifNone: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init(Optional.none)) })
@@ -44,7 +44,7 @@ extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.Elem
 	}
 }
 
-public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTT type1 type2 1 %}) rethrows -> {% call getReturnTypeTT type1 type2 1 %} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: OptionalType {
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTT type1 type2 "T"%}) rethrows -> {% call getReturnTypeTT type1 type2 "T"%} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: OptionalType {
 	return try object.flatMapTT(transform)
 }
 {% endfor %}
@@ -56,11 +56,11 @@ public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Elem
 {% for type3 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: {{ type3.name }}, ElementType.ElementType.ElementType: OptionalType {
-	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeTTT type1 type2 type3 0 %} {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
 		return try mapTT { try $0.map(transform) }
 	}
 
-	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTTT type1 type2 type3 0 %}) rethrows -> {% call getReturnTypeTTT type1 type2 type3 0 %} {
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTTT type1 type2 type3 "" %}) rethrows -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
 		return try flatMapTT { try $0.run(
 			ifSome: { try transform($0) },
 			ifNone: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init({{ type3.annotations.concrete }}.init(Optional.none))) })
@@ -68,7 +68,7 @@ extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.Elem
 	}
 }
 
-public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTTT type1 type2 type3 1 %}) rethrows -> {% call getReturnTypeTTT type1 type2 type3 1 %} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: {{ type3.name }}, T.ElementType.ElementType.ElementType: OptionalType {
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTTT type1 type2 type3 "T"%}) rethrows -> {% call getReturnTypeTTT type1 type2 type3 "T"%} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: {{ type3.name }}, T.ElementType.ElementType.ElementType: OptionalType {
 	return try object.flatMapTTT(transform)
 }
 {% endfor %}

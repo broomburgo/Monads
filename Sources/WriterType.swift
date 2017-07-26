@@ -9,7 +9,7 @@ import Abstract
 // sourcery: transformer
 public protocol WriterType: PureConstructible {
 	associatedtype LogType: Monoid
-	init(_ value: ElementType, _ log: LogType)
+	init(value: ElementType, log: LogType)
 	var run: (ElementType,LogType) { get }
 }
 
@@ -22,7 +22,7 @@ public protocol WriterType: PureConstructible {
 // sourcery: fixedTypesForTests = "Int"
 // sourcery: arbitrary
 // sourcery: arbitraryAdditionalParameterForGeneric = "L"
-// sourcery: arbitraryAdditionalGenericParameterProtocols = "LogType & Arbitrary"
+// sourcery: arbitraryAdditionalGenericParameterProtocols = "Monoid & Arbitrary"
 public struct Writer<T,L>: WriterType where L: Monoid {
 	public typealias ElementType = T
 	public typealias LogType = L
@@ -30,17 +30,17 @@ public struct Writer<T,L>: WriterType where L: Monoid {
 	let value: T
 	let log: L
 
-	public init(_ value: ElementType, _ log: LogType) {
+	public init(value: ElementType, log: LogType) {
 		self.value = value
 		self.log = log
 	}
 
 	public init(_ value: ElementType) {
-		self.init(value, .empty)
+		self.init(value: value, log: .empty)
 	}
 
 	public var run: (T, L) {
-		return (value,log)
+		return (value, log)
 	}
 }
 
@@ -70,7 +70,7 @@ extension OptionalType where ElementType: WriterType {
 			let newOptional = transform(oldValue)
 			return newOptional.map {
 				let (newValue,newLog) = $0.run
-				return Writer(newValue,oldLog <> newLog)
+				return Writer(value: newValue, log: oldLog <> newLog)
 			}
 
 		}
@@ -81,8 +81,8 @@ extension OptionalType where ElementType: WriterType {
 
 extension WriterType {
 	public func map <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Writer<A,LogType> {
-		let (value,log) = run
-		return try Writer<A,LogType>.init(transform(value), log)
+		let (value, log) = run
+		return try Writer<A,LogType>.init(value: transform(value), log: log)
 	}
 }
 
@@ -90,9 +90,9 @@ extension WriterType {
 
 extension WriterType where ElementType: WriterType, ElementType.LogType == LogType {
 	public var joined: Writer<ElementType.ElementType,LogType> {
-		let (inner,log1) = run
-		let (value,log2) = inner.run
-		return Writer<ElementType.ElementType,LogType>.init(value, log1 <> log2)
+		let (inner, log1) = run
+		let (value, log2) = inner.run
+		return Writer<ElementType.ElementType,LogType>.init(value: value, log: log1 <> log2)
 	}
 }
 
@@ -101,21 +101,21 @@ extension WriterType where ElementType: WriterType, ElementType.LogType == LogTy
 extension WriterType {
 	public func tell(_ newLog: LogType) -> Self {
 		let (oldValue,oldLog) = run
-		return Self(oldValue, oldLog <> newLog)
+		return Self(value: oldValue, log: oldLog <> newLog)
 	}
 
 	public func read(_ transform: (ElementType) -> LogType) -> Self {
 		let (oldValue,oldLog) = run
-		return Self(oldValue, oldLog <> transform(oldValue))
+		return Self(value: oldValue, log: oldLog <> transform(oldValue))
 	}
 
 	public func censor(_ transform: (LogType) -> LogType) -> Self {
 		let (oldValue,oldLog) = run
-		return Self(oldValue,transform(oldLog))
+		return Self(value: oldValue, log: transform(oldLog))
 	}
 
 	public var listen: Writer<(ElementType,LogType),LogType> {
 		let (oldValue,oldLog) = run
-		return Writer((oldValue,oldLog), oldLog)
+		return Writer(value: (oldValue,oldLog), log: oldLog)
 	}
 }

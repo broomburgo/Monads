@@ -3,6 +3,7 @@
 
 import SwiftCheck
 @testable import Monads
+import Abstract
 
 
 
@@ -15,7 +16,7 @@ import SwiftCheck
 
 // MARK: - Arbitrary for structs and classes
 
-struct WriterOf<T,L>: Arbitrary where T: Arbitrary, L: LogType & Arbitrary {
+struct WriterOf<T,L>: Arbitrary where T: Arbitrary, L: Monoid & Arbitrary {
     let getWriter: Writer<T,L>
     init(_ getWriter: Writer<T,L>) {
         self.getWriter = getWriter

@@ -1,5 +1,6 @@
 import SwiftCheck
 @testable import Monads
+import Abstract
 
 {% macro objectName type %}{{ type.name }}<T{% if type.annotations.arbitraryAdditionalParameterForGeneric %},{{ type.annotations.arbitraryAdditionalParameterForGeneric }}{% endif %}>{% endmacro %}
 
