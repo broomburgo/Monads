@@ -6,6 +6,7 @@ import Abstract
 // sourcery: context = "ErrorType"
 // sourcery: contextRequiredProtocols = "Error"
 // sourcery: zip, <*>, flatMap, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: transformer
 public protocol ResultType: PureConstructible {
 	associatedtype ErrorType: Error
 	init(_ error: ErrorType)
