@@ -4,7 +4,7 @@ import Abstract
 
 // sourcery: concrete = "Optional"
 // sourcery: zip, <*>, flatMap, lift, lift+, lift-, lift*, lift/, liftPrefix-
-public protocol OptionalType: PureConstructible, Monoid {
+public protocol OptionalType: PureConstructible {
 	func run<A>(ifSome: (ElementType) throws -> A, ifNone: () throws -> A) rethrows -> A
 }
 
@@ -21,18 +21,6 @@ extension Optional: OptionalType {
 		} else {
 			return try ifNone()
 		}
-	}
-}
-
-// MARK: - Monoid
-
-extension Optional {
-	public static var empty: Optional<Wrapped> {
-		return .none
-	}
-
-	public static func <> (left: Optional<Wrapped>, right: Optional<Wrapped>) -> Optional<Wrapped> {
-		return left ?? right
 	}
 }
 
