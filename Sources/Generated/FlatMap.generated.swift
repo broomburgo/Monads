@@ -5,6 +5,10 @@
 
 import Abstract
 
+infix operator |>>- : MonadPrecedenceLeft
+infix operator ||>>- : MonadPrecedenceLeft
+infix operator |||>>- : MonadPrecedenceLeft
+
 // MARK: - ArrayType
 
 extension ArrayType {

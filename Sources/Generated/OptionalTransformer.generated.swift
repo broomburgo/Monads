@@ -5,9 +5,6 @@
 
 
 
-import Abstract
-
-infix operator |>>- : MonadPrecedenceLeft
 
 // MARK: - Level 1 Transformer
 
@@ -77,6 +74,10 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 	}
 }
 
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> Optional<Optional<Optional<A>>>) rethrows -> Optional<Optional<Optional<A>>> where T: OptionalType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType {
+	return try object.flatMapTT(transform)
+}
+
 extension OptionalType where ElementType: ResultType, ElementType.ElementType: OptionalType {
 	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> A) rethrows -> Optional<Result<Optional<A>,ElementType.ErrorType>> {
 		return try mapT { try $0.map(transform) }
@@ -88,6 +89,10 @@ extension OptionalType where ElementType: ResultType, ElementType.ElementType: O
 			ifNone: { Optional.init(Result.init(Optional.none)) })
 		}
 	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> Optional<Result<Optional<A>,T.ElementType.ErrorType>>) rethrows -> Optional<Result<Optional<A>,T.ElementType.ErrorType>> where T: OptionalType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType {
+	return try object.flatMapTT(transform)
 }
 
 extension OptionalType where ElementType: WriterType, ElementType.ElementType: OptionalType {
@@ -103,6 +108,10 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: O
 	}
 }
 
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> Optional<Writer<Optional<A>,T.ElementType.LogType>>) rethrows -> Optional<Writer<Optional<A>,T.ElementType.LogType>> where T: OptionalType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType {
+	return try object.flatMapTT(transform)
+}
+
 extension ResultType where ElementType: OptionalType, ElementType.ElementType: OptionalType {
 	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> A) rethrows -> Result<Optional<Optional<A>>,ErrorType> {
 		return try mapT { try $0.map(transform) }
@@ -114,6 +123,10 @@ extension ResultType where ElementType: OptionalType, ElementType.ElementType: O
 			ifNone: { Result.init(Optional.init(Optional.none)) })
 		}
 	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> Result<Optional<Optional<A>>,T.ErrorType>) rethrows -> Result<Optional<Optional<A>>,T.ErrorType> where T: ResultType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType {
+	return try object.flatMapTT(transform)
 }
 
 extension ResultType where ElementType: ResultType, ElementType.ElementType: OptionalType {
@@ -129,6 +142,10 @@ extension ResultType where ElementType: ResultType, ElementType.ElementType: Opt
 	}
 }
 
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> Result<Result<Optional<A>,T.ElementType.ErrorType>,T.ErrorType>) rethrows -> Result<Result<Optional<A>,T.ElementType.ErrorType>,T.ErrorType> where T: ResultType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType {
+	return try object.flatMapTT(transform)
+}
+
 extension ResultType where ElementType: WriterType, ElementType.ElementType: OptionalType {
 	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> A) rethrows -> Result<Writer<Optional<A>,ElementType.LogType>,ErrorType> {
 		return try mapT { try $0.map(transform) }
@@ -140,6 +157,10 @@ extension ResultType where ElementType: WriterType, ElementType.ElementType: Opt
 			ifNone: { Result.init(Writer.init(Optional.none)) })
 		}
 	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> Result<Writer<Optional<A>,T.ElementType.LogType>,T.ErrorType>) rethrows -> Result<Writer<Optional<A>,T.ElementType.LogType>,T.ErrorType> where T: ResultType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType {
+	return try object.flatMapTT(transform)
 }
 
 extension WriterType where ElementType: OptionalType, ElementType.ElementType: OptionalType {
@@ -155,6 +176,10 @@ extension WriterType where ElementType: OptionalType, ElementType.ElementType: O
 	}
 }
 
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> Writer<Optional<Optional<A>>,T.LogType>) rethrows -> Writer<Optional<Optional<A>>,T.LogType> where T: WriterType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType {
+	return try object.flatMapTT(transform)
+}
+
 extension WriterType where ElementType: ResultType, ElementType.ElementType: OptionalType {
 	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> A) rethrows -> Writer<Result<Optional<A>,ElementType.ErrorType>,LogType> {
 		return try mapT { try $0.map(transform) }
@@ -168,6 +193,10 @@ extension WriterType where ElementType: ResultType, ElementType.ElementType: Opt
 	}
 }
 
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> Writer<Result<Optional<A>,T.ElementType.ErrorType>,T.LogType>) rethrows -> Writer<Result<Optional<A>,T.ElementType.ErrorType>,T.LogType> where T: WriterType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType {
+	return try object.flatMapTT(transform)
+}
+
 extension WriterType where ElementType: WriterType, ElementType.ElementType: OptionalType {
 	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> A) rethrows -> Writer<Writer<Optional<A>,ElementType.LogType>,LogType> {
 		return try mapT { try $0.map(transform) }
@@ -179,6 +208,10 @@ extension WriterType where ElementType: WriterType, ElementType.ElementType: Opt
 			ifNone: { Writer.init(Writer.init(Optional.none)) })
 		}
 	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> Writer<Writer<Optional<A>,T.ElementType.LogType>,T.LogType>) rethrows -> Writer<Writer<Optional<A>,T.ElementType.LogType>,T.LogType> where T: WriterType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType {
+	return try object.flatMapTT(transform)
 }
 
 // MARK: - Level 3 Transformer
@@ -196,6 +229,10 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Optional<Optional<Optional<Optional<A>>>>) rethrows -> Optional<Optional<Optional<Optional<A>>>> where T: OptionalType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension OptionalType where ElementType: OptionalType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Optional<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>> {
 		return try mapTT { try $0.map(transform) }
@@ -207,6 +244,10 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 			ifNone: { Optional.init(Optional.init(Result.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Optional<Optional<Result<Optional<A>,T.ElementType.ElementType.ErrorType>>>) rethrows -> Optional<Optional<Result<Optional<A>,T.ElementType.ElementType.ErrorType>>> where T: OptionalType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension OptionalType where ElementType: OptionalType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: OptionalType {
@@ -222,6 +263,10 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Optional<Optional<Writer<Optional<A>,T.ElementType.ElementType.LogType>>>) rethrows -> Optional<Optional<Writer<Optional<A>,T.ElementType.ElementType.LogType>>> where T: OptionalType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension OptionalType where ElementType: ResultType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Optional<Result<Optional<Optional<A>>,ElementType.ErrorType>> {
 		return try mapTT { try $0.map(transform) }
@@ -233,6 +278,10 @@ extension OptionalType where ElementType: ResultType, ElementType.ElementType: O
 			ifNone: { Optional.init(Result.init(Optional.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Optional<Result<Optional<Optional<A>>,T.ElementType.ErrorType>>) rethrows -> Optional<Result<Optional<Optional<A>>,T.ElementType.ErrorType>> where T: OptionalType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension OptionalType where ElementType: ResultType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: OptionalType {
@@ -248,6 +297,10 @@ extension OptionalType where ElementType: ResultType, ElementType.ElementType: R
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Optional<Result<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>>) rethrows -> Optional<Result<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>> where T: OptionalType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension OptionalType where ElementType: ResultType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Optional<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
 		return try mapTT { try $0.map(transform) }
@@ -259,6 +312,10 @@ extension OptionalType where ElementType: ResultType, ElementType.ElementType: W
 			ifNone: { Optional.init(Result.init(Writer.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Optional<Result<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>>) rethrows -> Optional<Result<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>> where T: OptionalType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension OptionalType where ElementType: WriterType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: OptionalType {
@@ -274,6 +331,10 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: O
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Optional<Writer<Optional<Optional<A>>,T.ElementType.LogType>>) rethrows -> Optional<Writer<Optional<Optional<A>>,T.ElementType.LogType>> where T: OptionalType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension OptionalType where ElementType: WriterType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Optional<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
 		return try mapTT { try $0.map(transform) }
@@ -285,6 +346,10 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: R
 			ifNone: { Optional.init(Writer.init(Result.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Optional<Writer<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>>) rethrows -> Optional<Writer<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>> where T: OptionalType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension OptionalType where ElementType: WriterType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: OptionalType {
@@ -300,6 +365,10 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: W
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Optional<Writer<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) rethrows -> Optional<Writer<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: OptionalType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension ResultType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Result<Optional<Optional<Optional<A>>>,ErrorType> {
 		return try mapTT { try $0.map(transform) }
@@ -311,6 +380,10 @@ extension ResultType where ElementType: OptionalType, ElementType.ElementType: O
 			ifNone: { Result.init(Optional.init(Optional.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Result<Optional<Optional<Optional<A>>>,T.ErrorType>) rethrows -> Result<Optional<Optional<Optional<A>>>,T.ErrorType> where T: ResultType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension ResultType where ElementType: OptionalType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: OptionalType {
@@ -326,6 +399,10 @@ extension ResultType where ElementType: OptionalType, ElementType.ElementType: R
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Result<Optional<Result<Optional<A>,T.ElementType.ElementType.ErrorType>>,T.ErrorType>) rethrows -> Result<Optional<Result<Optional<A>,T.ElementType.ElementType.ErrorType>>,T.ErrorType> where T: ResultType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension ResultType where ElementType: OptionalType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Result<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>,ErrorType> {
 		return try mapTT { try $0.map(transform) }
@@ -337,6 +414,10 @@ extension ResultType where ElementType: OptionalType, ElementType.ElementType: W
 			ifNone: { Result.init(Optional.init(Writer.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Result<Optional<Writer<Optional<A>,T.ElementType.ElementType.LogType>>,T.ErrorType>) rethrows -> Result<Optional<Writer<Optional<A>,T.ElementType.ElementType.LogType>>,T.ErrorType> where T: ResultType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension ResultType where ElementType: ResultType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: OptionalType {
@@ -352,6 +433,10 @@ extension ResultType where ElementType: ResultType, ElementType.ElementType: Opt
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Result<Result<Optional<Optional<A>>,T.ElementType.ErrorType>,T.ErrorType>) rethrows -> Result<Result<Optional<Optional<A>>,T.ElementType.ErrorType>,T.ErrorType> where T: ResultType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension ResultType where ElementType: ResultType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Result<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,ErrorType> {
 		return try mapTT { try $0.map(transform) }
@@ -363,6 +448,10 @@ extension ResultType where ElementType: ResultType, ElementType.ElementType: Res
 			ifNone: { Result.init(Result.init(Result.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Result<Result<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>,T.ErrorType>) rethrows -> Result<Result<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>,T.ErrorType> where T: ResultType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension ResultType where ElementType: ResultType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: OptionalType {
@@ -378,6 +467,10 @@ extension ResultType where ElementType: ResultType, ElementType.ElementType: Wri
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Result<Result<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.ErrorType>) rethrows -> Result<Result<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.ErrorType> where T: ResultType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension ResultType where ElementType: WriterType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Result<Writer<Optional<Optional<A>>,ElementType.LogType>,ErrorType> {
 		return try mapTT { try $0.map(transform) }
@@ -389,6 +482,10 @@ extension ResultType where ElementType: WriterType, ElementType.ElementType: Opt
 			ifNone: { Result.init(Writer.init(Optional.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Result<Writer<Optional<Optional<A>>,T.ElementType.LogType>,T.ErrorType>) rethrows -> Result<Writer<Optional<Optional<A>>,T.ElementType.LogType>,T.ErrorType> where T: ResultType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension ResultType where ElementType: WriterType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: OptionalType {
@@ -404,6 +501,10 @@ extension ResultType where ElementType: WriterType, ElementType.ElementType: Res
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Result<Writer<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>,T.ErrorType>) rethrows -> Result<Writer<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>,T.ErrorType> where T: ResultType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension ResultType where ElementType: WriterType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Result<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>,ErrorType> {
 		return try mapTT { try $0.map(transform) }
@@ -415,6 +516,10 @@ extension ResultType where ElementType: WriterType, ElementType.ElementType: Wri
 			ifNone: { Result.init(Writer.init(Writer.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Result<Writer<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.ErrorType>) rethrows -> Result<Writer<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.ErrorType> where T: ResultType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension WriterType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: OptionalType {
@@ -430,6 +535,10 @@ extension WriterType where ElementType: OptionalType, ElementType.ElementType: O
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Writer<Optional<Optional<Optional<A>>>,T.LogType>) rethrows -> Writer<Optional<Optional<Optional<A>>>,T.LogType> where T: WriterType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension WriterType where ElementType: OptionalType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Writer<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>,LogType> {
 		return try mapTT { try $0.map(transform) }
@@ -441,6 +550,10 @@ extension WriterType where ElementType: OptionalType, ElementType.ElementType: R
 			ifNone: { Writer.init(Optional.init(Result.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Writer<Optional<Result<Optional<A>,T.ElementType.ElementType.ErrorType>>,T.LogType>) rethrows -> Writer<Optional<Result<Optional<A>,T.ElementType.ElementType.ErrorType>>,T.LogType> where T: WriterType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension WriterType where ElementType: OptionalType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: OptionalType {
@@ -456,6 +569,10 @@ extension WriterType where ElementType: OptionalType, ElementType.ElementType: W
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Writer<Optional<Writer<Optional<A>,T.ElementType.ElementType.LogType>>,T.LogType>) rethrows -> Writer<Optional<Writer<Optional<A>,T.ElementType.ElementType.LogType>>,T.LogType> where T: WriterType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension WriterType where ElementType: ResultType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Writer<Result<Optional<Optional<A>>,ElementType.ErrorType>,LogType> {
 		return try mapTT { try $0.map(transform) }
@@ -467,6 +584,10 @@ extension WriterType where ElementType: ResultType, ElementType.ElementType: Opt
 			ifNone: { Writer.init(Result.init(Optional.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Writer<Result<Optional<Optional<A>>,T.ElementType.ErrorType>,T.LogType>) rethrows -> Writer<Result<Optional<Optional<A>>,T.ElementType.ErrorType>,T.LogType> where T: WriterType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension WriterType where ElementType: ResultType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: OptionalType {
@@ -482,6 +603,10 @@ extension WriterType where ElementType: ResultType, ElementType.ElementType: Res
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Writer<Result<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>,T.LogType>) rethrows -> Writer<Result<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>,T.LogType> where T: WriterType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension WriterType where ElementType: ResultType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Writer<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,LogType> {
 		return try mapTT { try $0.map(transform) }
@@ -493,6 +618,10 @@ extension WriterType where ElementType: ResultType, ElementType.ElementType: Wri
 			ifNone: { Writer.init(Result.init(Writer.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Writer<Result<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.LogType>) rethrows -> Writer<Result<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.LogType> where T: WriterType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }
 
 extension WriterType where ElementType: WriterType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: OptionalType {
@@ -508,6 +637,10 @@ extension WriterType where ElementType: WriterType, ElementType.ElementType: Opt
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Writer<Writer<Optional<Optional<A>>,T.ElementType.LogType>,T.LogType>) rethrows -> Writer<Writer<Optional<Optional<A>>,T.ElementType.LogType>,T.LogType> where T: WriterType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension WriterType where ElementType: WriterType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Writer<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,LogType> {
 		return try mapTT { try $0.map(transform) }
@@ -521,6 +654,10 @@ extension WriterType where ElementType: WriterType, ElementType.ElementType: Res
 	}
 }
 
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Writer<Writer<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>,T.LogType>) rethrows -> Writer<Writer<Result<Optional<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>,T.LogType> where T: WriterType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
+}
+
 extension WriterType where ElementType: WriterType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: OptionalType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> Writer<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>,LogType> {
 		return try mapTT { try $0.map(transform) }
@@ -532,4 +669,8 @@ extension WriterType where ElementType: WriterType, ElementType.ElementType: Wri
 			ifNone: { Writer.init(Writer.init(Writer.init(Optional.none))) })
 		}
 	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> Writer<Writer<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.LogType>) rethrows -> Writer<Writer<Writer<Optional<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.LogType> where T: WriterType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: OptionalType {
+	return try object.flatMapTTT(transform)
 }

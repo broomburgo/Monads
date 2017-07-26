@@ -2,6 +2,10 @@
 
 import Abstract
 
+infix operator |>>- : MonadPrecedenceLeft
+infix operator ||>>- : MonadPrecedenceLeft
+infix operator |||>>- : MonadPrecedenceLeft
+
 {% for type in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
