@@ -15,6 +15,10 @@ if [ -f "Sourcery/sourcery" ]; then
 
 	./Sourcery/sourcery --sources Sources --templates Templates/Tests --output Tests/MonadsTests
 
+	echo "Generating test utilities: Sources + Templates/TestUtilities -> Tests/Utilities"
+
+	./Sourcery/sourcery --sources Sources --templates Templates/TestUtilities --output Tests/Utilities
+
 else
 	echo "Sourcery is not installed, ignoring."
 fi

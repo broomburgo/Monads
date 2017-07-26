@@ -1,26 +1,26 @@
-//: `applicativeLaws` definitions; requires `fixedTypesForPropertyBasedTests`
+//: `applicativeLaws` definitions; requires `fixedTypesForTests`
 
 import XCTest
 @testable import Monads
 import SwiftCheck
 
 class ApplicativeLawsTests: XCTestCase {
-    {% for type in types.all|!protocol|annotated:"applicativeLaws"|annotated:"fixedTypesForPropertyBasedTests" %}
+    {% for type in types.all|!protocol|annotated:"applicativeLaws"|annotated:"fixedTypesForTests" %}
 // MARK: - {{ type.name }}
     func test{{ type.name }}() {
-        property("Applicative law: identity") <- forAll { (a: {{ type.annotations.fixedTypesForPropertyBasedTests }}) in
+        property("Applicative law: identity") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}) in
             Law.Applicative.On{{ type.name }}.identity(a)
         }
 
-        property("Applicative law: homomorphism") <- forAll { (a: {{ type.annotations.fixedTypesForPropertyBasedTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForPropertyBasedTests }},{{ type.annotations.fixedTypesForPropertyBasedTests }}>) in
+        property("Applicative law: homomorphism") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.annotations.fixedTypesForTests }}>) in
             Law.Applicative.On{{ type.name }}.homomorphism(a, af.getArrow)
         }
 
-        property("Applicative law: interchange") <- forAll { (a: {{ type.annotations.fixedTypesForPropertyBasedTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForPropertyBasedTests }},{{ type.annotations.fixedTypesForPropertyBasedTests }}>) in
+        property("Applicative law: interchange") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.annotations.fixedTypesForTests }}>) in
             Law.Applicative.On{{ type.name }}.interchange(a, af.getArrow)
         }
 
-        property("Applicative law: composition") <- forAll { (a: {{ type.annotations.fixedTypesForPropertyBasedTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForPropertyBasedTests }},{{ type.annotations.fixedTypesForPropertyBasedTests }}>, ag: ArrowOf<{{ type.annotations.fixedTypesForPropertyBasedTests }},{{ type.annotations.fixedTypesForPropertyBasedTests }}>) in
+        property("Applicative law: composition") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.annotations.fixedTypesForTests }}>, ag: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.annotations.fixedTypesForTests }}>) in
             Law.Applicative.On{{ type.name }}.composition(a, af.getArrow, ag.getArrow)
         }
     }

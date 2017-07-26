@@ -1,18 +1,18 @@
-//: `functorLaws` definitions; requires `fixedTypesForPropertyBasedTests`
+//: `functorLaws` definitions; requires `fixedTypesForTests`
 
 import XCTest
 @testable import Monads
 import SwiftCheck
 
 class FunctorLawsTests: XCTestCase {
-    {% for type in types.all|!protocol|annotated:"functorLaws"|annotated:"fixedTypesForPropertyBasedTests" %}
+    {% for type in types.all|!protocol|annotated:"functorLaws"|annotated:"fixedTypesForTests" %}
 // MARK: - {{ type.name }}
     func test{{ type.name }}() {
-        property("Functor law: identity") <- forAll { (a: {{ type.annotations.fixedTypesForPropertyBasedTests }}) in
+        property("Functor law: identity") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}) in
             Law.Functor.On{{ type.name }}.identity(a)
         }
 
-        property("Functor law: composition") <- forAll { (a: {{ type.annotations.fixedTypesForPropertyBasedTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForPropertyBasedTests }},{{ type.annotations.fixedTypesForPropertyBasedTests }}>, ag: ArrowOf<{{ type.annotations.fixedTypesForPropertyBasedTests }},{{ type.annotations.fixedTypesForPropertyBasedTests }}>) in
+        property("Functor law: composition") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.annotations.fixedTypesForTests }}>, ag: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.annotations.fixedTypesForTests }}>) in
             Law.Functor.On{{ type.name }}.composition(a, af.getArrow, ag.getArrow)
         }
     }

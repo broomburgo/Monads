@@ -10,10 +10,8 @@ public protocol ArrayType: PureConstructible, Monoid {
 
 // MARK: - Concrete
 
-// sourcery: functorLaws
-// sourcery: applicativeLaws
-// sourcery: monadLaws
-// sourcery: fixedTypesForPropertyBasedTests = "Int"
+// sourcery: functorLaws, applicativeLaws, monadLaws
+// sourcery: fixedTypesForTests = "Int"
 extension Array: ArrayType {
 	public typealias ElementType = Element
 

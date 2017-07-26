@@ -1,3 +1,5 @@
+{% macro object type parameter %}{{ type.name }}<{{ parameter }}{% if type.annotations.fixedContextForLawsAndTests %},{{ type.annotations.fixedContextForLawsAndTests }}{% endif %}>{% endmacro %}
+
 //: `monadLaws` definitions
 
 @testable import Monads
@@ -8,16 +10,16 @@ extension Law {
     {% for type in types.all|!protocol|annotated:"monadLaws" %}
 // MARK: - {{ type.name }}
         enum On{{ type.name }} {
-            static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> {{ type.name }}<B>) -> Bool where A: Equatable, B: Equatable {
-                return ({{ type.name }}.init(value) >>- f) == f(value)
+            static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> {% call object type "B" %}) -> Bool where A: Equatable, B: Equatable {
+                return ({% call object type "A" %}.init(value) >>- f) == f(value)
             }
 
             static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
-                return ({{ type.name }}.init(value) >>- {{ type.name }}.init) == {{ type.name }}.init(value)
+                return ({% call object type "A" %}.init(value) >>- {% call object type "A" %}.init) == {% call object type "A" %}.init(value)
             }
 
-            static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> {{ type.name }}<B>, _ g: @escaping (B) -> {{ type.name }}<C>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return ({{ type.name }}.init(value) >>- f >>- g) == ({{ type.name }}.init(value) >>- { f($0) >>- g })
+            static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> {% call object type "B" %}, _ g: @escaping (B) -> {% call object type "C" %}) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+                return ({% call object type "A" %}.init(value) >>- f >>- g) == ({% call object type "A" %}.init(value) >>- { f($0) >>- g })
             }
         }
 

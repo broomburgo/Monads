@@ -1,7 +1,7 @@
 // Generated using Sourcery 0.7.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
-//: `monadLaws` definitions; requires `fixedTypesForPropertyBasedTests`
+//: `monadLaws` definitions; requires `fixedTypesForTests`
 
 import XCTest
 @testable import Monads
@@ -35,6 +35,21 @@ class MonadLawsTests: XCTestCase {
 
         property("Monad law: associativity") <- forAll { (a: Int, af: ArrowOf<Int,OptionalOf<Int>>, ag: ArrowOf<Int,OptionalOf<Int>>) in
             Law.Monad.OnOptional.associativity(a, { af.getArrow($0).getOptional }, { ag.getArrow($0).getOptional })
+        }
+    }
+
+// MARK: - Result
+    func testResult() {
+        property("Monad law: identity left") <- forAll { (a: Int, af: ArrowOf<Int,ResultOf<Int,AnyError>>) in
+            Law.Monad.OnResult.identityLeft(a, { af.getArrow($0).getResult })
+        }
+
+        property("Monad law: identity right") <- forAll { (a: Int) in
+            Law.Monad.OnResult.identityRight(a)
+        }
+
+        property("Monad law: associativity") <- forAll { (a: Int, af: ArrowOf<Int,ResultOf<Int,AnyError>>, ag: ArrowOf<Int,ResultOf<Int,AnyError>>) in
+            Law.Monad.OnResult.associativity(a, { af.getArrow($0).getResult }, { ag.getArrow($0).getResult })
         }
     }
 

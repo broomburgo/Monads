@@ -10,10 +10,8 @@ public protocol OptionalType: PureConstructible, Monoid {
 
 // MARK: - Concrete
 
-// sourcery: functorLaws
-// sourcery: applicativeLaws
-// sourcery: monadLaws
-// sourcery: fixedTypesForPropertyBasedTests = "Int"
+// sourcery: functorLaws, applicativeLaws, monadLaws
+// sourcery: fixedTypesForTests = "Int"
 extension Optional: OptionalType {
 	public typealias ElementType = Wrapped
 

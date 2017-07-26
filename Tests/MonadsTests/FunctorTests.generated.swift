@@ -1,7 +1,7 @@
 // Generated using Sourcery 0.7.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
-//: `functorLaws` definitions; requires `fixedTypesForPropertyBasedTests`
+//: `functorLaws` definitions; requires `fixedTypesForTests`
 
 import XCTest
 @testable import Monads
@@ -27,6 +27,17 @@ class FunctorLawsTests: XCTestCase {
 
         property("Functor law: composition") <- forAll { (a: Int, af: ArrowOf<Int,Int>, ag: ArrowOf<Int,Int>) in
             Law.Functor.OnOptional.composition(a, af.getArrow, ag.getArrow)
+        }
+    }
+
+// MARK: - Result
+    func testResult() {
+        property("Functor law: identity") <- forAll { (a: Int) in
+            Law.Functor.OnResult.identity(a)
+        }
+
+        property("Functor law: composition") <- forAll { (a: Int, af: ArrowOf<Int,Int>, ag: ArrowOf<Int,Int>) in
+            Law.Functor.OnResult.composition(a, af.getArrow, ag.getArrow)
         }
     }
 

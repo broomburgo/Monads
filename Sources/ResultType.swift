@@ -17,6 +17,12 @@ public protocol ResultType: PureConstructible {
 
 // sourcery: context
 // sourcery: contextRequiredProtocols = "Error"
+// sourcery: functorLaws, applicativeLaws, monadLaws
+// sourcery: fixedContextForLawsAndTests = "AnyError"
+// sourcery: fixedTypesForTests = "Int"
+// sourcery: arbitrary
+// sourcery: additionalParameterForGenericArbitrary = "E"
+// sourcery: arbitraryAdditionalGenericParameterProtocols = "Error & Arbitrary"
 public enum Result<T,E>: ResultType where E: Error {
 	public typealias ElementType = T
 	public typealias ErrorType = E
@@ -45,6 +51,21 @@ public enum Result<T,E>: ResultType where E: Error {
 			return try ifFailure(error)
 		case .cancel:
 			return try ifCancel()
+		}
+	}
+}
+
+extension Result where T: Equatable, E: Equatable {
+	public static func == (left: Result, right: Result) -> Bool {
+		switch (left,right) {
+		case (.success(let leftValue), .success(let rightValue)):
+			return leftValue == rightValue
+		case (.failure(let leftError), .failure(let rightError)):
+			return leftError == rightError
+		case (.cancel,.cancel):
+			return true
+		default:
+			return false
 		}
 	}
 }
