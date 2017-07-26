@@ -1,11 +1,11 @@
 import SwiftCheck
 @testable import Monads
 
-{% macro objectName type %}{{ type.name }}<T{% if type.annotations.additionalParameterForGenericArbitrary %},{{ type.annotations.additionalParameterForGenericArbitrary }}{% endif %}>{% endmacro %}
+{% macro objectName type %}{{ type.name }}<T{% if type.annotations.arbitraryAdditionalParameterForGeneric %},{{ type.annotations.arbitraryAdditionalParameterForGeneric }}{% endif %}>{% endmacro %}
 
-{% macro arbitraryObjectName type %}{{ type.name }}Of<T{% if type.annotations.additionalParameterForGenericArbitrary %},{{ type.annotations.additionalParameterForGenericArbitrary }}{% endif %}>{% endmacro %}
+{% macro arbitraryObjectName type %}{{ type.name }}Of<T{% if type.annotations.arbitraryAdditionalParameterForGeneric %},{{ type.annotations.arbitraryAdditionalParameterForGeneric }}{% endif %}>{% endmacro %}
 
-{% macro arbitraryObjectDefinition type %}{% call arbitraryObjectName type %}: Arbitrary where T: Arbitrary{% if type.annotations.arbitraryGenericParameterProtocols %} & {{ type.annotations.arbitraryGenericParameterProtocols }}{% endif %}{% if type.annotations.additionalGenericParameterSubtypeRequirements %}, {% for annotation in type.annotations.additionalGenericParameterSubtypeRequirements %} T.{{ annotation }}{% if not forloop.last %}, {% endif %}{% endfor %}{% elif type.annotations.additionalGenericParameterSubtypeRequirement %}, T.{{ type.annotations.additionalGenericParameterSubtypeRequirement }}{% endif %}{% if type.annotations.arbitraryAdditionalGenericParameterProtocols %}, {{ type.annotations.additionalParameterForGenericArbitrary }}: {{ type.annotations.arbitraryAdditionalGenericParameterProtocols }}{% endif %}{% endmacro %}
+{% macro arbitraryObjectDefinition type %}{% call arbitraryObjectName type %}: Arbitrary where T: Arbitrary{% if type.annotations.arbitraryGenericParameterProtocols %} & {{ type.annotations.arbitraryGenericParameterProtocols }}{% endif %}{% if type.annotations.additionalGenericParameterSubtypeRequirements %}, {% for annotation in type.annotations.additionalGenericParameterSubtypeRequirements %} T.{{ annotation }}{% if not forloop.last %}, {% endif %}{% endfor %}{% elif type.annotations.additionalGenericParameterSubtypeRequirement %}, T.{{ type.annotations.additionalGenericParameterSubtypeRequirement }}{% endif %}{% if type.annotations.arbitraryAdditionalGenericParameterProtocols %}, {{ type.annotations.arbitraryAdditionalParameterForGeneric }}: {{ type.annotations.arbitraryAdditionalGenericParameterProtocols }}{% endif %}{% endmacro %}
 
 {% macro checkError typeNameString %}{% if typeNameString == "Error" %}String{% else %}{{ typeNameString }}{% endif %}{% endmacro %}
 

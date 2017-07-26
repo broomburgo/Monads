@@ -6,7 +6,8 @@
 //: `functorLaws` definitions
 
 @testable import Monads
-import Operadics
+import Abstract
+
 extension Law {
     enum Functor {
 // MARK: - Array
@@ -45,6 +46,19 @@ extension Law {
                 let mapF = try! F.flip(Result<A,AnyError>.map)(f)
                 let mapG = try! F.flip(Result<B,AnyError>.map)(g)
                 return try! Result.init(value).map(g • f) == (mapG • mapF § Result.init(value))
+            }
+        }
+
+// MARK: - Writer
+        enum OnWriter {
+            static func identity <A> (_ value: A) -> Bool where A: Equatable {
+                return Writer<A,String>.init(value).map(F.identity) == F.identity(Writer<A,String>.init(value))
+            }
+
+            static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+                let mapF = try! F.flip(Writer<A,String>.map)(f)
+                let mapG = try! F.flip(Writer<B,String>.map)(g)
+                return try! Writer.init(value).map(g • f) == (mapG • mapF § Writer.init(value))
             }
         }
 

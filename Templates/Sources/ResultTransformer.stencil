@@ -22,7 +22,6 @@ extension {{ type1.name }} where ElementType: ResultType {
 		}
 	}
 }
-
 {% endfor %}
 
 // MARK: - Level 2 Transformer
@@ -42,7 +41,6 @@ extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.Elem
 		}
 	}
 }
-
 {% endfor %}
 {% endfor %}
 
@@ -64,7 +62,6 @@ extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.Elem
 		}
 	}
 }
-
 {% endfor %}
 {% endfor %}
 {% endfor %}

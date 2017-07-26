@@ -1,6 +1,6 @@
 //: `flatMap` definitions; requires `concrete`
 
-import Operadics
+import Abstract
 
 {% for type in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
 // MARK: - {{ type.name }}

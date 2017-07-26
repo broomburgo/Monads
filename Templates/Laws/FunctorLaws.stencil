@@ -3,7 +3,8 @@
 //: `functorLaws` definitions
 
 @testable import Monads
-import Operadics
+import Abstract
+
 extension Law {
     enum Functor {
     {% for type in types.all|!protocol|annotated:"functorLaws" %}

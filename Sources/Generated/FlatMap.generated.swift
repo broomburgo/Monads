@@ -3,7 +3,7 @@
 
 //: `flatMap` definitions; requires `concrete`
 
-import Operadics
+import Abstract
 
 // MARK: - ArrayType
 
@@ -38,6 +38,18 @@ extension ResultType {
 }
 
 public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Result<B.ElementType, Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+    return try left.flatMap(right)
+}
+
+// MARK: - WriterType
+
+extension WriterType {
+    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Writer<A.ElementType, LogType> where A: WriterType, A.LogType == LogType {
+        return try map(transform).joined
+    }
+}
+
+public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Writer<B.ElementType, Z> where A: WriterType, B: WriterType, A.LogType == Z, B.LogType == Z, Z: Monoid {
     return try left.flatMap(right)
 }
 

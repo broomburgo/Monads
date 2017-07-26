@@ -53,4 +53,19 @@ class MonadLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Writer
+    func testWriter() {
+        property("Monad law: identity left") <- forAll { (a: Int, af: ArrowOf<Int,WriterOf<Int,String>>) in
+            Law.Monad.OnWriter.identityLeft(a, { af.getArrow($0).getWriter })
+        }
+
+        property("Monad law: identity right") <- forAll { (a: Int) in
+            Law.Monad.OnWriter.identityRight(a)
+        }
+
+        property("Monad law: associativity") <- forAll { (a: Int, af: ArrowOf<Int,WriterOf<Int,String>>, ag: ArrowOf<Int,WriterOf<Int,String>>) in
+            Law.Monad.OnWriter.associativity(a, { af.getArrow($0).getWriter }, { ag.getArrow($0).getWriter })
+        }
+    }
+
 }

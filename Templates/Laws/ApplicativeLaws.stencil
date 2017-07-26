@@ -3,7 +3,7 @@
 //: `applicativeLaws` definitions
 
 @testable import Monads
-import Operadics
+import Abstract
 
 extension Law {
     enum Applicative {

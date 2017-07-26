@@ -1,4 +1,4 @@
-import Operadics
+import Abstract
 
 enum F {
 	public static func identity <A> (_ value: A) -> A {

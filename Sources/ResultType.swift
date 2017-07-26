@@ -22,7 +22,7 @@ public protocol ResultType: PureConstructible {
 // sourcery: fixedContextForLawsAndTests = "AnyError"
 // sourcery: fixedTypesForTests = "Int"
 // sourcery: arbitrary
-// sourcery: additionalParameterForGenericArbitrary = "E"
+// sourcery: arbitraryAdditionalParameterForGeneric = "E"
 // sourcery: arbitraryAdditionalGenericParameterProtocols = "Error & Arbitrary"
 public enum Result<T,E>: ResultType where E: Error {
 	public typealias ElementType = T

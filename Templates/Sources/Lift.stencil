@@ -12,7 +12,7 @@ public prefix func {{ operator }} <A{% if type.annotations.context %},Z{% endif 
 }
 {% endmacro %}
 
-import Operadics
+import Abstract
 
 {% for type in types.protocols|annotated:"lift"|annotated:"concrete" %}
 // MARK: - {{ type.name }}

@@ -5,7 +5,7 @@
 
 
 
-import Operadics
+import Abstract
 
 // MARK: - ArrayType
 
@@ -247,6 +247,92 @@ public prefix func - <A,Z> (value: A) -> Result<Float,Z> where A: ResultType, A.
 }
 
 public prefix func - <A,Z> (value: A) -> Result<Double,Z> where A: ResultType, A.ElementType == Double, A.ErrorType == Z, Z: Error {
+	return lift { -$0 }(value)
+}
+
+// MARK: - WriterType
+
+public func lift<A,T,Z>(_ function: @escaping (A.ElementType) -> T) -> (A) -> Writer<T,Z> where A: WriterType, A.LogType == Z, Z: Monoid {
+	return { $0.map(function) }
+}
+
+public func bilift<A,B,T,Z>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Writer<T,Z> where A: WriterType, B: WriterType, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return { zip($0,$1).map(function) }
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Writer<Int,Z> where A: WriterType, B: WriterType, A.ElementType == Int, B.ElementType == Int, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Writer<UInt,Z> where A: WriterType, B: WriterType, A.ElementType == UInt, B.ElementType == UInt, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Writer<Float,Z> where A: WriterType, B: WriterType, A.ElementType == Float, B.ElementType == Float, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Writer<Double,Z> where A: WriterType, B: WriterType, A.ElementType == Double, B.ElementType == Double, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(+)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Writer<Int,Z> where A: WriterType, B: WriterType, A.ElementType == Int, B.ElementType == Int, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Writer<UInt,Z> where A: WriterType, B: WriterType, A.ElementType == UInt, B.ElementType == UInt, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Writer<Float,Z> where A: WriterType, B: WriterType, A.ElementType == Float, B.ElementType == Float, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Writer<Double,Z> where A: WriterType, B: WriterType, A.ElementType == Double, B.ElementType == Double, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(-)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Writer<Int,Z> where A: WriterType, B: WriterType, A.ElementType == Int, B.ElementType == Int, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Writer<UInt,Z> where A: WriterType, B: WriterType, A.ElementType == UInt, B.ElementType == UInt, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Writer<Float,Z> where A: WriterType, B: WriterType, A.ElementType == Float, B.ElementType == Float, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Writer<Double,Z> where A: WriterType, B: WriterType, A.ElementType == Double, B.ElementType == Double, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(*)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Writer<Int,Z> where A: WriterType, B: WriterType, A.ElementType == Int, B.ElementType == Int, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Writer<UInt,Z> where A: WriterType, B: WriterType, A.ElementType == UInt, B.ElementType == UInt, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Writer<Float,Z> where A: WriterType, B: WriterType, A.ElementType == Float, B.ElementType == Float, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Writer<Double,Z> where A: WriterType, B: WriterType, A.ElementType == Double, B.ElementType == Double, A.LogType == Z, B.LogType == Z, Z: Monoid {
+	return bilift(/)(left,right)
+}
+
+public prefix func - <A,Z> (value: A) -> Writer<Int,Z> where A: WriterType, A.ElementType == Int, A.LogType == Z, Z: Monoid {
+	return lift { -$0 }(value)
+}
+
+public prefix func - <A,Z> (value: A) -> Writer<Float,Z> where A: WriterType, A.ElementType == Float, A.LogType == Z, Z: Monoid {
+	return lift { -$0 }(value)
+}
+
+public prefix func - <A,Z> (value: A) -> Writer<Double,Z> where A: WriterType, A.ElementType == Double, A.LogType == Z, Z: Monoid {
 	return lift { -$0 }(value)
 }
 

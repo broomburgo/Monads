@@ -6,7 +6,7 @@
 //: `monadLaws` definitions
 
 @testable import Monads
-import Operadics
+import Abstract
 
 extension Law {
     enum Monad {
@@ -52,6 +52,21 @@ extension Law {
 
             static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Result<B,AnyError>, _ g: @escaping (B) -> Result<C,AnyError>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
                 return (Result<A,AnyError>.init(value) >>- f >>- g) == (Result<A,AnyError>.init(value) >>- { f($0) >>- g })
+            }
+        }
+
+// MARK: - Writer
+        enum OnWriter {
+            static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Writer<B,String>) -> Bool where A: Equatable, B: Equatable {
+                return (Writer<A,String>.init(value) >>- f) == f(value)
+            }
+
+            static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
+                return (Writer<A,String>.init(value) >>- Writer<A,String>.init) == Writer<A,String>.init(value)
+            }
+
+            static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Writer<B,String>, _ g: @escaping (B) -> Writer<C,String>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+                return (Writer<A,String>.init(value) >>- f >>- g) == (Writer<A,String>.init(value) >>- { f($0) >>- g })
             }
         }
 

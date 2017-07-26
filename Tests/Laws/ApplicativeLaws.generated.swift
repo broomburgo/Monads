@@ -6,7 +6,7 @@
 //: `applicativeLaws` definitions
 
 @testable import Monads
-import Operadics
+import Abstract
 
 extension Law {
     enum Applicative {
@@ -64,6 +64,25 @@ extension Law {
 
             static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
                 return (Result.init(curry(•)) <*> Result<(B)->C,AnyError>.init(g) <*> Result<(A)->B,AnyError>.init(f) <*> Result<A,AnyError>.init(value)) == (Result<(B)->C,AnyError>.init(g) <*> (Result<(A)->B,AnyError>.init(f) <*> Result<A,AnyError>.init(value)))
+            }
+        }
+
+// MARK: - Writer
+        enum OnWriter {
+            static func identity <A> (_ value: A) -> Bool where A: Equatable {
+                return (Writer<(A)->A,String>.init(F.identity) <*> Writer<A,String>.init(value)) == Writer<A,String>.init(value)
+            }
+
+            static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
+                return (Writer<(A)->B,String>.init(f) <*> Writer<A,String>.init(value)) == Writer<B,String>.init(f(value))
+            }
+
+            static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
+                return (Writer<(A)->B,String>.init(f) <*> Writer<A,String>.init(value)) == (Writer.init({ $0(value) }) <*> (Writer<(A)->B,String>.init(f)))
+            }
+
+            static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+                return (Writer.init(curry(•)) <*> Writer<(B)->C,String>.init(g) <*> Writer<(A)->B,String>.init(f) <*> Writer<A,String>.init(value)) == (Writer<(B)->C,String>.init(g) <*> (Writer<(A)->B,String>.init(f) <*> Writer<A,String>.init(value)))
             }
         }
 

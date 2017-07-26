@@ -3,7 +3,7 @@
 
 //: `<*>` definitions; requires `concrete`
 
-import Operadics
+import Abstract
 
 // MARK: - ArrayType
 
@@ -20,6 +20,12 @@ public func <*> <A,B,T> (left: A, right: B) -> Optional<T> where A: OptionalType
 // MARK: - ResultType
 
 public func <*> <A,B,T,Z> (left: A, right: B) -> Result<T,Z> where A: ResultType, B: ResultType, A.ElementType == (B.ElementType) -> T, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+  	return zip(left,right).map { $0($1) }
+}
+
+// MARK: - WriterType
+
+public func <*> <A,B,T,Z> (left: A, right: B) -> Writer<T,Z> where A: WriterType, B: WriterType, A.ElementType == (B.ElementType) -> T, A.LogType == Z, B.LogType == Z, Z: Monoid {
   	return zip(left,right).map { $0($1) }
 }
 

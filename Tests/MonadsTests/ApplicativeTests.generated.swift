@@ -65,4 +65,23 @@ class ApplicativeLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Writer
+    func testWriter() {
+        property("Applicative law: identity") <- forAll { (a: Int) in
+            Law.Applicative.OnWriter.identity(a)
+        }
+
+        property("Applicative law: homomorphism") <- forAll { (a: Int, af: ArrowOf<Int,Int>) in
+            Law.Applicative.OnWriter.homomorphism(a, af.getArrow)
+        }
+
+        property("Applicative law: interchange") <- forAll { (a: Int, af: ArrowOf<Int,Int>) in
+            Law.Applicative.OnWriter.interchange(a, af.getArrow)
+        }
+
+        property("Applicative law: composition") <- forAll { (a: Int, af: ArrowOf<Int,Int>, ag: ArrowOf<Int,Int>) in
+            Law.Applicative.OnWriter.composition(a, af.getArrow, ag.getArrow)
+        }
+    }
+
 }

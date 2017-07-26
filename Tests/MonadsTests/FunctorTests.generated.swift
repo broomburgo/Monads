@@ -41,4 +41,15 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Writer
+    func testWriter() {
+        property("Functor law: identity") <- forAll { (a: Int) in
+            Law.Functor.OnWriter.identity(a)
+        }
+
+        property("Functor law: composition") <- forAll { (a: Int, af: ArrowOf<Int,Int>, ag: ArrowOf<Int,Int>) in
+            Law.Functor.OnWriter.composition(a, af.getArrow, ag.getArrow)
+        }
+    }
+
 }

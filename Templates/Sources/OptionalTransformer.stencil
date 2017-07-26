@@ -1,20 +1,23 @@
 //: `transformer` definitions for `OptionalType`; requires `concrete`
 
-{% macro getReturnTypeT type1 %}{{ type1.annotations.concrete }}<Optional<A>{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnTypeT type1 external %}{{ type1.annotations.concrete }}<Optional<A>{% if type1.annotations.context %},{% if external %}T.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 
 {% macro getReturnTypeTT type1 type2 %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<Optional<A>{% if type2.annotations.context %},ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 
 {% macro getReturnTypeTTT type1 type2 type3 %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Optional<A>{% if type3.annotations.context %},ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+import Abstract
+
+infix operator |>>- : MonadPrecedenceLeft
 
 // MARK: - Level 1 Transformer
 {% for type1 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: OptionalType {
-	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeT type1 %} {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeT type1 0 %} {
 		return try map { try $0.map(transform) }
 	}
 
-	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> {% call getReturnTypeT type1 %}) rethrows -> {% call getReturnTypeT type1 %} {
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> {% call getReturnTypeT type1 0 %}) rethrows -> {% call getReturnTypeT type1 0 %} {
 		return try flatMap { try $0.run(
 			ifSome: { try transform($0) },
 			ifNone: { {{ type1.annotations.concrete }}.init(Optional.none) })
@@ -22,6 +25,9 @@ extension {{ type1.name }} where ElementType: OptionalType {
 	}
 }
 
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) throws -> {% call getReturnTypeT type1 1 %}) rethrows -> {% call getReturnTypeT type1 1 %} where T: {{ type1.name }}, T.ElementType: OptionalType {
+	return try object.flatMapT(transform)
+}
 {% endfor %}
 
 // MARK: - Level 2 Transformer
@@ -40,7 +46,6 @@ extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.Elem
 		}
 	}
 }
-
 {% endfor %}
 {% endfor %}
 
@@ -61,7 +66,6 @@ extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.Elem
 		}
 	}
 }
-
 {% endfor %}
 {% endfor %}
 {% endfor %}

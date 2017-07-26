@@ -1,0 +1,78 @@
+//: `transformer` definitions for `WriterType`; requires `concrete`
+
+import Abstract
+
+{% macro getReturnTypeT type1 %}{{ type1.annotations.concrete }}<Writer<A,ElementType.LogType>{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+
+{% macro getReturnTypeTT type1 type2 %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<Writer<A,ElementType.ElementType.LogType>{% if type2.annotations.context %},ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+
+{% macro getReturnTypeTTT type1 type2 type3 %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Writer<A,ElementType.ElementType.ElementType.LogType>{% if type3.annotations.context %},ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+
+// MARK: - Level 1 Transformer
+{% for type1 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
+
+extension {{ type1.name }} where ElementType: WriterType {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeT type1 %} {
+		return try map { try $0.map(transform) }
+	}
+
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> {% call getReturnTypeT type1 %}) rethrows -> {% call getReturnTypeT type1 %} {
+		return try flatMap { (writer) -> {% call getReturnTypeT type1 %} in
+			let (oldValue,oldLog) = writer.run
+			let newObject = try transform(oldValue)
+			return newObject.map {
+				let (newValue,newLog) = $0.run
+				return Writer.init(newValue,oldLog <> newLog)
+			}
+		}
+	}
+}
+{% endfor %}
+
+// MARK: - Level 2 Transformer
+{% for type1 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
+
+extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeTT type1 type2 %} {
+		return try mapT { try $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTT type1 type2 %}) rethrows -> {% call getReturnTypeTT type1 type2 %} {
+		return try flatMapT { (writer) -> {% call getReturnTypeTT type1 type2 %} in
+			let (oldValue,oldLog) = writer.run
+			let newObject = try transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(newValue,oldLog <> newLog)
+			}
+		}
+	}
+}
+{% endfor %}
+{% endfor %}
+
+// MARK: - Level 3 Transformer
+{% for type1 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
+{% for type3 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
+
+extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: {{ type3.name }}, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeTTT type1 type2 type3 %} {
+		return try mapTT { try $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTTT type1 type2 type3 %}) rethrows -> {% call getReturnTypeTTT type1 type2 type3 %} {
+		return try flatMapTT { (writer) -> {% call getReturnTypeTTT type1 type2 type3 %} in
+			let (oldValue,oldLog) = writer.run
+			let newObject = try transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(newValue,oldLog <> newLog)
+			}
+		}
+	}
+}
+{% endfor %}
+{% endfor %}
+{% endfor %}

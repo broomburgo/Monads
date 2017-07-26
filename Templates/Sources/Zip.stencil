@@ -1,5 +1,7 @@
 //: `zip` definitions; requires `concrete`
 
+import Abstract
+
 {% for type in types.protocols|annotated:"zip"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
