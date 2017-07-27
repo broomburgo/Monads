@@ -12,60 +12,60 @@ infix operator |||>>- : MonadPrecedenceLeft
 // MARK: - ArrayType
 
 extension ArrayType {
-    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Array<A.ElementType> where A: ArrayType {
-        return try map(transform).joined
+    public func flatMap <A> (_ transform: @escaping (ElementType) -> A) -> Array<A.ElementType> where A: ArrayType {
+        return map(transform).joined
     }
 }
 
-public func >>- <A,B> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Array<B.ElementType> where A: ArrayType, B: ArrayType {
-    return try left.flatMap(right)
+public func >>- <A,B> (left: A, right: @escaping (A.ElementType) -> B) -> Array<B.ElementType> where A: ArrayType, B: ArrayType {
+    return left.flatMap(right)
 }
 
 // MARK: - DeferredType
 
 extension DeferredType {
-    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Deferred<A.ElementType> where A: DeferredType {
-        return try map(transform).joined
+    public func flatMap <A> (_ transform: @escaping (ElementType) -> A) -> Deferred<A.ElementType> where A: DeferredType {
+        return map(transform).joined
     }
 }
 
-public func >>- <A,B> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Deferred<B.ElementType> where A: DeferredType, B: DeferredType {
-    return try left.flatMap(right)
+public func >>- <A,B> (left: A, right: @escaping (A.ElementType) -> B) -> Deferred<B.ElementType> where A: DeferredType, B: DeferredType {
+    return left.flatMap(right)
 }
 
 // MARK: - OptionalType
 
 extension OptionalType {
-    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Optional<A.ElementType> where A: OptionalType {
-        return try map(transform).joined
+    public func flatMap <A> (_ transform: @escaping (ElementType) -> A) -> Optional<A.ElementType> where A: OptionalType {
+        return map(transform).joined
     }
 }
 
-public func >>- <A,B> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Optional<B.ElementType> where A: OptionalType, B: OptionalType {
-    return try left.flatMap(right)
+public func >>- <A,B> (left: A, right: @escaping (A.ElementType) -> B) -> Optional<B.ElementType> where A: OptionalType, B: OptionalType {
+    return left.flatMap(right)
 }
 
 // MARK: - ResultType
 
 extension ResultType {
-    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Result<A.ElementType, ErrorType> where A: ResultType, A.ErrorType == ErrorType {
-        return try map(transform).joined
+    public func flatMap <A> (_ transform: @escaping (ElementType) -> A) -> Result<A.ElementType, ErrorType> where A: ResultType, A.ErrorType == ErrorType {
+        return map(transform).joined
     }
 }
 
-public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Result<B.ElementType, Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
-    return try left.flatMap(right)
+public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) -> B) -> Result<B.ElementType, Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+    return left.flatMap(right)
 }
 
 // MARK: - WriterType
 
 extension WriterType {
-    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Writer<A.ElementType, LogType> where A: WriterType, A.LogType == LogType {
-        return try map(transform).joined
+    public func flatMap <A> (_ transform: @escaping (ElementType) -> A) -> Writer<A.ElementType, LogType> where A: WriterType, A.LogType == LogType {
+        return map(transform).joined
     }
 }
 
-public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Writer<B.ElementType, Z> where A: WriterType, B: WriterType, A.LogType == Z, B.LogType == Z, Z: Monoid {
-    return try left.flatMap(right)
+public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) -> B) -> Writer<B.ElementType, Z> where A: WriterType, B: WriterType, A.LogType == Z, B.LogType == Z, Z: Monoid {
+    return left.flatMap(right)
 }
 

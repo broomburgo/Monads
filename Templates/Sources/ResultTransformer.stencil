@@ -10,21 +10,21 @@
 {% for type1 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: ResultType {
-	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeT type1 "" %} {
-		return try map { try $0.map(transform) }
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> {% call getReturnTypeT type1 "" %} {
+		return map { $0.map(transform) }
 	}
 
-	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) throws -> {% call getReturnTypeT type1 "" %}) rethrows -> {% call getReturnTypeT type1 "" %} {
-		return try flatMap { try $0.run(
-			ifSuccess: { try transform($0) },
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> {% call getReturnTypeT type1 "" %}) -> {% call getReturnTypeT type1 "" %} {
+		return flatMap { $0.run(
+			ifSuccess: { transform($0) },
 			ifFailure: { {{ type1.annotations.concrete }}.init(Result.failure($0)) },
 			ifCancel: { {{ type1.annotations.concrete }}.init(Result.cancel) })
 		}
 	}
 }
 
-public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) throws -> {% call getReturnTypeT type1 "T"%}) rethrows -> {% call getReturnTypeT type1 "T"%} where T: {{ type1.name }}, T.ElementType: ResultType {
-	return try object.flatMapT(transform)
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> {% call getReturnTypeT type1 "T"%}) -> {% call getReturnTypeT type1 "T"%} where T: {{ type1.name }}, T.ElementType: ResultType {
+	return object.flatMapT(transform)
 }
 {% endfor %}
 
@@ -33,21 +33,21 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 {% for type2 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: ResultType {
-	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeTT type1 type2 "" %} {
-		return try mapT { try $0.map(transform) }
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> {% call getReturnTypeTT type1 type2 "" %} {
+		return mapT { $0.map(transform) }
 	}
 
-	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTT type1 type2 "" %}) rethrows -> {% call getReturnTypeTT type1 type2 "" %} {
-		return try flatMapT { try $0.run(
-			ifSuccess: { try transform($0) },
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> {% call getReturnTypeTT type1 type2 "" %}) -> {% call getReturnTypeTT type1 type2 "" %} {
+		return flatMapT { $0.run(
+			ifSuccess: { transform($0) },
 			ifFailure: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init(Result.failure($0))) },
 			ifCancel: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init(Result.cancel)) })
 		}
 	}
 }
 
-public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTT type1 type2 "T"%}) rethrows -> {% call getReturnTypeTT type1 type2 "T"%} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: ResultType {
-	return try object.flatMapTT(transform)
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> {% call getReturnTypeTT type1 type2 "T"%}) -> {% call getReturnTypeTT type1 type2 "T"%} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: ResultType {
+	return object.flatMapTT(transform)
 }
 {% endfor %}
 {% endfor %}
@@ -58,21 +58,21 @@ public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Elem
 {% for type3 in types.protocols|annotated:"transformer"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: {{ type3.name }}, ElementType.ElementType.ElementType: ResultType {
-	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> A) rethrows -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
-		return try mapTT { try $0.map(transform) }
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
+		return mapTT { $0.map(transform) }
 	}
 
-	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTTT type1 type2 type3 "" %}) rethrows -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
-		return try flatMapTT { try $0.run(
-			ifSuccess: { try transform($0) },
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> {% call getReturnTypeTTT type1 type2 type3 "" %}) -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
 			ifFailure: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init({{ type3.annotations.concrete }}.init(Result.failure($0)))) },
 			ifCancel: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init({{ type3.annotations.concrete }}.init(Result.cancel))) })
 		}
 	}
 }
 
-public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) throws -> {% call getReturnTypeTTT type1 type2 type3 "T"%}) rethrows -> {% call getReturnTypeTTT type1 type2 type3 "T"%} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: {{ type3.name }}, T.ElementType.ElementType.ElementType: ResultType {
-	return try object.flatMapTTT(transform)
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> {% call getReturnTypeTTT type1 type2 type3 "T"%}) -> {% call getReturnTypeTTT type1 type2 type3 "T"%} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: {{ type3.name }}, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
 }
 {% endfor %}
 {% endfor %}

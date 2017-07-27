@@ -62,27 +62,12 @@ extension String: Monoid {
 	}
 }
 
-extension OptionalType where ElementType: WriterType {
-	func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Optional<Writer<A,ElementType.LogType>>) -> Optional<Writer<A,ElementType.LogType>> {
-		return flatMap { (writer) -> Optional<Writer<A,ElementType.LogType>> in
-
-			let (oldValue,oldLog) = writer.run
-			let newOptional = transform(oldValue)
-			return newOptional.map {
-				let (newValue,newLog) = $0.run
-				return Writer(value: newValue, log: oldLog <> newLog)
-			}
-
-		}
-	}
-}
-
 // MARK: - Functor
 
 extension WriterType {
-	public func map <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Writer<A,LogType> {
+	public func map <A> (_ transform: @escaping (ElementType) -> A) -> Writer<A,LogType> {
 		let (value, log) = run
-		return try Writer<A,LogType>.init(value: transform(value), log: log)
+		return Writer<A,LogType>.init(value: transform(value), log: log)
 	}
 }
 

@@ -11,7 +11,7 @@ public protocol ResultType: PureConstructible {
 	associatedtype ErrorType: Error
 	init(_ error: ErrorType)
 	init()
-	func run <A> (ifSuccess: (ElementType) throws -> A, ifFailure: (ErrorType) throws -> A, ifCancel: () throws -> A) rethrows -> A
+	func run <A> (ifSuccess: (ElementType) -> A, ifFailure: (ErrorType) -> A, ifCancel: () -> A) -> A
 }
 
 // MARK: - Concrete
@@ -44,14 +44,25 @@ public enum Result<T,E>: ResultType where E: Error {
 		self = .cancel
 	}
 
-	public func run<A>(ifSuccess: (T) throws -> A, ifFailure: (E) throws -> A, ifCancel: () throws -> A) rethrows -> A {
+	public func run<A>(ifSuccess: (T) -> A, ifFailure: (E) -> A, ifCancel: () -> A) -> A {
 		switch self {
 		case .success(let value):
-			return try ifSuccess(value)
+			return ifSuccess(value)
 		case .failure(let error):
-			return try ifFailure(error)
+			return ifFailure(error)
 		case .cancel:
-			return try ifCancel()
+			return ifCancel()
+		}
+	}
+
+	public func get() throws -> ElementType? {
+		switch self {
+		case .success(let value):
+			return value
+		case .failure(let error):
+			throw error
+		case .cancel:
+			return nil
 		}
 	}
 }
@@ -74,9 +85,9 @@ extension Result where T: Equatable, E: Equatable {
 // MARK: - Functor
 
 extension ResultType {
-	public func map <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Result<A,ErrorType> {
-		return try run(
-			ifSuccess: { .success(try transform($0)) },
+	public func map <A> (_ transform: @escaping (ElementType) -> A) -> Result<A,ErrorType> {
+		return run(
+			ifSuccess: { .success(transform($0)) },
 			ifFailure: { .failure($0) },
 			ifCancel: { .cancel })
 	}
@@ -109,15 +120,4 @@ public func zip <A,B,Z> (_ a: A, _ b: B) -> Result<(A.ElementType,B.ElementType)
 			ifFailure: { bError in .failure(aError <> bError)},
 			ifCancel: { .cancel }) },
 		ifCancel: { .cancel })
-}
-
-// MARK: - Utility
-
-extension ResultType {
-	public func get() throws -> ElementType? {
-		return try run(
-			ifSuccess: F.identity,
-			ifFailure: { throw $0 },
-			ifCancel: F.constant(nil))
-	}
 }

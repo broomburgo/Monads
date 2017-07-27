@@ -4,7 +4,7 @@
 // sourcery: flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer
 public protocol OptionalType: PureConstructible {
-	func run<A>(ifSome: (ElementType) throws -> A, ifNone: () throws -> A) rethrows -> A
+	func run<A>(ifSome: (ElementType) -> A, ifNone: () -> A) -> A
 }
 
 // MARK: - Concrete
@@ -14,11 +14,11 @@ public protocol OptionalType: PureConstructible {
 extension Optional: OptionalType {
 	public typealias ElementType = Wrapped
 
-	public func run<A>(ifSome: (Wrapped) throws -> A, ifNone: () throws -> A) rethrows -> A {
+	public func run<A>(ifSome: (Wrapped) -> A, ifNone: () -> A) -> A {
 		if let this = self {
-			return try ifSome(this)
+			return ifSome(this)
 		} else {
-			return try ifNone()
+			return ifNone()
 		}
 	}
 }
@@ -26,9 +26,9 @@ extension Optional: OptionalType {
 // MARK: - Functor
 
 extension OptionalType {
-	public func map <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Optional<A> {
-		return try run(
-			ifSome: { .some(try transform($0)) },
+	public func map <A> (_ transform: @escaping (ElementType) -> A) -> Optional<A> {
+		return run(
+			ifSome: { .some(transform($0)) },
 			ifNone: { .none })
 	}
 }
@@ -48,9 +48,9 @@ extension OptionalType where ElementType: OptionalType {
 // MARK: - Utility
 
 extension OptionalType {
-	public func filter(_ predicate: @escaping (ElementType) throws -> Bool) rethrows -> Optional<ElementType> {
-		return try flatMap { (element) throws -> Optional<ElementType> in
-			if try predicate(element) {
+	public func filter(_ predicate: @escaping (ElementType) -> Bool) -> Optional<ElementType> {
+		return flatMap { (element) -> Optional<ElementType> in
+			if predicate(element) {
 				return .some(element)
 			} else {
 				return .none
