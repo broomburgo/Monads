@@ -33,6 +33,18 @@ public func >>- <A,B> (left: A, right: @escaping (A.ElementType) -> B) -> Deferr
     return left.flatMap(right)
 }
 
+// MARK: - EffectType
+
+extension EffectType {
+    public func flatMap <A> (_ transform: @escaping (ElementType) -> A) -> Effect<A.ElementType> where A: EffectType {
+        return map(transform).joined
+    }
+}
+
+public func >>- <A,B> (left: A, right: @escaping (A.ElementType) -> B) -> Effect<B.ElementType> where A: EffectType, B: EffectType {
+    return left.flatMap(right)
+}
+
 // MARK: - OptionalType
 
 extension OptionalType {

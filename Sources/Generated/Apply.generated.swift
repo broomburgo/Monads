@@ -17,6 +17,12 @@ public func <*> <A,B,T> (left: A, right: B) -> Deferred<T> where A: DeferredType
   	return zip(left,right).map { $0($1) }
 }
 
+// MARK: - EffectType
+
+public func <*> <A,B,T> (left: A, right: B) -> Effect<T> where A: EffectType, B: EffectType, A.ElementType == (B.ElementType) -> T {
+  	return zip(left,right).map { $0($1) }
+}
+
 // MARK: - OptionalType
 
 public func <*> <A,B,T> (left: A, right: B) -> Optional<T> where A: OptionalType, B: OptionalType, A.ElementType == (B.ElementType) -> T {

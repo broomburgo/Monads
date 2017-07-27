@@ -36,6 +36,19 @@ extension Law {
             }
         }
 
+// MARK: - Effect
+        enum OnEffect {
+            static func identity <A> (_ value: A) -> Bool where A: Equatable {
+                return Effect<A>.init(value).map(F.identity) == F.identity(Effect<A>.init(value))
+            }
+
+            static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+				let mapF = F.flip(Effect<A>.map)(f)
+                let mapG = F.flip(Effect<B>.map)(g)
+                return Effect.init(value).map(g • f) == (mapG • mapF § Effect.init(value))
+            }
+        }
+
 // MARK: - Optional
         enum OnOptional {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {

@@ -164,6 +164,92 @@ public prefix func - <A> (value: A) -> Deferred<Double> where A: DeferredType, A
 	return lift { -$0 }(value)
 }
 
+// MARK: - EffectType
+
+public func lift<A,T>(_ function: @escaping (A.ElementType) -> T) -> (A) -> Effect<T> where A: EffectType {
+	return { $0.map(function) }
+}
+
+public func bilift<A,B,T>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Effect<T> where A: EffectType, B: EffectType {
+	return { zip($0,$1).map(function) }
+}
+
+public func + <A,B> (left: A, right: B) -> Effect<Int> where A: EffectType, B: EffectType, A.ElementType == Int, B.ElementType == Int {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B> (left: A, right: B) -> Effect<UInt> where A: EffectType, B: EffectType, A.ElementType == UInt, B.ElementType == UInt {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B> (left: A, right: B) -> Effect<Float> where A: EffectType, B: EffectType, A.ElementType == Float, B.ElementType == Float {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B> (left: A, right: B) -> Effect<Double> where A: EffectType, B: EffectType, A.ElementType == Double, B.ElementType == Double {
+	return bilift(+)(left,right)
+}
+
+public func - <A,B> (left: A, right: B) -> Effect<Int> where A: EffectType, B: EffectType, A.ElementType == Int, B.ElementType == Int {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B> (left: A, right: B) -> Effect<UInt> where A: EffectType, B: EffectType, A.ElementType == UInt, B.ElementType == UInt {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B> (left: A, right: B) -> Effect<Float> where A: EffectType, B: EffectType, A.ElementType == Float, B.ElementType == Float {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B> (left: A, right: B) -> Effect<Double> where A: EffectType, B: EffectType, A.ElementType == Double, B.ElementType == Double {
+	return bilift(-)(left,right)
+}
+
+public func * <A,B> (left: A, right: B) -> Effect<Int> where A: EffectType, B: EffectType, A.ElementType == Int, B.ElementType == Int {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B> (left: A, right: B) -> Effect<UInt> where A: EffectType, B: EffectType, A.ElementType == UInt, B.ElementType == UInt {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B> (left: A, right: B) -> Effect<Float> where A: EffectType, B: EffectType, A.ElementType == Float, B.ElementType == Float {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B> (left: A, right: B) -> Effect<Double> where A: EffectType, B: EffectType, A.ElementType == Double, B.ElementType == Double {
+	return bilift(*)(left,right)
+}
+
+public func / <A,B> (left: A, right: B) -> Effect<Int> where A: EffectType, B: EffectType, A.ElementType == Int, B.ElementType == Int {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B> (left: A, right: B) -> Effect<UInt> where A: EffectType, B: EffectType, A.ElementType == UInt, B.ElementType == UInt {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B> (left: A, right: B) -> Effect<Float> where A: EffectType, B: EffectType, A.ElementType == Float, B.ElementType == Float {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B> (left: A, right: B) -> Effect<Double> where A: EffectType, B: EffectType, A.ElementType == Double, B.ElementType == Double {
+	return bilift(/)(left,right)
+}
+
+public prefix func - <A> (value: A) -> Effect<Int> where A: EffectType, A.ElementType == Int {
+	return lift { -$0 }(value)
+}
+
+public prefix func - <A> (value: A) -> Effect<Float> where A: EffectType, A.ElementType == Float {
+	return lift { -$0 }(value)
+}
+
+public prefix func - <A> (value: A) -> Effect<Double> where A: EffectType, A.ElementType == Double {
+	return lift { -$0 }(value)
+}
+
 // MARK: - OptionalType
 
 public func lift<A,T>(_ function: @escaping (A.ElementType) -> T) -> (A) -> Optional<T> where A: OptionalType {

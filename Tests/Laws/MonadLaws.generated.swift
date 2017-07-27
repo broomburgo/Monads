@@ -40,6 +40,21 @@ extension Law {
             }
         }
 
+// MARK: - Effect
+        enum OnEffect {
+            static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Effect<B>) -> Bool where A: Equatable, B: Equatable {
+                return (Effect<A>.init(value) >>- f) == f(value)
+            }
+
+            static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
+                return (Effect<A>.init(value) >>- Effect<A>.init) == Effect<A>.init(value)
+            }
+
+            static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Effect<B>, _ g: @escaping (B) -> Effect<C>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+                return (Effect<A>.init(value) >>- f >>- g) == (Effect<A>.init(value) >>- { f($0) >>- g })
+            }
+        }
+
 // MARK: - Optional
         enum OnOptional {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Optional<B>) -> Bool where A: Equatable, B: Equatable {

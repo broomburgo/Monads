@@ -30,6 +30,17 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Effect
+    func testEffect() {
+        property("Functor law: identity") <- forAll { (a: Int) in
+            Law.Functor.OnEffect.identity(a)
+        }
+
+        property("Functor law: composition") <- forAll { (a: Int, af: ArrowOf<Int,Int>, ag: ArrowOf<Int,Int>) in
+            Law.Functor.OnEffect.composition(a, af.getArrow, ag.getArrow)
+        }
+    }
+
 // MARK: - Optional
     func testOptional() {
         property("Functor law: identity") <- forAll { (a: Int) in

@@ -68,6 +68,35 @@ extension Law {
             }
         }
 
+// MARK: - Effect
+        enum OnEffect {
+            static func identity <A> (_ value: A) -> Bool where A: Equatable {
+				let a_a = Effect<(A)->A>.init(F.identity)
+				let a = Effect<A>.init(value)
+				return (a_a <*> a) == a
+            }
+
+            static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
+				let a_b = Effect<(A)->B>.init(f)
+				let a = Effect<A>.init(value)
+				let b = Effect<B>.init(f(value))
+                return (a_b <*> a) == b
+            }
+
+            static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
+				let a_b = Effect<(A)->B>.init(f)
+				let a = Effect<A>.init(value)
+                return (a_b <*> a) == (Effect.init({ $0(value) }) <*> a_b)
+            }
+
+            static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+				let a_b = Effect<(A)->B>.init(f)
+				let b_c = Effect<(B)->C>.init(g)
+				let a = Effect<A>.init(value)
+				return (Effect.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
+            }
+        }
+
 // MARK: - Optional
         enum OnOptional {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {

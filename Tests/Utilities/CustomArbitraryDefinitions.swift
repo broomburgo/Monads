@@ -10,3 +10,16 @@ extension AnyError: Arbitrary {
 		}
 	}
 }
+
+struct EffectOf<A>: Arbitrary where A: Arbitrary {
+	let getEffect: Effect<A>
+	init(_ getEffect: Effect<A>) {
+		self.getEffect = getEffect
+	}
+
+	static var arbitrary: Gen<EffectOf<A>> {
+		return A.arbitrary
+			.map { value in Effect<A>.init { value } }
+			.map(EffectOf<A>.init)
+	}
+}

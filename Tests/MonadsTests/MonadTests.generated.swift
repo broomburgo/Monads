@@ -38,6 +38,21 @@ class MonadLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Effect
+    func testEffect() {
+        property("Monad law: identity left") <- forAll { (a: Int, af: ArrowOf<Int,EffectOf<Int>>) in
+            Law.Monad.OnEffect.identityLeft(a, { af.getArrow($0).getEffect })
+        }
+
+        property("Monad law: identity right") <- forAll { (a: Int) in
+            Law.Monad.OnEffect.identityRight(a)
+        }
+
+        property("Monad law: associativity") <- forAll { (a: Int, af: ArrowOf<Int,EffectOf<Int>>, ag: ArrowOf<Int,EffectOf<Int>>) in
+            Law.Monad.OnEffect.associativity(a, { af.getArrow($0).getEffect }, { ag.getArrow($0).getEffect })
+        }
+    }
+
 // MARK: - Optional
     func testOptional() {
         property("Monad law: identity left") <- forAll { (a: Int, af: ArrowOf<Int,OptionalOf<Int>>) in
