@@ -34,7 +34,7 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 {% endfor %}
 
 // MARK: - Level 2 Transformer
-{% for type1 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
 {% for type2 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: WriterType {
@@ -61,8 +61,8 @@ public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Elem
 {% endfor %}
 
 // MARK: - Level 3 Transformer
-{% for type1 in types.protocols|annotated:"transformer3"|annotated:"concrete" %}
-{% for type2 in types.protocols|annotated:"transformer3"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
 {% for type3 in types.protocols|annotated:"transformer3"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: {{ type3.name }}, ElementType.ElementType.ElementType: WriterType {

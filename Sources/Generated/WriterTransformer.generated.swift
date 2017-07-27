@@ -117,6 +117,132 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 
 // MARK: - Level 2 Transformer
 
+extension ArrayType where ElementType: OptionalType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Array<Optional<Writer<A,ElementType.ElementType.LogType>>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Optional<Writer<A,ElementType.ElementType.LogType>>>) -> Array<Optional<Writer<A,ElementType.ElementType.LogType>>> {
+		return flatMapT { (writer) -> Array<Optional<Writer<A,ElementType.ElementType.LogType>>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Array<Optional<Writer<A,T.ElementType.ElementType.LogType>>>) -> Array<Optional<Writer<A,T.ElementType.ElementType.LogType>>> where T: ArrayType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
+extension ArrayType where ElementType: ResultType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Array<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Array<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return flatMapT { (writer) -> Array<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Array<Result<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>>) -> Array<Result<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>> where T: ArrayType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
+extension ArrayType where ElementType: WriterType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Array<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Array<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return flatMapT { (writer) -> Array<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Array<Writer<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) -> Array<Writer<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: ArrayType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
+extension DeferredType where ElementType: OptionalType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Deferred<Optional<Writer<A,ElementType.ElementType.LogType>>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Optional<Writer<A,ElementType.ElementType.LogType>>>) -> Deferred<Optional<Writer<A,ElementType.ElementType.LogType>>> {
+		return flatMapT { (writer) -> Deferred<Optional<Writer<A,ElementType.ElementType.LogType>>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Deferred<Optional<Writer<A,T.ElementType.ElementType.LogType>>>) -> Deferred<Optional<Writer<A,T.ElementType.ElementType.LogType>>> where T: DeferredType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
+extension DeferredType where ElementType: ResultType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Deferred<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Deferred<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return flatMapT { (writer) -> Deferred<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Deferred<Result<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>>) -> Deferred<Result<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>> where T: DeferredType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
+extension DeferredType where ElementType: WriterType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Deferred<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Deferred<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return flatMapT { (writer) -> Deferred<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Deferred<Writer<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) -> Deferred<Writer<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: DeferredType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
 extension OptionalType where ElementType: OptionalType, ElementType.ElementType: WriterType {
 	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Optional<Optional<Writer<A,ElementType.ElementType.LogType>>> {
 		return mapT { $0.map(transform) }
@@ -307,6 +433,384 @@ public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Elem
 }
 
 // MARK: - Level 3 Transformer
+
+extension ArrayType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>>) -> Array<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>> {
+		return flatMapTT { (writer) -> Array<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>>) -> Array<Optional<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>> where T: ArrayType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: OptionalType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>>) -> Array<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>> {
+		return flatMapTT { (writer) -> Array<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>>>) -> Array<Optional<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>>> where T: ArrayType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: OptionalType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>>) -> Array<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>> {
+		return flatMapTT { (writer) -> Array<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>>>) -> Array<Optional<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>>> where T: ArrayType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: ResultType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>>) -> Array<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>> {
+		return flatMapTT { (writer) -> Array<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Result<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.ErrorType>>) -> Array<Result<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.ErrorType>> where T: ArrayType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: ResultType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Array<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return flatMapTT { (writer) -> Array<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Result<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>>) -> Array<Result<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>> where T: ArrayType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: ResultType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Array<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return flatMapTT { (writer) -> Array<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Result<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>>) -> Array<Result<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>> where T: ArrayType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: WriterType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>>) -> Array<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>> {
+		return flatMapTT { (writer) -> Array<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.LogType>>) -> Array<Writer<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.LogType>> where T: ArrayType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: WriterType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Array<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return flatMapTT { (writer) -> Array<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>>) -> Array<Writer<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>> where T: ArrayType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: WriterType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Array<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return flatMapTT { (writer) -> Array<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) -> Array<Writer<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: ArrayType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>>) -> Deferred<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>> {
+		return flatMapTT { (writer) -> Deferred<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>>) -> Deferred<Optional<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>> where T: DeferredType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: OptionalType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>>) -> Deferred<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>> {
+		return flatMapTT { (writer) -> Deferred<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>>>) -> Deferred<Optional<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>>> where T: DeferredType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: OptionalType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>>) -> Deferred<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>> {
+		return flatMapTT { (writer) -> Deferred<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>>>) -> Deferred<Optional<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>>> where T: DeferredType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: ResultType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>>) -> Deferred<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>> {
+		return flatMapTT { (writer) -> Deferred<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.ErrorType>>) -> Deferred<Result<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.ErrorType>> where T: DeferredType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: ResultType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Deferred<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return flatMapTT { (writer) -> Deferred<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>>) -> Deferred<Result<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>> where T: DeferredType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: ResultType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Deferred<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return flatMapTT { (writer) -> Deferred<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>>) -> Deferred<Result<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>> where T: DeferredType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: WriterType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>>) -> Deferred<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>> {
+		return flatMapTT { (writer) -> Deferred<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.LogType>>) -> Deferred<Writer<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.LogType>> where T: DeferredType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: WriterType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Deferred<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return flatMapTT { (writer) -> Deferred<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>>) -> Deferred<Writer<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>> where T: DeferredType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: WriterType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Deferred<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return flatMapTT { (writer) -> Deferred<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) -> Deferred<Writer<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: DeferredType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
 
 extension OptionalType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Optional<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>> {

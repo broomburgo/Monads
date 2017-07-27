@@ -100,6 +100,114 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 
 // MARK: - Level 2 Transformer
 
+extension ArrayType where ElementType: OptionalType, ElementType.ElementType: ResultType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Array<Optional<Result<A,ElementType.ElementType.ErrorType>>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Optional<Result<A,ElementType.ElementType.ErrorType>>>) -> Array<Optional<Result<A,ElementType.ElementType.ErrorType>>> {
+		return flatMapT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Optional.init(Result.failure($0))) },
+			ifCancel: { Array.init(Optional.init(Result.cancel)) })
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Array<Optional<Result<A,T.ElementType.ElementType.ErrorType>>>) -> Array<Optional<Result<A,T.ElementType.ElementType.ErrorType>>> where T: ArrayType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType {
+	return object.flatMapTT(transform)
+}
+
+extension ArrayType where ElementType: ResultType, ElementType.ElementType: ResultType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Array<Result<Result<A,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Result<Result<A,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Array<Result<Result<A,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return flatMapT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Result.init(Result.failure($0))) },
+			ifCancel: { Array.init(Result.init(Result.cancel)) })
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Array<Result<Result<A,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>>) -> Array<Result<Result<A,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>> where T: ArrayType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType {
+	return object.flatMapTT(transform)
+}
+
+extension ArrayType where ElementType: WriterType, ElementType.ElementType: ResultType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Array<Writer<Result<A,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Writer<Result<A,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Array<Writer<Result<A,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return flatMapT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Writer.init(Result.failure($0))) },
+			ifCancel: { Array.init(Writer.init(Result.cancel)) })
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Array<Writer<Result<A,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>>) -> Array<Writer<Result<A,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>> where T: ArrayType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType {
+	return object.flatMapTT(transform)
+}
+
+extension DeferredType where ElementType: OptionalType, ElementType.ElementType: ResultType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Deferred<Optional<Result<A,ElementType.ElementType.ErrorType>>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Optional<Result<A,ElementType.ElementType.ErrorType>>>) -> Deferred<Optional<Result<A,ElementType.ElementType.ErrorType>>> {
+		return flatMapT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Optional.init(Result.failure($0))) },
+			ifCancel: { Deferred.init(Optional.init(Result.cancel)) })
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Deferred<Optional<Result<A,T.ElementType.ElementType.ErrorType>>>) -> Deferred<Optional<Result<A,T.ElementType.ElementType.ErrorType>>> where T: DeferredType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType {
+	return object.flatMapTT(transform)
+}
+
+extension DeferredType where ElementType: ResultType, ElementType.ElementType: ResultType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Deferred<Result<Result<A,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Result<Result<A,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Deferred<Result<Result<A,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return flatMapT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Result.init(Result.failure($0))) },
+			ifCancel: { Deferred.init(Result.init(Result.cancel)) })
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Deferred<Result<Result<A,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>>) -> Deferred<Result<Result<A,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>> where T: DeferredType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType {
+	return object.flatMapTT(transform)
+}
+
+extension DeferredType where ElementType: WriterType, ElementType.ElementType: ResultType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Deferred<Writer<Result<A,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Writer<Result<A,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Deferred<Writer<Result<A,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return flatMapT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Writer.init(Result.failure($0))) },
+			ifCancel: { Deferred.init(Writer.init(Result.cancel)) })
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Deferred<Writer<Result<A,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>>) -> Deferred<Writer<Result<A,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>> where T: DeferredType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType {
+	return object.flatMapTT(transform)
+}
+
 extension OptionalType where ElementType: OptionalType, ElementType.ElementType: ResultType {
 	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Optional<Optional<Result<A,ElementType.ElementType.ErrorType>>> {
 		return mapT { $0.map(transform) }
@@ -263,6 +371,330 @@ public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Elem
 }
 
 // MARK: - Level 3 Transformer
+
+extension ArrayType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Optional<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>>>) -> Array<Optional<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Optional.init(Optional.init(Result.failure($0)))) },
+			ifCancel: { Array.init(Optional.init(Optional.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>>>) -> Array<Optional<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>>> where T: ArrayType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: OptionalType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Optional<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>>>) -> Array<Optional<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Optional.init(Result.init(Result.failure($0)))) },
+			ifCancel: { Array.init(Optional.init(Result.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>>>) -> Array<Optional<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>>> where T: ArrayType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: OptionalType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Optional<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>>>) -> Array<Optional<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Optional.init(Writer.init(Result.failure($0)))) },
+			ifCancel: { Array.init(Optional.init(Writer.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>>>) -> Array<Optional<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>>> where T: ArrayType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: ResultType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Result<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.ErrorType>>) -> Array<Result<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.ErrorType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Result.init(Optional.init(Result.failure($0)))) },
+			ifCancel: { Array.init(Result.init(Optional.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Result<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>,T.ElementType.ErrorType>>) -> Array<Result<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>,T.ElementType.ErrorType>> where T: ArrayType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: ResultType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Result<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Array<Result<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Result.init(Result.init(Result.failure($0)))) },
+			ifCancel: { Array.init(Result.init(Result.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Result<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>>) -> Array<Result<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>> where T: ArrayType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: ResultType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Result<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Array<Result<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Result.init(Writer.init(Result.failure($0)))) },
+			ifCancel: { Array.init(Result.init(Writer.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Result<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>>) -> Array<Result<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>> where T: ArrayType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: WriterType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Writer<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.LogType>>) -> Array<Writer<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.LogType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Writer.init(Optional.init(Result.failure($0)))) },
+			ifCancel: { Array.init(Writer.init(Optional.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>,T.ElementType.LogType>>) -> Array<Writer<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>,T.ElementType.LogType>> where T: ArrayType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: WriterType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Writer<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Array<Writer<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Writer.init(Result.init(Result.failure($0)))) },
+			ifCancel: { Array.init(Writer.init(Result.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>>) -> Array<Writer<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>> where T: ArrayType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension ArrayType where ElementType: WriterType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Array<Writer<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Array<Writer<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Writer.init(Writer.init(Result.failure($0)))) },
+			ifCancel: { Array.init(Writer.init(Writer.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) -> Array<Writer<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: ArrayType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Optional<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>>>) -> Deferred<Optional<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Optional.init(Optional.init(Result.failure($0)))) },
+			ifCancel: { Deferred.init(Optional.init(Optional.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>>>) -> Deferred<Optional<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>>> where T: DeferredType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: OptionalType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Optional<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>>>) -> Deferred<Optional<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Optional.init(Result.init(Result.failure($0)))) },
+			ifCancel: { Deferred.init(Optional.init(Result.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>>>) -> Deferred<Optional<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>>> where T: DeferredType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: OptionalType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Optional<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>>>) -> Deferred<Optional<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Optional.init(Writer.init(Result.failure($0)))) },
+			ifCancel: { Deferred.init(Optional.init(Writer.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>>>) -> Deferred<Optional<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>>> where T: DeferredType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: ResultType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Result<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.ErrorType>>) -> Deferred<Result<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.ErrorType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Result.init(Optional.init(Result.failure($0)))) },
+			ifCancel: { Deferred.init(Result.init(Optional.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>,T.ElementType.ErrorType>>) -> Deferred<Result<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>,T.ElementType.ErrorType>> where T: DeferredType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: ResultType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Result<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Deferred<Result<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Result.init(Result.init(Result.failure($0)))) },
+			ifCancel: { Deferred.init(Result.init(Result.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>>) -> Deferred<Result<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>> where T: DeferredType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: ResultType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Result<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Deferred<Result<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Result.init(Writer.init(Result.failure($0)))) },
+			ifCancel: { Deferred.init(Result.init(Writer.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>>) -> Deferred<Result<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>> where T: DeferredType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: WriterType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Writer<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.LogType>>) -> Deferred<Writer<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>,ElementType.LogType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Writer.init(Optional.init(Result.failure($0)))) },
+			ifCancel: { Deferred.init(Writer.init(Optional.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>,T.ElementType.LogType>>) -> Deferred<Writer<Optional<Result<A,T.ElementType.ElementType.ElementType.ErrorType>>,T.ElementType.LogType>> where T: DeferredType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: WriterType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Writer<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Deferred<Writer<Result<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Writer.init(Result.init(Result.failure($0)))) },
+			ifCancel: { Deferred.init(Writer.init(Result.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>>) -> Deferred<Writer<Result<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>> where T: DeferredType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
+
+extension DeferredType where ElementType: WriterType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: ResultType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Deferred<Writer<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Deferred<Writer<Writer<Result<A,ElementType.ElementType.ElementType.ErrorType>,ElementType.ElementType.LogType>,ElementType.LogType>> {
+		return flatMapTT { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Writer.init(Writer.init(Result.failure($0)))) },
+			ifCancel: { Deferred.init(Writer.init(Writer.init(Result.cancel))) })
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) -> Deferred<Writer<Writer<Result<A,T.ElementType.ElementType.ElementType.ErrorType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: DeferredType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: ResultType {
+	return object.flatMapTTT(transform)
+}
 
 extension OptionalType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: ResultType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Optional<Optional<Optional<Result<A,ElementType.ElementType.ElementType.ErrorType>>>> {
