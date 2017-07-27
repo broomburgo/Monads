@@ -8,6 +8,40 @@
 
 // MARK: - Level 1 Transformer
 
+extension ArrayType where ElementType: OptionalType {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Array<Optional<A>> {
+		return map { $0.map(transform) }
+	}
+
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Array<Optional<A>>) -> Array<Optional<A>> {
+		return flatMap { $0.run(
+			ifSome: { transform($0) },
+			ifNone: { Array.init(Optional.none) })
+		}
+	}
+}
+
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> Array<Optional<A>>) -> Array<Optional<A>> where T: ArrayType, T.ElementType: OptionalType {
+	return object.flatMapT(transform)
+}
+
+extension DeferredType where ElementType: OptionalType {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Deferred<Optional<A>> {
+		return map { $0.map(transform) }
+	}
+
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Deferred<Optional<A>>) -> Deferred<Optional<A>> {
+		return flatMap { $0.run(
+			ifSome: { transform($0) },
+			ifNone: { Deferred.init(Optional.none) })
+		}
+	}
+}
+
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> Deferred<Optional<A>>) -> Deferred<Optional<A>> where T: DeferredType, T.ElementType: OptionalType {
+	return object.flatMapT(transform)
+}
+
 extension OptionalType where ElementType: OptionalType {
 	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Optional<Optional<A>> {
 		return map { $0.map(transform) }

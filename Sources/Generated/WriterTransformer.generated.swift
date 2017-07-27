@@ -10,6 +10,48 @@ import Abstract
 
 // MARK: - Level 1 Transformer
 
+extension ArrayType where ElementType: WriterType {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Array<Writer<A,ElementType.LogType>> {
+		return map { $0.map(transform) }
+	}
+
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Array<Writer<A,ElementType.LogType>>) -> Array<Writer<A,ElementType.LogType>> {
+		return flatMap { (writer) -> Array<Writer<A,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.map {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> Array<Writer<A,T.ElementType.LogType>>) -> Array<Writer<A,T.ElementType.LogType>> where T: ArrayType, T.ElementType: WriterType {
+	return object.flatMapT(transform)
+}
+
+extension DeferredType where ElementType: WriterType {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Deferred<Writer<A,ElementType.LogType>> {
+		return map { $0.map(transform) }
+	}
+
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Deferred<Writer<A,ElementType.LogType>>) -> Deferred<Writer<A,ElementType.LogType>> {
+		return flatMap { (writer) -> Deferred<Writer<A,ElementType.LogType>> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.map {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> Deferred<Writer<A,T.ElementType.LogType>>) -> Deferred<Writer<A,T.ElementType.LogType>> where T: DeferredType, T.ElementType: WriterType {
+	return object.flatMapT(transform)
+}
+
 extension OptionalType where ElementType: WriterType {
 	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Optional<Writer<A,ElementType.LogType>> {
 		return map { $0.map(transform) }

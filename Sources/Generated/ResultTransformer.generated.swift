@@ -8,6 +8,42 @@
 
 // MARK: - Level 1 Transformer
 
+extension ArrayType where ElementType: ResultType {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Array<Result<A,ElementType.ErrorType>> {
+		return map { $0.map(transform) }
+	}
+
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Array<Result<A,ElementType.ErrorType>>) -> Array<Result<A,ElementType.ErrorType>> {
+		return flatMap { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Array.init(Result.failure($0)) },
+			ifCancel: { Array.init(Result.cancel) })
+		}
+	}
+}
+
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> Array<Result<A,T.ElementType.ErrorType>>) -> Array<Result<A,T.ElementType.ErrorType>> where T: ArrayType, T.ElementType: ResultType {
+	return object.flatMapT(transform)
+}
+
+extension DeferredType where ElementType: ResultType {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Deferred<Result<A,ElementType.ErrorType>> {
+		return map { $0.map(transform) }
+	}
+
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Deferred<Result<A,ElementType.ErrorType>>) -> Deferred<Result<A,ElementType.ErrorType>> {
+		return flatMap { $0.run(
+			ifSuccess: { transform($0) },
+			ifFailure: { Deferred.init(Result.failure($0)) },
+			ifCancel: { Deferred.init(Result.cancel) })
+		}
+	}
+}
+
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> Deferred<Result<A,T.ElementType.ErrorType>>) -> Deferred<Result<A,T.ElementType.ErrorType>> where T: DeferredType, T.ElementType: ResultType {
+	return object.flatMapT(transform)
+}
+
 extension OptionalType where ElementType: ResultType {
 	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Optional<Result<A,ElementType.ErrorType>> {
 		return map { $0.map(transform) }

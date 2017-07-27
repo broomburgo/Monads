@@ -2,6 +2,7 @@
 
 // sourcery: concrete = "Array"
 // sourcery: flatMap, zip, <*>, lift, lift-, lift*, lift/, liftPrefix-
+// sourcery: transformer1
 public protocol ArrayType: PureConstructible {
 	func run(_ callback: @escaping (ElementType) throws -> ()) rethrows
 }

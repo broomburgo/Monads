@@ -6,7 +6,7 @@ import Abstract
 // sourcery: context = "LogType"
 // sourcery: contextRequiredProtocols = "Monoid"
 // sourcery: zip, <*>, flatMap, lift, lift+, lift-, lift*, lift/, liftPrefix-
-// sourcery: transformer
+// sourcery: transformer1, transformer2, transformer3
 public protocol WriterType: PureConstructible {
 	associatedtype LogType: Monoid
 	init(value: ElementType, log: LogType)
