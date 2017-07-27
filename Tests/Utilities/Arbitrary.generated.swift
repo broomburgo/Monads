@@ -16,6 +16,23 @@ import Abstract
 
 // MARK: - Arbitrary for structs and classes
 
+struct DeferredOf<T>: Arbitrary where T: Arbitrary {
+    let getDeferred: Deferred<T>
+    init(_ getDeferred: Deferred<T>) {
+        self.getDeferred = getDeferred
+    }
+
+    public static var arbitrary: Gen<DeferredOf<T>> {
+        return Gen<Deferred<T>>
+            .compose {
+                Deferred<T>.init(
+                    value: $0.generate(using: OptionalOf<T>.arbitrary.map { $0.getOptional })
+                )
+            }
+            .map(DeferredOf<T>.init)
+    }
+}
+
 struct WriterOf<T,L>: Arbitrary where T: Arbitrary, L: Monoid & Arbitrary {
     let getWriter: Writer<T,L>
     init(_ getWriter: Writer<T,L>) {

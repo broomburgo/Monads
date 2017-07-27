@@ -25,6 +25,21 @@ extension Law {
             }
         }
 
+// MARK: - Deferred
+        enum OnDeferred {
+            static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Deferred<B>) -> Bool where A: Equatable, B: Equatable {
+                return (Deferred<A>.init(value) >>- f) == f(value)
+            }
+
+            static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
+                return (Deferred<A>.init(value) >>- Deferred<A>.init) == Deferred<A>.init(value)
+            }
+
+            static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Deferred<B>, _ g: @escaping (B) -> Deferred<C>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+                return (Deferred<A>.init(value) >>- f >>- g) == (Deferred<A>.init(value) >>- { f($0) >>- g })
+            }
+        }
+
 // MARK: - Optional
         enum OnOptional {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Optional<B>) -> Bool where A: Equatable, B: Equatable {

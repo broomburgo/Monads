@@ -39,6 +39,35 @@ extension Law {
             }
         }
 
+// MARK: - Deferred
+        enum OnDeferred {
+            static func identity <A> (_ value: A) -> Bool where A: Equatable {
+				let a_a = Deferred<(A)->A>.init(F.identity)
+				let a = Deferred<A>.init(value)
+				return (a_a <*> a) == a
+            }
+
+            static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
+				let a_b = Deferred<(A)->B>.init(f)
+				let a = Deferred<A>.init(value)
+				let b = Deferred<B>.init(f(value))
+                return (a_b <*> a) == b
+            }
+
+            static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
+				let a_b = Deferred<(A)->B>.init(f)
+				let a = Deferred<A>.init(value)
+                return (a_b <*> a) == (Deferred.init({ $0(value) }) <*> a_b)
+            }
+
+            static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+				let a_b = Deferred<(A)->B>.init(f)
+				let b_c = Deferred<(B)->C>.init(g)
+				let a = Deferred<A>.init(value)
+				return (Deferred.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
+            }
+        }
+
 // MARK: - Optional
         enum OnOptional {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {

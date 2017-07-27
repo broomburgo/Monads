@@ -10,10 +10,12 @@ public protocol DeferredType: PureConstructible {
 //MARK: - Concrete
 
 // sourcery: fixedTypesForTests = "Int"
-// sourcery: functorLaws
+// sourcery: functorLaws, applicativeLaws, monadLaws
+// sourcery: arbitrary
 public final class Deferred<T>: DeferredType {
 	public typealias ElementType = T
 
+	// sourcery: arbitraryIgnoreVariable
 	var callbacks: [(T) -> ()] = []
 
 	var value: T?

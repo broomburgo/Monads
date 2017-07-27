@@ -11,7 +11,7 @@ import Abstract
 {% macro checkError typeNameString %}{% if typeNameString == "Error" %}String{% else %}{{ typeNameString }}{% endif %}{% endmacro %}
 
 {% macro iterateVariables variables %}
-                {% for var in variables %}
+				{% for var in variables|!annotated:"arbitraryIgnoreVariable" %}
                   {% if var.actualTypeName.name|hasPrefix:"UI" %}
                     {{ var.name }}: {{ var.actualTypeName.name }}.init(){% if not forloop.last %},{% endif %} 
                   {% elif var.isOptional %}

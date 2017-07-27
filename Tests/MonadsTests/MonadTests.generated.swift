@@ -23,6 +23,21 @@ class MonadLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Deferred
+    func testDeferred() {
+        property("Monad law: identity left") <- forAll { (a: Int, af: ArrowOf<Int,DeferredOf<Int>>) in
+            Law.Monad.OnDeferred.identityLeft(a, { af.getArrow($0).getDeferred })
+        }
+
+        property("Monad law: identity right") <- forAll { (a: Int) in
+            Law.Monad.OnDeferred.identityRight(a)
+        }
+
+        property("Monad law: associativity") <- forAll { (a: Int, af: ArrowOf<Int,DeferredOf<Int>>, ag: ArrowOf<Int,DeferredOf<Int>>) in
+            Law.Monad.OnDeferred.associativity(a, { af.getArrow($0).getDeferred }, { ag.getArrow($0).getDeferred })
+        }
+    }
+
 // MARK: - Optional
     func testOptional() {
         property("Monad law: identity left") <- forAll { (a: Int, af: ArrowOf<Int,OptionalOf<Int>>) in
