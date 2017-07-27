@@ -1,34 +1,8 @@
 {
-  "iOS" : [
-    {
-      "hash" : "38f2347b5ed1311b189175fcf770be2ae20b428a1d08ed28f989273a9ad2f8ba",
-      "name" : "Abstract"
-    }
-  ],
-  "commitish" : "5e54105a46163f7bb17e9297531977e2bb4944b6",
-  "watchOS" : [
-    {
-      "hash" : "f9f7f8fb025238d32274f6e0c329e4d3dfedbf1c2a35c005df9dec9b57fe1521",
-      "name" : "Abstract"
-    },
-    {
-      "hash" : "f9f7f8fb025238d32274f6e0c329e4d3dfedbf1c2a35c005df9dec9b57fe1521",
-      "name" : "Abstract"
-    }
-  ],
-  "tvOS" : [
-    {
-      "hash" : "c8ccf1ffe177df3e1d96c12f00460ebba40bc77c15fdf817bc98ef6a58d4c0db",
-      "name" : "Abstract"
-    },
-    {
-      "hash" : "c8ccf1ffe177df3e1d96c12f00460ebba40bc77c15fdf817bc98ef6a58d4c0db",
-      "name" : "Abstract"
-    }
-  ],
+  "commitish" : "a9f66be28ef80b2409dbe3ddf2c825528d9d95de",
   "Mac" : [
     {
-      "hash" : "c4dde2c935971fe5e9df0a7db448af380b25432b30db94906c164be6920deced",
+      "hash" : "f2d1078a18dd6ca29f85d1a527b07ce5fde19ca36c0588ca1ffc67af4c46096f",
       "name" : "Abstract"
     }
   ]
