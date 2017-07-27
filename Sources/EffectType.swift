@@ -45,6 +45,6 @@ extension EffectType {
 
 extension EffectType where ElementType: EffectType {
 	public var joined: Effect<ElementType.ElementType> {
-		return Effect.init { self.run().run() }
+		return Effect<ElementType.ElementType>.init { self.run().run() }
 	}
 }

@@ -35,7 +35,7 @@ extension Law {
 				let a_b = Array<(A)->B>.init(f)
 				let b_c = Array<(B)->C>.init(g)
 				let a = Array<A>.init(value)
-				return (Array.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
+				return (Array.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 
@@ -64,7 +64,7 @@ extension Law {
 				let a_b = Deferred<(A)->B>.init(f)
 				let b_c = Deferred<(B)->C>.init(g)
 				let a = Deferred<A>.init(value)
-				return (Deferred.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
+				return (Deferred.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 
@@ -93,7 +93,7 @@ extension Law {
 				let a_b = Effect<(A)->B>.init(f)
 				let b_c = Effect<(B)->C>.init(g)
 				let a = Effect<A>.init(value)
-				return (Effect.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
+				return (Effect.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 
@@ -122,7 +122,7 @@ extension Law {
 				let a_b = Optional<(A)->B>.init(f)
 				let b_c = Optional<(B)->C>.init(g)
 				let a = Optional<A>.init(value)
-				return (Optional.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
+				return (Optional.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 
@@ -151,7 +151,7 @@ extension Law {
 				let a_b = Result<(A)->B,AnyError>.init(f)
 				let b_c = Result<(B)->C,AnyError>.init(g)
 				let a = Result<A,AnyError>.init(value)
-				return (Result.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
+				return (Result.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 
@@ -180,7 +180,7 @@ extension Law {
 				let a_b = Writer<(A)->B,String>.init(f)
 				let b_c = Writer<(B)->C,String>.init(g)
 				let a = Writer<A,String>.init(value)
-				return (Writer.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
+				return (Writer.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 

@@ -31,8 +31,12 @@
 		38A14E411F2A084400A2900C /* EffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E3F1F2A084400A2900C /* EffectType.swift */; };
 		38A14E431F2A0BF000A2900C /* EffectTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E421F2A0BF000A2900C /* EffectTransformer.generated.swift */; };
 		38A14E441F2A0BF000A2900C /* EffectTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E421F2A0BF000A2900C /* EffectTransformer.generated.swift */; };
-		38A918EC1F28861C00AB25CC /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EB1F28861C00AB25CC /* Error.swift */; };
-		38A918ED1F28861C00AB25CC /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EB1F28861C00AB25CC /* Error.swift */; };
+		38A14E461F2A0CBC00A2900C /* CoeffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E451F2A0CBC00A2900C /* CoeffectType.swift */; };
+		38A14E471F2A0CBC00A2900C /* CoeffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E451F2A0CBC00A2900C /* CoeffectType.swift */; };
+		38A14E4D1F2A1FF600A2900C /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E4C1F2A1FF600A2900C /* Weakly.swift */; };
+		38A14E4E1F2A1FF600A2900C /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E4C1F2A1FF600A2900C /* Weakly.swift */; };
+		38A918EC1F28861C00AB25CC /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EB1F28861C00AB25CC /* AnyError.swift */; };
+		38A918ED1F28861C00AB25CC /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EB1F28861C00AB25CC /* AnyError.swift */; };
 		38A918F01F28936100AB25CC /* Arbitrary.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EF1F28936100AB25CC /* Arbitrary.generated.swift */; };
 		38A918F21F2896DD00AB25CC /* CustomArbitraryDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918F11F2896DD00AB25CC /* CustomArbitraryDefinitions.swift */; };
 		38E4B7941F2726B100EEC287 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7931F2726B100EEC287 /* Functions.swift */; };
@@ -104,7 +108,9 @@
 		38A14E3B1F29CBE400A2900C /* DeferredType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredType.swift; sourceTree = "<group>"; };
 		38A14E3F1F2A084400A2900C /* EffectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectType.swift; sourceTree = "<group>"; };
 		38A14E421F2A0BF000A2900C /* EffectTransformer.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectTransformer.generated.swift; sourceTree = "<group>"; };
-		38A918EB1F28861C00AB25CC /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		38A14E451F2A0CBC00A2900C /* CoeffectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoeffectType.swift; sourceTree = "<group>"; };
+		38A14E4C1F2A1FF600A2900C /* Weakly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Weakly.swift; path = ../../../../Projects/Functional/Functional/Weakly.swift; sourceTree = "<group>"; };
+		38A918EB1F28861C00AB25CC /* AnyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyError.swift; sourceTree = "<group>"; };
 		38A918EF1F28936100AB25CC /* Arbitrary.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arbitrary.generated.swift; sourceTree = "<group>"; };
 		38A918F11F2896DD00AB25CC /* CustomArbitraryDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomArbitraryDefinitions.swift; sourceTree = "<group>"; };
 		38E4B7931F2726B100EEC287 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -246,8 +252,8 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
-				OBJ_6 /* Package.swift */,
 				388D771F1F28D501001EAC57 /* Templates */,
+				OBJ_6 /* Package.swift */,
 				38F4A3A91F1E62B6003966EC /* Frameworks */,
 				38F4A3B71F1E641C003966EC /* Monads-ios */,
 				OBJ_12 /* Products */,
@@ -259,14 +265,16 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				38A918EB1F28861C00AB25CC /* AnyError.swift */,
 				38E4B79D1F27419500EEC287 /* ArrayType.swift */,
+				38A14E451F2A0CBC00A2900C /* CoeffectType.swift */,
 				38A14E3B1F29CBE400A2900C /* DeferredType.swift */,
 				38A14E3F1F2A084400A2900C /* EffectType.swift */,
-				38A918EB1F28861C00AB25CC /* Error.swift */,
 				38E4B7931F2726B100EEC287 /* Functions.swift */,
 				38F4A3C01F1E64EA003966EC /* OptionalType.swift */,
 				3821B1211F2643CF00F75F39 /* Pure.swift */,
 				38E4B7D71F27968000EEC287 /* ResultType.swift */,
+				38A14E4C1F2A1FF600A2900C /* Weakly.swift */,
 				388D77281F28E70F001EAC57 /* WriterType.swift */,
 				3821B1251F26487C00F75F39 /* Generated */,
 			);
@@ -464,7 +472,9 @@
 				38A14E411F2A084400A2900C /* EffectType.swift in Sources */,
 				38808CF21F26A81700792FEA /* Apply.generated.swift in Sources */,
 				388D77241F28DF17001EAC57 /* ResultTransformer.generated.swift in Sources */,
-				38A918ED1F28861C00AB25CC /* Error.swift in Sources */,
+				38A14E4E1F2A1FF600A2900C /* Weakly.swift in Sources */,
+				38A918ED1F28861C00AB25CC /* AnyError.swift in Sources */,
+				38A14E471F2A0CBC00A2900C /* CoeffectType.swift in Sources */,
 				38A14E441F2A0BF000A2900C /* EffectTransformer.generated.swift in Sources */,
 				38E4B7951F2726B100EEC287 /* Functions.swift in Sources */,
 				38A14E3D1F29CBE400A2900C /* DeferredType.swift in Sources */,
@@ -488,7 +498,9 @@
 				38A14E401F2A084400A2900C /* EffectType.swift in Sources */,
 				3821B1221F2643CF00F75F39 /* Pure.swift in Sources */,
 				388D77231F28DF17001EAC57 /* ResultTransformer.generated.swift in Sources */,
-				38A918EC1F28861C00AB25CC /* Error.swift in Sources */,
+				38A14E4D1F2A1FF600A2900C /* Weakly.swift in Sources */,
+				38A918EC1F28861C00AB25CC /* AnyError.swift in Sources */,
+				38A14E461F2A0CBC00A2900C /* CoeffectType.swift in Sources */,
 				38A14E431F2A0BF000A2900C /* EffectTransformer.generated.swift in Sources */,
 				38F4A3C11F1E64EA003966EC /* OptionalType.swift in Sources */,
 				38A14E3C1F29CBE400A2900C /* DeferredType.swift in Sources */,

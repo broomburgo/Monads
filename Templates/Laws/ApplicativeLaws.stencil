@@ -33,7 +33,7 @@ extension Law {
 				let a_b = {% call object type "(A)->B" %}.init(f)
 				let b_c = {% call object type "(B)->C" %}.init(g)
 				let a = {% call object type "A" %}.init(value)
-				return ({{ type.name }}.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
+				return ({{ type.name }}.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 
