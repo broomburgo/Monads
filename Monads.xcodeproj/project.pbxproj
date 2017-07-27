@@ -310,9 +310,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 38F4A3BB1F1E641C003966EC /* Build configuration list for PBXNativeTarget "Monads-ios" */;
 			buildPhases = (
+				38F4A3B31F1E641C003966EC /* Headers */,
 				38F4A3B11F1E641C003966EC /* Sources */,
 				38F4A3B21F1E641C003966EC /* Frameworks */,
-				38F4A3B31F1E641C003966EC /* Headers */,
 				38F4A3B41F1E641C003966EC /* Resources */,
 				38F4A3BF1F1E6442003966EC /* Add Carthage Frameworks */,
 			);
