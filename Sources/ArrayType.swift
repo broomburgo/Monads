@@ -1,14 +1,15 @@
 // MARK: - Definition
 
 // sourcery: concrete = "Array"
-// sourcery: zip, <*>, flatMap, lift, lift-, lift*, lift/, liftPrefix-
+// sourcery: flatMap, zip, <*>, lift, lift-, lift*, lift/, liftPrefix-
 public protocol ArrayType: PureConstructible {
-	func run(_ callback: @escaping (ElementType) -> ())
+	func run(_ callback: @escaping (ElementType) throws -> ()) rethrows
 }
 
 // MARK: - Concrete
 
 // sourcery: functorLaws, applicativeLaws, monadLaws
+// sourcery: throwingMap
 // sourcery: fixedTypesForTests = "Int"
 extension Array: ArrayType {
 	public typealias ElementType = Element
@@ -17,17 +18,17 @@ extension Array: ArrayType {
 		self = [value]
 	}
 
-	public func run(_ callback: @escaping (Element) -> ()) {
-		forEach(callback)
+	public func run(_ callback: @escaping (Element) throws -> ()) rethrows {
+		try forEach(callback)
 	}
 }
 
 // MARK: - Functor
 
 extension ArrayType {
-	public func map <A> (_ transform: @escaping (ElementType) -> A) -> Array<A> {
+	public func map <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Array<A> {
 		var transformed = [A]()
-		run { transformed.append(transform($0)) }
+		try run { try transformed.append(transform($0)) }
 		return transformed
 	}
 }

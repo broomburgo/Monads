@@ -19,6 +19,17 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Deferred
+    func testDeferred() {
+        property("Functor law: identity") <- forAll { (a: Int) in
+            Law.Functor.OnDeferred.identity(a)
+        }
+
+        property("Functor law: composition") <- forAll { (a: Int, af: ArrowOf<Int,Int>, ag: ArrowOf<Int,Int>) in
+            Law.Functor.OnDeferred.composition(a, af.getArrow, ag.getArrow)
+        }
+    }
+
 // MARK: - Optional
     func testOptional() {
         property("Functor law: identity") <- forAll { (a: Int) in

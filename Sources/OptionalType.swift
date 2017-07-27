@@ -4,19 +4,20 @@
 // sourcery: flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer
 public protocol OptionalType: PureConstructible {
-	func run<A>(ifSome: (ElementType) -> A, ifNone: () -> A) -> A
+	func run<A>(ifSome: (ElementType) throws -> A, ifNone: () -> A) rethrows -> A
 }
 
 // MARK: - Concrete
 
 // sourcery: functorLaws, applicativeLaws, monadLaws
+// sourcery: throwingMap
 // sourcery: fixedTypesForTests = "Int"
 extension Optional: OptionalType {
 	public typealias ElementType = Wrapped
 
-	public func run<A>(ifSome: (Wrapped) -> A, ifNone: () -> A) -> A {
+	public func run<A>(ifSome: (Wrapped) throws -> A, ifNone: () -> A) rethrows -> A {
 		if let this = self {
-			return ifSome(this)
+			return try ifSome(this)
 		} else {
 			return ifNone()
 		}
@@ -26,9 +27,9 @@ extension Optional: OptionalType {
 // MARK: - Functor
 
 extension OptionalType {
-	public func map <A> (_ transform: @escaping (ElementType) -> A) -> Optional<A> {
-		return run(
-			ifSome: { .some(transform($0)) },
+	public func map <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Optional<A> {
+		return try run(
+			ifSome: { try .some(transform($0)) },
 			ifNone: { .none })
 	}
 }

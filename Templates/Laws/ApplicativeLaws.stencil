@@ -11,19 +11,29 @@ extension Law {
 // MARK: - {{ type.name }}
         enum On{{ type.name }} {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
-                return ({% call object type "(A)->A" %}.init(F.identity) <*> {% call object type "A" %}.init(value)) == {% call object type "A" %}.init(value)
+				let a_a = {% call object type "(A)->A" %}.init(F.identity)
+				let a = {% call object type "A" %}.init(value)
+				return (a_a <*> a) == a
             }
 
             static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return ({% call object type "(A)->B" %}.init(f) <*> {% call object type "A" %}.init(value)) == {% call object type "B" %}.init(f(value))
+				let a_b = {% call object type "(A)->B" %}.init(f)
+				let a = {% call object type "A" %}.init(value)
+				let b = {% call object type "B" %}.init(f(value))
+                return (a_b <*> a) == b
             }
 
             static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return ({% call object type "(A)->B" %}.init(f) <*> {% call object type "A" %}.init(value)) == ({{ type.name }}.init({ $0(value) }) <*> ({% call object type "(A)->B" %}.init(f)))
+				let a_b = {% call object type "(A)->B" %}.init(f)
+				let a = {% call object type "A" %}.init(value)
+                return (a_b <*> a) == ({{ type.name }}.init({ $0(value) }) <*> a_b)
             }
 
             static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return ({{ type.name }}.init(curry(•)) <*> {% call object type "(B)->C" %}.init(g) <*> {% call object type "(A)->B" %}.init(f) <*> {% call object type "A" %}.init(value)) == ({% call object type "(B)->C" %}.init(g) <*> ({% call object type "(A)->B" %}.init(f) <*> {% call object type "A" %}.init(value)))
+				let a_b = {% call object type "(A)->B" %}.init(f)
+				let b_c = {% call object type "(B)->C" %}.init(g)
+				let a = {% call object type "A" %}.init(value)
+				return ({{ type.name }}.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 

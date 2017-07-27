@@ -15,9 +15,9 @@ extension Law {
             }
 
             static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                let mapF = try! F.flip({% call object type "A" %}.map)(f)
-                let mapG = try! F.flip({% call object type "B" %}.map)(g)
-                return try! {{ type.name }}.init(value).map(g • f) == (mapG • mapF § {{ type.name }}.init(value))
+				let mapF = {% if type.annotations.throwingMap %}try! {% endif %}F.flip({% call object type "A" %}.map)(f)
+                let mapG = {% if type.annotations.throwingMap %}try! {% endif %}F.flip({% call object type "B" %}.map)(g)
+                return {% if type.annotations.throwingMap %}try! {% endif %}{{ type.name }}.init(value).map(g • f) == (mapG • mapF § {{ type.name }}.init(value))
             }
         }
 

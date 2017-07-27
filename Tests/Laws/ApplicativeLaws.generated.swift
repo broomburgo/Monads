@@ -13,76 +13,116 @@ extension Law {
 // MARK: - Array
         enum OnArray {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
-                return (Array<(A)->A>.init(F.identity) <*> Array<A>.init(value)) == Array<A>.init(value)
+				let a_a = Array<(A)->A>.init(F.identity)
+				let a = Array<A>.init(value)
+				return (a_a <*> a) == a
             }
 
             static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return (Array<(A)->B>.init(f) <*> Array<A>.init(value)) == Array<B>.init(f(value))
+				let a_b = Array<(A)->B>.init(f)
+				let a = Array<A>.init(value)
+				let b = Array<B>.init(f(value))
+                return (a_b <*> a) == b
             }
 
             static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return (Array<(A)->B>.init(f) <*> Array<A>.init(value)) == (Array.init({ $0(value) }) <*> (Array<(A)->B>.init(f)))
+				let a_b = Array<(A)->B>.init(f)
+				let a = Array<A>.init(value)
+                return (a_b <*> a) == (Array.init({ $0(value) }) <*> a_b)
             }
 
             static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Array.init(curry(•)) <*> Array<(B)->C>.init(g) <*> Array<(A)->B>.init(f) <*> Array<A>.init(value)) == (Array<(B)->C>.init(g) <*> (Array<(A)->B>.init(f) <*> Array<A>.init(value)))
+				let a_b = Array<(A)->B>.init(f)
+				let b_c = Array<(B)->C>.init(g)
+				let a = Array<A>.init(value)
+				return (Array.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 
 // MARK: - Optional
         enum OnOptional {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
-                return (Optional<(A)->A>.init(F.identity) <*> Optional<A>.init(value)) == Optional<A>.init(value)
+				let a_a = Optional<(A)->A>.init(F.identity)
+				let a = Optional<A>.init(value)
+				return (a_a <*> a) == a
             }
 
             static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return (Optional<(A)->B>.init(f) <*> Optional<A>.init(value)) == Optional<B>.init(f(value))
+				let a_b = Optional<(A)->B>.init(f)
+				let a = Optional<A>.init(value)
+				let b = Optional<B>.init(f(value))
+                return (a_b <*> a) == b
             }
 
             static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return (Optional<(A)->B>.init(f) <*> Optional<A>.init(value)) == (Optional.init({ $0(value) }) <*> (Optional<(A)->B>.init(f)))
+				let a_b = Optional<(A)->B>.init(f)
+				let a = Optional<A>.init(value)
+                return (a_b <*> a) == (Optional.init({ $0(value) }) <*> a_b)
             }
 
             static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Optional.init(curry(•)) <*> Optional<(B)->C>.init(g) <*> Optional<(A)->B>.init(f) <*> Optional<A>.init(value)) == (Optional<(B)->C>.init(g) <*> (Optional<(A)->B>.init(f) <*> Optional<A>.init(value)))
+				let a_b = Optional<(A)->B>.init(f)
+				let b_c = Optional<(B)->C>.init(g)
+				let a = Optional<A>.init(value)
+				return (Optional.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 
 // MARK: - Result
         enum OnResult {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
-                return (Result<(A)->A,AnyError>.init(F.identity) <*> Result<A,AnyError>.init(value)) == Result<A,AnyError>.init(value)
+				let a_a = Result<(A)->A,AnyError>.init(F.identity)
+				let a = Result<A,AnyError>.init(value)
+				return (a_a <*> a) == a
             }
 
             static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return (Result<(A)->B,AnyError>.init(f) <*> Result<A,AnyError>.init(value)) == Result<B,AnyError>.init(f(value))
+				let a_b = Result<(A)->B,AnyError>.init(f)
+				let a = Result<A,AnyError>.init(value)
+				let b = Result<B,AnyError>.init(f(value))
+                return (a_b <*> a) == b
             }
 
             static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return (Result<(A)->B,AnyError>.init(f) <*> Result<A,AnyError>.init(value)) == (Result.init({ $0(value) }) <*> (Result<(A)->B,AnyError>.init(f)))
+				let a_b = Result<(A)->B,AnyError>.init(f)
+				let a = Result<A,AnyError>.init(value)
+                return (a_b <*> a) == (Result.init({ $0(value) }) <*> a_b)
             }
 
             static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Result.init(curry(•)) <*> Result<(B)->C,AnyError>.init(g) <*> Result<(A)->B,AnyError>.init(f) <*> Result<A,AnyError>.init(value)) == (Result<(B)->C,AnyError>.init(g) <*> (Result<(A)->B,AnyError>.init(f) <*> Result<A,AnyError>.init(value)))
+				let a_b = Result<(A)->B,AnyError>.init(f)
+				let b_c = Result<(B)->C,AnyError>.init(g)
+				let a = Result<A,AnyError>.init(value)
+				return (Result.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 
 // MARK: - Writer
         enum OnWriter {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
-                return (Writer<(A)->A,String>.init(F.identity) <*> Writer<A,String>.init(value)) == Writer<A,String>.init(value)
+				let a_a = Writer<(A)->A,String>.init(F.identity)
+				let a = Writer<A,String>.init(value)
+				return (a_a <*> a) == a
             }
 
             static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return (Writer<(A)->B,String>.init(f) <*> Writer<A,String>.init(value)) == Writer<B,String>.init(f(value))
+				let a_b = Writer<(A)->B,String>.init(f)
+				let a = Writer<A,String>.init(value)
+				let b = Writer<B,String>.init(f(value))
+                return (a_b <*> a) == b
             }
 
             static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B) -> Bool where A: Equatable, B: Equatable {
-                return (Writer<(A)->B,String>.init(f) <*> Writer<A,String>.init(value)) == (Writer.init({ $0(value) }) <*> (Writer<(A)->B,String>.init(f)))
+				let a_b = Writer<(A)->B,String>.init(f)
+				let a = Writer<A,String>.init(value)
+                return (a_b <*> a) == (Writer.init({ $0(value) }) <*> a_b)
             }
 
             static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Writer.init(curry(•)) <*> Writer<(B)->C,String>.init(g) <*> Writer<(A)->B,String>.init(f) <*> Writer<A,String>.init(value)) == (Writer<(B)->C,String>.init(g) <*> (Writer<(A)->B,String>.init(f) <*> Writer<A,String>.init(value)))
+				let a_b = Writer<(A)->B,String>.init(f)
+				let b_c = Writer<(B)->C,String>.init(g)
+				let a = Writer<A,String>.init(value)
+				return (Writer.init(curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
 

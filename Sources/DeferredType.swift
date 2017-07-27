@@ -1,7 +1,7 @@
 //MARK: - Definition
 
 // sourcery: concrete = "Deferred"
-// sourcery: flatMap
+// sourcery: flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 public protocol DeferredType: PureConstructible {
 	init(completion: (@escaping (ElementType) -> ()) -> ())
 	func run(_ callback: @escaping (ElementType) -> ())
@@ -9,6 +9,8 @@ public protocol DeferredType: PureConstructible {
 
 //MARK: - Concrete
 
+// sourcery: fixedTypesForTests = "Int"
+// sourcery: functorLaws
 public final class Deferred<T>: DeferredType {
 	public typealias ElementType = T
 

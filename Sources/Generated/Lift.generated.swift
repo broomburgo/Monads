@@ -78,6 +78,92 @@ public prefix func - <A> (value: A) -> Array<Double> where A: ArrayType, A.Eleme
 	return lift { -$0 }(value)
 }
 
+// MARK: - DeferredType
+
+public func lift<A,T>(_ function: @escaping (A.ElementType) -> T) -> (A) -> Deferred<T> where A: DeferredType {
+	return { $0.map(function) }
+}
+
+public func bilift<A,B,T>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Deferred<T> where A: DeferredType, B: DeferredType {
+	return { zip($0,$1).map(function) }
+}
+
+public func + <A,B> (left: A, right: B) -> Deferred<Int> where A: DeferredType, B: DeferredType, A.ElementType == Int, B.ElementType == Int {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B> (left: A, right: B) -> Deferred<UInt> where A: DeferredType, B: DeferredType, A.ElementType == UInt, B.ElementType == UInt {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B> (left: A, right: B) -> Deferred<Float> where A: DeferredType, B: DeferredType, A.ElementType == Float, B.ElementType == Float {
+	return bilift(+)(left,right)
+}
+
+public func + <A,B> (left: A, right: B) -> Deferred<Double> where A: DeferredType, B: DeferredType, A.ElementType == Double, B.ElementType == Double {
+	return bilift(+)(left,right)
+}
+
+public func - <A,B> (left: A, right: B) -> Deferred<Int> where A: DeferredType, B: DeferredType, A.ElementType == Int, B.ElementType == Int {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B> (left: A, right: B) -> Deferred<UInt> where A: DeferredType, B: DeferredType, A.ElementType == UInt, B.ElementType == UInt {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B> (left: A, right: B) -> Deferred<Float> where A: DeferredType, B: DeferredType, A.ElementType == Float, B.ElementType == Float {
+	return bilift(-)(left,right)
+}
+
+public func - <A,B> (left: A, right: B) -> Deferred<Double> where A: DeferredType, B: DeferredType, A.ElementType == Double, B.ElementType == Double {
+	return bilift(-)(left,right)
+}
+
+public func * <A,B> (left: A, right: B) -> Deferred<Int> where A: DeferredType, B: DeferredType, A.ElementType == Int, B.ElementType == Int {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B> (left: A, right: B) -> Deferred<UInt> where A: DeferredType, B: DeferredType, A.ElementType == UInt, B.ElementType == UInt {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B> (left: A, right: B) -> Deferred<Float> where A: DeferredType, B: DeferredType, A.ElementType == Float, B.ElementType == Float {
+	return bilift(*)(left,right)
+}
+
+public func * <A,B> (left: A, right: B) -> Deferred<Double> where A: DeferredType, B: DeferredType, A.ElementType == Double, B.ElementType == Double {
+	return bilift(*)(left,right)
+}
+
+public func / <A,B> (left: A, right: B) -> Deferred<Int> where A: DeferredType, B: DeferredType, A.ElementType == Int, B.ElementType == Int {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B> (left: A, right: B) -> Deferred<UInt> where A: DeferredType, B: DeferredType, A.ElementType == UInt, B.ElementType == UInt {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B> (left: A, right: B) -> Deferred<Float> where A: DeferredType, B: DeferredType, A.ElementType == Float, B.ElementType == Float {
+	return bilift(/)(left,right)
+}
+
+public func / <A,B> (left: A, right: B) -> Deferred<Double> where A: DeferredType, B: DeferredType, A.ElementType == Double, B.ElementType == Double {
+	return bilift(/)(left,right)
+}
+
+public prefix func - <A> (value: A) -> Deferred<Int> where A: DeferredType, A.ElementType == Int {
+	return lift { -$0 }(value)
+}
+
+public prefix func - <A> (value: A) -> Deferred<Float> where A: DeferredType, A.ElementType == Float {
+	return lift { -$0 }(value)
+}
+
+public prefix func - <A> (value: A) -> Deferred<Double> where A: DeferredType, A.ElementType == Double {
+	return lift { -$0 }(value)
+}
+
 // MARK: - OptionalType
 
 public func lift<A,T>(_ function: @escaping (A.ElementType) -> T) -> (A) -> Optional<T> where A: OptionalType {
