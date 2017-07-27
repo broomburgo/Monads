@@ -1,7 +1,7 @@
 //MARK: - Definition
 
 // sourcery: concrete = "Deferred"
-// sourcery: flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: flatMap, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 public protocol DeferredType: PureConstructible {
 	init(completion: (@escaping (ElementType) -> ()) -> ())
 	func run(_ callback: @escaping (ElementType) -> ())
@@ -72,3 +72,15 @@ extension DeferredType where ElementType: DeferredType {
 
 // MARK: -  CustomZip (parallel computation)
 
+public func zip <A,B> (_ a: A, _ b: B) -> Deferred<(A.ElementType,B.ElementType)> where A: DeferredType, B: DeferredType {
+	return Deferred<(A.ElementType,B.ElementType)>.init { (done) in
+		var aValue: A.ElementType? = nil
+		var bValue: B.ElementType? = nil
+		func checkDone() {
+			guard let aValue = aValue, let bValue = bValue else { return }
+			done(aValue,bValue)
+		}
+		a.run { aValue = $0; checkDone() }
+		b.run { bValue = $0; checkDone() }
+	}
+}

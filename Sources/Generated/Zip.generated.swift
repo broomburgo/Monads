@@ -19,20 +19,6 @@ public func zip <A,B,C,D> (_ a: A, _ b: B, _ c: C, _ d: D) -> Array<(A.ElementTy
 	return a.flatMap { aValue in b.flatMap { bValue in c.flatMap { cValue in d.map { dValue in (aValue,bValue,cValue,dValue) } } } }
 }
 
-// MARK: - DeferredType
-
-public func zip <A,B> (_ a: A, _ b: B) -> Deferred<(A.ElementType,B.ElementType)> where A: DeferredType, B: DeferredType {
-    return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
-}
-
-public func zip <A,B,C> (_ a: A, _ b: B, _ c: C) -> Deferred<(A.ElementType,B.ElementType,C.ElementType)> where A: DeferredType, B: DeferredType, C: DeferredType {
-	return a.flatMap { aValue in b.flatMap { bValue in c.map { cValue in (aValue,bValue,cValue) } } }
-}
-
-public func zip <A,B,C,D> (_ a: A, _ b: B, _ c: C, _ d: D) -> Deferred<(A.ElementType,B.ElementType,C.ElementType,D.ElementType)> where A: DeferredType, B: DeferredType, C: DeferredType, D: DeferredType {
-	return a.flatMap { aValue in b.flatMap { bValue in c.flatMap { cValue in d.map { dValue in (aValue,bValue,cValue,dValue) } } } }
-}
-
 // MARK: - OptionalType
 
 public func zip <A,B> (_ a: A, _ b: B) -> Optional<(A.ElementType,B.ElementType)> where A: OptionalType, B: OptionalType {
