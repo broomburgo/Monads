@@ -2,7 +2,7 @@
   "commitish" : "0.8.0",
   "Mac" : [
     {
-      "hash" : "31349aa7419c3c931763de7d825db26ab2e4dca640ea7cad822caebccd76cca7",
+      "hash" : "4ae3d33ce4375474656dbf71a78d617b428cd6175edb3d40f823805de37d1550",
       "name" : "SwiftCheck"
     }
   ]
