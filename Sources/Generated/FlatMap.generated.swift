@@ -21,6 +21,18 @@ public func >>- <A,B> (left: A, right: @escaping (A.ElementType) throws -> B) re
     return try left.flatMap(right)
 }
 
+// MARK: - DeferredType
+
+extension DeferredType {
+    public func flatMap <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Deferred<A.ElementType> where A: DeferredType {
+        return try map(transform).joined
+    }
+}
+
+public func >>- <A,B> (left: A, right: @escaping (A.ElementType) throws -> B) rethrows -> Deferred<B.ElementType> where A: DeferredType, B: DeferredType {
+    return try left.flatMap(right)
+}
+
 // MARK: - OptionalType
 
 extension OptionalType {
