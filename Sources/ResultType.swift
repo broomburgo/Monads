@@ -131,4 +131,11 @@ extension ResultType {
 			ifFailure: { .failure(transform($0)) },
 			ifCancel: { .cancel })
 	}
+
+	public var toOptional: ElementType? {
+		return run(
+			ifSuccess: F.identity,
+			ifFailure: F.constant(nil),
+			ifCancel: F.constant(nil))
+	}
 }
