@@ -138,4 +138,11 @@ extension ResultType {
 			ifFailure: F.constant(nil),
 			ifCancel: F.constant(nil))
 	}
+
+	public func ifCanceled(_ converted: Result<ElementType,ErrorType>) -> Result<ElementType,ErrorType> {
+		return run(
+			ifSuccess: Result.success,
+			ifFailure: Result.failure,
+			ifCancel: F.constant(converted))
+	}
 }
