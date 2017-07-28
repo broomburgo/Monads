@@ -302,7 +302,6 @@
 				38F4A3B11F1E641C003966EC /* Sources */,
 				38F4A3B21F1E641C003966EC /* Frameworks */,
 				38F4A3B41F1E641C003966EC /* Resources */,
-				38F4A3BF1F1E6442003966EC /* Add Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -320,7 +319,6 @@
 				3821B12D1F264BD600F75F39 /* ShellScript */,
 				OBJ_19 /* Sources */,
 				OBJ_21 /* Frameworks */,
-				38F4A3AD1F1E6316003966EC /* Add Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -407,36 +405,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "bash sourceryGeneration.sh ";
-		};
-		38F4A3AD1F1E6316003966EC /* Add Carthage Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/Mac/Abstract.framework",
-			);
-			name = "Add Carthage Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		38F4A3BF1F1E6442003966EC /* Add Carthage Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Abstract.framework",
-			);
-			name = "Add Carthage Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 
