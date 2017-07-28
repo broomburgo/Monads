@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "38FDFF141F2B687A002ECC3A"
-               BuildableName = "Monads-iOS.framework"
+               BuildableName = "Monads.framework"
                BlueprintName = "Monads-iOS"
                ReferencedContainer = "container:Monads.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "38FDFF141F2B687A002ECC3A"
-            BuildableName = "Monads-iOS.framework"
+            BuildableName = "Monads.framework"
             BlueprintName = "Monads-iOS"
             ReferencedContainer = "container:Monads.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "38FDFF141F2B687A002ECC3A"
-            BuildableName = "Monads-iOS.framework"
+            BuildableName = "Monads.framework"
             BlueprintName = "Monads-iOS"
             ReferencedContainer = "container:Monads.xcodeproj">
          </BuildableReference>
