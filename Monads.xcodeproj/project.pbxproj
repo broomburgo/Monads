@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		3821B1221F2643CF00F75F39 /* Pure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B1211F2643CF00F75F39 /* Pure.swift */; };
 		3821B1231F2643CF00F75F39 /* Pure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B1211F2643CF00F75F39 /* Pure.swift */; };
-		3821B12B1F264B2200F75F39 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3821B1291F264B0400F75F39 /* Operadics.framework */; };
-		3821B12C1F264B4A00F75F39 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3821B12A1F264B1200F75F39 /* Operadics.framework */; };
 		3821B12F1F264C5400F75F39 /* FlatMap.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B12E1F264C5400F75F39 /* FlatMap.generated.swift */; };
 		3821B1301F264C5400F75F39 /* FlatMap.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B12E1F264C5400F75F39 /* FlatMap.generated.swift */; };
 		38808CF11F26A81700792FEA /* Apply.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38808CEF1F26A81700792FEA /* Apply.generated.swift */; };
@@ -45,10 +43,8 @@
 		38E4B79B1F27291A00EEC287 /* Lift.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7991F27291A00EEC287 /* Lift.generated.swift */; };
 		38E4B79E1F27419500EEC287 /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B79D1F27419500EEC287 /* ArrayType.swift */; };
 		38E4B79F1F27419500EEC287 /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B79D1F27419500EEC287 /* ArrayType.swift */; };
-		38E4B7AF1F27749000EEC287 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3821B1291F264B0400F75F39 /* Operadics.framework */; };
 		38E4B7B01F27749300EEC287 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E4B7AA1F2772A400EEC287 /* SwiftCheck.framework */; };
 		38E4B7B11F2774A100EEC287 /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38E4B7AA1F2772A400EEC287 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		38E4B7B21F2774A100EEC287 /* Operadics.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3821B1291F264B0400F75F39 /* Operadics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38E4B7B31F2774B100EEC287 /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F4A3AF1F1E63D3003966EC /* Abstract.framework */; };
 		38E4B7B41F2774B500EEC287 /* Abstract.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F4A3AF1F1E63D3003966EC /* Abstract.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38E4B7B61F27762100EEC287 /* FunctorTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7B51F27762100EEC287 /* FunctorTests.generated.swift */; };
@@ -86,7 +82,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				38E4B7B11F2774A100EEC287 /* SwiftCheck.framework in CopyFiles */,
-				38E4B7B21F2774A100EEC287 /* Operadics.framework in CopyFiles */,
 				38E4B7B41F2774B500EEC287 /* Abstract.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,8 +90,6 @@
 
 /* Begin PBXFileReference section */
 		3821B1211F2643CF00F75F39 /* Pure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pure.swift; sourceTree = "<group>"; };
-		3821B1291F264B0400F75F39 /* Operadics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Operadics.framework; path = Carthage/Build/Mac/Operadics.framework; sourceTree = "<group>"; };
-		3821B12A1F264B1200F75F39 /* Operadics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Operadics.framework; path = Carthage/Build/iOS/Operadics.framework; sourceTree = "<group>"; };
 		3821B12E1F264C5400F75F39 /* FlatMap.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlatMap.generated.swift; sourceTree = "<group>"; };
 		38808CEF1F26A81700792FEA /* Apply.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Apply.generated.swift; sourceTree = "<group>"; };
 		38808CF01F26A81700792FEA /* Zip.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip.generated.swift; sourceTree = "<group>"; };
@@ -143,7 +136,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				38F4A3BE1F1E642E003966EC /* Abstract.framework in Frameworks */,
-				3821B12C1F264B4A00F75F39 /* Operadics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,7 +144,6 @@
 			buildActionMask = 0;
 			files = (
 				38F4A3B01F1E63EC003966EC /* Abstract.framework in Frameworks */,
-				3821B12B1F264B2200F75F39 /* Operadics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,7 +153,6 @@
 			files = (
 				38E4B7B31F2774B100EEC287 /* Abstract.framework in Frameworks */,
 				OBJ_29 /* Monads.framework in Frameworks */,
-				38E4B7AF1F27749000EEC287 /* Operadics.framework in Frameworks */,
 				38E4B7B01F27749300EEC287 /* SwiftCheck.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,8 +201,6 @@
 			isa = PBXGroup;
 			children = (
 				38E4B7AA1F2772A400EEC287 /* SwiftCheck.framework */,
-				3821B12A1F264B1200F75F39 /* Operadics.framework */,
-				3821B1291F264B0400F75F39 /* Operadics.framework */,
 				38F4A3AE1F1E63D3003966EC /* Abstract.framework */,
 				38F4A3AF1F1E63D3003966EC /* Abstract.framework */,
 			);
@@ -427,7 +415,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/Mac/Abstract.framework",
-				"$(SRCROOT)/Carthage/Build/Mac/Operadics.framework",
 			);
 			name = "Add Carthage Frameworks";
 			outputPaths = (
@@ -443,7 +430,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Abstract.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Operadics.framework",
 			);
 			name = "Add Carthage Frameworks";
 			outputPaths = (
