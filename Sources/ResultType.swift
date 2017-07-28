@@ -121,3 +121,14 @@ public func zip <A,B,Z> (_ a: A, _ b: B) -> Result<(A.ElementType,B.ElementType)
 			ifCancel: { .cancel }) },
 		ifCancel: { .cancel })
 }
+
+// MARK: Utility
+
+extension ResultType {
+	public func mapError<E>(_ transform: @escaping (ErrorType) -> E) -> Result<ElementType,E> {
+		return run(
+			ifSuccess: { .success($0) },
+			ifFailure: { .failure(transform($0)) },
+			ifCancel: { .cancel })
+	}
+}
