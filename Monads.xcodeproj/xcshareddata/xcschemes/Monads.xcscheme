@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "9999"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_15"
+               BlueprintIdentifier = "38FDFED41F2B6059002ECC3A"
                BuildableName = "Monads.framework"
                BlueprintName = "Monads"
                ReferencedContainer = "container:Monads.xcodeproj">
@@ -33,13 +33,22 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_22"
+               BlueprintIdentifier = "38FDFEDC1F2B6059002ECC3A"
                BuildableName = "MonadsTests.xctest"
                BlueprintName = "MonadsTests"
                ReferencedContainer = "container:Monads.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "38FDFED41F2B6059002ECC3A"
+            BuildableName = "Monads.framework"
+            BlueprintName = "Monads"
+            ReferencedContainer = "container:Monads.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -56,7 +65,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_15"
+            BlueprintIdentifier = "38FDFED41F2B6059002ECC3A"
             BuildableName = "Monads.framework"
             BlueprintName = "Monads"
             ReferencedContainer = "container:Monads.xcodeproj">
@@ -71,6 +80,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "38FDFED41F2B6059002ECC3A"
+            BuildableName = "Monads.framework"
+            BlueprintName = "Monads"
+            ReferencedContainer = "container:Monads.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

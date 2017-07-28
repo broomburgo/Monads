@@ -7,82 +7,64 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3821B1221F2643CF00F75F39 /* Pure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B1211F2643CF00F75F39 /* Pure.swift */; };
-		3821B1231F2643CF00F75F39 /* Pure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B1211F2643CF00F75F39 /* Pure.swift */; };
-		3821B12F1F264C5400F75F39 /* FlatMap.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B12E1F264C5400F75F39 /* FlatMap.generated.swift */; };
-		3821B1301F264C5400F75F39 /* FlatMap.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B12E1F264C5400F75F39 /* FlatMap.generated.swift */; };
-		38808CF11F26A81700792FEA /* Apply.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38808CEF1F26A81700792FEA /* Apply.generated.swift */; };
-		38808CF21F26A81700792FEA /* Apply.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38808CEF1F26A81700792FEA /* Apply.generated.swift */; };
-		38808CF31F26A81700792FEA /* Zip.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38808CF01F26A81700792FEA /* Zip.generated.swift */; };
-		38808CF41F26A81700792FEA /* Zip.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38808CF01F26A81700792FEA /* Zip.generated.swift */; };
-		388D77231F28DF17001EAC57 /* ResultTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D77221F28DF17001EAC57 /* ResultTransformer.generated.swift */; };
-		388D77241F28DF17001EAC57 /* ResultTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D77221F28DF17001EAC57 /* ResultTransformer.generated.swift */; };
-		388D77261F28E149001EAC57 /* OptionalTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D77251F28E149001EAC57 /* OptionalTransformer.generated.swift */; };
-		388D77271F28E149001EAC57 /* OptionalTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D77251F28E149001EAC57 /* OptionalTransformer.generated.swift */; };
-		388D77291F28E70F001EAC57 /* WriterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D77281F28E70F001EAC57 /* WriterType.swift */; };
-		388D772A1F28E70F001EAC57 /* WriterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D77281F28E70F001EAC57 /* WriterType.swift */; };
-		388D772C1F28EE12001EAC57 /* WriterTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D772B1F28EE12001EAC57 /* WriterTransformer.generated.swift */; };
-		388D772D1F28EE12001EAC57 /* WriterTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D772B1F28EE12001EAC57 /* WriterTransformer.generated.swift */; };
-		38A14E3C1F29CBE400A2900C /* DeferredType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E3B1F29CBE400A2900C /* DeferredType.swift */; };
-		38A14E3D1F29CBE400A2900C /* DeferredType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E3B1F29CBE400A2900C /* DeferredType.swift */; };
-		38A14E401F2A084400A2900C /* EffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E3F1F2A084400A2900C /* EffectType.swift */; };
-		38A14E411F2A084400A2900C /* EffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E3F1F2A084400A2900C /* EffectType.swift */; };
-		38A14E431F2A0BF000A2900C /* EffectTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E421F2A0BF000A2900C /* EffectTransformer.generated.swift */; };
-		38A14E441F2A0BF000A2900C /* EffectTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E421F2A0BF000A2900C /* EffectTransformer.generated.swift */; };
-		38A14E461F2A0CBC00A2900C /* CoeffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E451F2A0CBC00A2900C /* CoeffectType.swift */; };
-		38A14E471F2A0CBC00A2900C /* CoeffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E451F2A0CBC00A2900C /* CoeffectType.swift */; };
-		38A14E581F2A3A4D00A2900C /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E571F2A3A4D00A2900C /* Weakly.swift */; };
-		38A14E591F2A3A4D00A2900C /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E571F2A3A4D00A2900C /* Weakly.swift */; };
-		38A918EC1F28861C00AB25CC /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EB1F28861C00AB25CC /* AnyError.swift */; };
-		38A918ED1F28861C00AB25CC /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EB1F28861C00AB25CC /* AnyError.swift */; };
-		38A918F01F28936100AB25CC /* Arbitrary.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EF1F28936100AB25CC /* Arbitrary.generated.swift */; };
-		38A918F21F2896DD00AB25CC /* CustomArbitraryDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918F11F2896DD00AB25CC /* CustomArbitraryDefinitions.swift */; };
-		38E4B7941F2726B100EEC287 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7931F2726B100EEC287 /* Functions.swift */; };
-		38E4B7951F2726B100EEC287 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7931F2726B100EEC287 /* Functions.swift */; };
-		38E4B79A1F27291A00EEC287 /* Lift.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7991F27291A00EEC287 /* Lift.generated.swift */; };
-		38E4B79B1F27291A00EEC287 /* Lift.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7991F27291A00EEC287 /* Lift.generated.swift */; };
-		38E4B79E1F27419500EEC287 /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B79D1F27419500EEC287 /* ArrayType.swift */; };
-		38E4B79F1F27419500EEC287 /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B79D1F27419500EEC287 /* ArrayType.swift */; };
-		38E4B7B01F27749300EEC287 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E4B7AA1F2772A400EEC287 /* SwiftCheck.framework */; };
-		38E4B7B11F2774A100EEC287 /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38E4B7AA1F2772A400EEC287 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		38E4B7B31F2774B100EEC287 /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F4A3AF1F1E63D3003966EC /* Abstract.framework */; };
-		38E4B7B41F2774B500EEC287 /* Abstract.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F4A3AF1F1E63D3003966EC /* Abstract.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		38E4B7B61F27762100EEC287 /* FunctorTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7B51F27762100EEC287 /* FunctorTests.generated.swift */; };
-		38E4B7BC1F2789B400EEC287 /* ApplicativeTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7BB1F2789B400EEC287 /* ApplicativeTests.generated.swift */; };
-		38E4B7D01F278ACF00EEC287 /* ApplicativeLaws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7CD1F278ACF00EEC287 /* ApplicativeLaws.generated.swift */; };
-		38E4B7D11F278ACF00EEC287 /* FunctorLaws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7CE1F278ACF00EEC287 /* FunctorLaws.generated.swift */; };
-		38E4B7D21F278ACF00EEC287 /* Law.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7CF1F278ACF00EEC287 /* Law.generated.swift */; };
-		38E4B7D41F278ED300EEC287 /* MonadLaws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D31F278ED300EEC287 /* MonadLaws.generated.swift */; };
-		38E4B7D61F278EDD00EEC287 /* MonadTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D51F278EDD00EEC287 /* MonadTests.generated.swift */; };
-		38E4B7D81F27968000EEC287 /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D71F27968000EEC287 /* ResultType.swift */; };
-		38E4B7D91F27968000EEC287 /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D71F27968000EEC287 /* ResultType.swift */; };
-		38F4A3B01F1E63EC003966EC /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F4A3AF1F1E63D3003966EC /* Abstract.framework */; };
-		38F4A3BA1F1E641C003966EC /* Monads.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F4A3B81F1E641C003966EC /* Monads.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38F4A3BE1F1E642E003966EC /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F4A3AE1F1E63D3003966EC /* Abstract.framework */; };
-		38F4A3C11F1E64EA003966EC /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F4A3C01F1E64EA003966EC /* OptionalType.swift */; };
-		38F4A3C21F1E64EA003966EC /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F4A3C01F1E64EA003966EC /* OptionalType.swift */; };
-		OBJ_29 /* Monads.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Monads.framework */; };
+		38FDFEDE1F2B6059002ECC3A /* Monads.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FDFED51F2B6059002ECC3A /* Monads.framework */; };
+		38FDFEE51F2B6059002ECC3A /* Monads.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FDFED71F2B6059002ECC3A /* Monads.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38FDFEEC1F2B609F002ECC3A /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EB1F28861C00AB25CC /* AnyError.swift */; };
+		38FDFEED1F2B609F002ECC3A /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B79D1F27419500EEC287 /* ArrayType.swift */; };
+		38FDFEEE1F2B609F002ECC3A /* CoeffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E451F2A0CBC00A2900C /* CoeffectType.swift */; };
+		38FDFEEF1F2B609F002ECC3A /* DeferredType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E3B1F29CBE400A2900C /* DeferredType.swift */; };
+		38FDFEF01F2B609F002ECC3A /* EffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E3F1F2A084400A2900C /* EffectType.swift */; };
+		38FDFEF11F2B609F002ECC3A /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7931F2726B100EEC287 /* Functions.swift */; };
+		38FDFEF21F2B609F002ECC3A /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F4A3C01F1E64EA003966EC /* OptionalType.swift */; };
+		38FDFEF31F2B609F002ECC3A /* Pure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B1211F2643CF00F75F39 /* Pure.swift */; };
+		38FDFEF41F2B609F002ECC3A /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D71F27968000EEC287 /* ResultType.swift */; };
+		38FDFEF51F2B609F002ECC3A /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E571F2A3A4D00A2900C /* Weakly.swift */; };
+		38FDFEF61F2B609F002ECC3A /* WriterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D77281F28E70F001EAC57 /* WriterType.swift */; };
+		38FDFEF71F2B609F002ECC3A /* Apply.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38808CEF1F26A81700792FEA /* Apply.generated.swift */; };
+		38FDFEF81F2B609F002ECC3A /* EffectTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A14E421F2A0BF000A2900C /* EffectTransformer.generated.swift */; };
+		38FDFEF91F2B609F002ECC3A /* FlatMap.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821B12E1F264C5400F75F39 /* FlatMap.generated.swift */; };
+		38FDFEFA1F2B609F002ECC3A /* Lift.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7991F27291A00EEC287 /* Lift.generated.swift */; };
+		38FDFEFB1F2B609F002ECC3A /* OptionalTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D77251F28E149001EAC57 /* OptionalTransformer.generated.swift */; };
+		38FDFEFC1F2B609F002ECC3A /* ResultTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D77221F28DF17001EAC57 /* ResultTransformer.generated.swift */; };
+		38FDFEFD1F2B609F002ECC3A /* WriterTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388D772B1F28EE12001EAC57 /* WriterTransformer.generated.swift */; };
+		38FDFEFE1F2B609F002ECC3A /* Zip.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38808CF01F26A81700792FEA /* Zip.generated.swift */; };
+		38FDFEFF1F2B649B002ECC3A /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F4A3AF1F1E63D3003966EC /* Abstract.framework */; };
+		38FDFF001F2B65F0002ECC3A /* Arbitrary.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918EF1F28936100AB25CC /* Arbitrary.generated.swift */; };
+		38FDFF011F2B65F0002ECC3A /* CustomArbitraryDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A918F11F2896DD00AB25CC /* CustomArbitraryDefinitions.swift */; };
+		38FDFF021F2B65F0002ECC3A /* ApplicativeLaws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7CD1F278ACF00EEC287 /* ApplicativeLaws.generated.swift */; };
+		38FDFF031F2B65F0002ECC3A /* FunctorLaws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7CE1F278ACF00EEC287 /* FunctorLaws.generated.swift */; };
+		38FDFF041F2B65F0002ECC3A /* Law.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7CF1F278ACF00EEC287 /* Law.generated.swift */; };
+		38FDFF051F2B65F0002ECC3A /* MonadLaws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D31F278ED300EEC287 /* MonadLaws.generated.swift */; };
+		38FDFF061F2B65F0002ECC3A /* ApplicativeTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7BB1F2789B400EEC287 /* ApplicativeTests.generated.swift */; };
+		38FDFF071F2B65F0002ECC3A /* FunctorTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7B51F27762100EEC287 /* FunctorTests.generated.swift */; };
+		38FDFF081F2B65F0002ECC3A /* MonadTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4B7D51F278EDD00EEC287 /* MonadTests.generated.swift */; };
+		38FDFF091F2B6600002ECC3A /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E4B7AA1F2772A400EEC287 /* SwiftCheck.framework */; };
+		38FDFF0A1F2B6607002ECC3A /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F4A3AF1F1E63D3003966EC /* Abstract.framework */; };
+		38FDFF0C1F2B6613002ECC3A /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38E4B7AA1F2772A400EEC287 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		38FDFF0D1F2B6613002ECC3A /* Abstract.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F4A3AF1F1E63D3003966EC /* Abstract.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		38FDFF1D1F2B68CA002ECC3A /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F4A3AE1F1E63D3003966EC /* Abstract.framework */; };
+		38FDFF1E1F2B6905002ECC3A /* Monads.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F4A3B81F1E641C003966EC /* Monads.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		38F4A3A81F1E58B5003966EC /* PBXContainerItemProxy */ = {
+		38FDFEDF1F2B6059002ECC3A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = OBJ_15;
+			remoteGlobalIDString = 38FDFED41F2B6059002ECC3A;
 			remoteInfo = Monads;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		38E4B7A31F27609F00EEC287 /* CopyFiles */ = {
+		38FDFF0B1F2B660B002ECC3A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				38E4B7B11F2774A100EEC287 /* SwiftCheck.framework in CopyFiles */,
-				38E4B7B41F2774B500EEC287 /* Abstract.framework in CopyFiles */,
+				38FDFF0C1F2B6613002ECC3A /* SwiftCheck.framework in CopyFiles */,
+				38FDFF0D1F2B6613002ECC3A /* Abstract.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,39 +103,42 @@
 		38E4B7D71F27968000EEC287 /* ResultType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultType.swift; sourceTree = "<group>"; };
 		38F4A3AE1F1E63D3003966EC /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/iOS/Abstract.framework; sourceTree = "<group>"; };
 		38F4A3AF1F1E63D3003966EC /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/Mac/Abstract.framework; sourceTree = "<group>"; };
-		38F4A3B61F1E641C003966EC /* Monads.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Monads.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F4A3B81F1E641C003966EC /* Monads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Monads.h; sourceTree = "<group>"; };
 		38F4A3B91F1E641C003966EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38F4A3C01F1E64EA003966EC /* OptionalType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
-		OBJ_13 /* Monads.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Monads.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_14 /* MonadsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = MonadsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		38FDFED51F2B6059002ECC3A /* Monads.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Monads.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		38FDFED71F2B6059002ECC3A /* Monads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Monads.h; sourceTree = "<group>"; };
+		38FDFED81F2B6059002ECC3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		38FDFEDD1F2B6059002ECC3A /* MonadsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonadsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		38FDFF0E1F2B67BE002ECC3A /* InfoTests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoTests.plist; sourceTree = "<group>"; };
+		38FDFF151F2B687A002ECC3A /* Monads.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Monads.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		38F4A3B21F1E641C003966EC /* Frameworks */ = {
+		38FDFED11F2B6059002ECC3A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38F4A3BE1F1E642E003966EC /* Abstract.framework in Frameworks */,
+				38FDFEFF1F2B649B002ECC3A /* Abstract.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_21 /* Frameworks */ = {
+		38FDFEDA1F2B6059002ECC3A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
+			buildActionMask = 2147483647;
 			files = (
-				38F4A3B01F1E63EC003966EC /* Abstract.framework in Frameworks */,
+				38FDFEDE1F2B6059002ECC3A /* Monads.framework in Frameworks */,
+				38FDFF091F2B6600002ECC3A /* SwiftCheck.framework in Frameworks */,
+				38FDFF0A1F2B6607002ECC3A /* Abstract.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_28 /* Frameworks */ = {
+		38FDFF111F2B687A002ECC3A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
+			buildActionMask = 2147483647;
 			files = (
-				38E4B7B31F2774B100EEC287 /* Abstract.framework in Frameworks */,
-				OBJ_29 /* Monads.framework in Frameworks */,
-				38E4B7B01F27749300EEC287 /* SwiftCheck.framework in Frameworks */,
+				38FDFF1D1F2B68CA002ECC3A /* Abstract.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +201,15 @@
 			path = "Monads-ios";
 			sourceTree = "<group>";
 		};
+		38FDFED61F2B6059002ECC3A /* Monads */ = {
+			isa = PBXGroup;
+			children = (
+				38FDFED71F2B6059002ECC3A /* Monads.h */,
+				38FDFED81F2B6059002ECC3A /* Info.plist */,
+			);
+			path = Monads;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* MonadsTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,9 +224,9 @@
 		OBJ_12 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_13 /* Monads.framework */,
-				OBJ_14 /* MonadsTests.xctest */,
-				38F4A3B61F1E641C003966EC /* Monads.framework */,
+				38FDFED51F2B6059002ECC3A /* Monads.framework */,
+				38FDFEDD1F2B6059002ECC3A /* MonadsTests.xctest */,
+				38FDFF151F2B687A002ECC3A /* Monads.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -242,6 +236,7 @@
 			children = (
 				388D771F1F28D501001EAC57 /* Templates */,
 				OBJ_6 /* Package.swift */,
+				38FDFED61F2B6059002ECC3A /* Monads */,
 				38F4A3A91F1E62B6003966EC /* Frameworks */,
 				38F4A3B71F1E641C003966EC /* Monads-ios */,
 				OBJ_12 /* Products */,
@@ -272,6 +267,7 @@
 		OBJ_9 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				38FDFF0E1F2B67BE002ECC3A /* InfoTests.plist */,
 				38E4B7C41F278A3500EEC287 /* LinuxMain.swift */,
 				38A918EE1F28936100AB25CC /* Utilities */,
 				38E4B7CC1F278ACF00EEC287 /* Laws */,
@@ -283,42 +279,34 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		38F4A3B31F1E641C003966EC /* Headers */ = {
+		38FDFED21F2B6059002ECC3A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38F4A3BA1F1E641C003966EC /* Monads.h in Headers */,
+				38FDFEE51F2B6059002ECC3A /* Monads.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38FDFF121F2B687A002ECC3A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38FDFF1E1F2B6905002ECC3A /* Monads.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		38F4A3B51F1E641C003966EC /* Monads-ios */ = {
+		38FDFED41F2B6059002ECC3A /* Monads */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 38F4A3BB1F1E641C003966EC /* Build configuration list for PBXNativeTarget "Monads-ios" */;
+			buildConfigurationList = 38FDFEE61F2B6059002ECC3A /* Build configuration list for PBXNativeTarget "Monads" */;
 			buildPhases = (
-				38F4A3B31F1E641C003966EC /* Headers */,
-				38F4A3B11F1E641C003966EC /* Sources */,
-				38F4A3B21F1E641C003966EC /* Frameworks */,
-				38F4A3B41F1E641C003966EC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Monads-ios";
-			productName = "Monads-ios";
-			productReference = 38F4A3B61F1E641C003966EC /* Monads.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		OBJ_15 /* Monads */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_16 /* Build configuration list for PBXNativeTarget "Monads" */;
-			buildPhases = (
-				3821B12D1F264BD600F75F39 /* ShellScript */,
-				OBJ_19 /* Sources */,
-				OBJ_21 /* Frameworks */,
+				38FDFED21F2B6059002ECC3A /* Headers */,
+				38FDFF0F1F2B682C002ECC3A /* ShellScript */,
+				38FDFED01F2B6059002ECC3A /* Sources */,
+				38FDFED11F2B6059002ECC3A /* Frameworks */,
+				38FDFED31F2B6059002ECC3A /* Resources */,
 			);
 			buildRules = (
 			);
@@ -326,26 +314,45 @@
 			);
 			name = Monads;
 			productName = Monads;
-			productReference = OBJ_13 /* Monads.framework */;
+			productReference = 38FDFED51F2B6059002ECC3A /* Monads.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		OBJ_22 /* MonadsTests */ = {
+		38FDFEDC1F2B6059002ECC3A /* MonadsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_23 /* Build configuration list for PBXNativeTarget "MonadsTests" */;
+			buildConfigurationList = 38FDFEE91F2B6059002ECC3A /* Build configuration list for PBXNativeTarget "MonadsTests" */;
 			buildPhases = (
-				OBJ_26 /* Sources */,
-				OBJ_28 /* Frameworks */,
-				38E4B7A31F27609F00EEC287 /* CopyFiles */,
+				38FDFED91F2B6059002ECC3A /* Sources */,
+				38FDFEDA1F2B6059002ECC3A /* Frameworks */,
+				38FDFEDB1F2B6059002ECC3A /* Resources */,
+				38FDFF0B1F2B660B002ECC3A /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_30 /* PBXTargetDependency */,
+				38FDFEE01F2B6059002ECC3A /* PBXTargetDependency */,
 			);
 			name = MonadsTests;
 			productName = MonadsTests;
-			productReference = OBJ_14 /* MonadsTests.xctest */;
+			productReference = 38FDFEDD1F2B6059002ECC3A /* MonadsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		38FDFF141F2B687A002ECC3A /* Monads-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38FDFF1A1F2B687A002ECC3A /* Build configuration list for PBXNativeTarget "Monads-iOS" */;
+			buildPhases = (
+				38FDFF121F2B687A002ECC3A /* Headers */,
+				38FDFF101F2B687A002ECC3A /* Sources */,
+				38FDFF111F2B687A002ECC3A /* Frameworks */,
+				38FDFF131F2B687A002ECC3A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Monads-iOS";
+			productName = "Monads-iOS";
+			productReference = 38FDFF151F2B687A002ECC3A /* Monads.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -353,12 +360,22 @@
 		OBJ_1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 9999;
 				TargetAttributes = {
-					38F4A3B51F1E641C003966EC = {
+					38FDFED41F2B6059002ECC3A = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 5MTJLVM7R2;
-						LastSwiftMigration = 0830;
+						ProvisioningStyle = Automatic;
+					};
+					38FDFEDC1F2B6059002ECC3A = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 5MTJLVM7R2;
+						ProvisioningStyle = Automatic;
+					};
+					38FDFF141F2B687A002ECC3A = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 5MTJLVM7R2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -375,15 +392,29 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				OBJ_15 /* Monads */,
-				OBJ_22 /* MonadsTests */,
-				38F4A3B51F1E641C003966EC /* Monads-ios */,
+				38FDFED41F2B6059002ECC3A /* Monads */,
+				38FDFEDC1F2B6059002ECC3A /* MonadsTests */,
+				38FDFF141F2B687A002ECC3A /* Monads-iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		38F4A3B41F1E641C003966EC /* Resources */ = {
+		38FDFED31F2B6059002ECC3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38FDFEDB1F2B6059002ECC3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38FDFF131F2B687A002ECC3A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -393,7 +424,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3821B12D1F264BD600F75F39 /* ShellScript */ = {
+		38FDFF0F1F2B682C002ECC3A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -404,91 +435,296 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash sourceryGeneration.sh ";
+			shellScript = "bash sourceryGeneration.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		38F4A3B11F1E641C003966EC /* Sources */ = {
+		38FDFED01F2B6059002ECC3A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38E4B79B1F27291A00EEC287 /* Lift.generated.swift in Sources */,
-				38808CF41F26A81700792FEA /* Zip.generated.swift in Sources */,
-				3821B1301F264C5400F75F39 /* FlatMap.generated.swift in Sources */,
-				38E4B79F1F27419500EEC287 /* ArrayType.swift in Sources */,
-				388D772A1F28E70F001EAC57 /* WriterType.swift in Sources */,
-				388D77271F28E149001EAC57 /* OptionalTransformer.generated.swift in Sources */,
-				38E4B7D91F27968000EEC287 /* ResultType.swift in Sources */,
-				388D772D1F28EE12001EAC57 /* WriterTransformer.generated.swift in Sources */,
-				38F4A3C21F1E64EA003966EC /* OptionalType.swift in Sources */,
-				3821B1231F2643CF00F75F39 /* Pure.swift in Sources */,
-				38A14E411F2A084400A2900C /* EffectType.swift in Sources */,
-				38808CF21F26A81700792FEA /* Apply.generated.swift in Sources */,
-				388D77241F28DF17001EAC57 /* ResultTransformer.generated.swift in Sources */,
-				38A918ED1F28861C00AB25CC /* AnyError.swift in Sources */,
-				38A14E471F2A0CBC00A2900C /* CoeffectType.swift in Sources */,
-				38A14E441F2A0BF000A2900C /* EffectTransformer.generated.swift in Sources */,
-				38E4B7951F2726B100EEC287 /* Functions.swift in Sources */,
-				38A14E591F2A3A4D00A2900C /* Weakly.swift in Sources */,
-				38A14E3D1F29CBE400A2900C /* DeferredType.swift in Sources */,
+				38FDFEF01F2B609F002ECC3A /* EffectType.swift in Sources */,
+				38FDFEFD1F2B609F002ECC3A /* WriterTransformer.generated.swift in Sources */,
+				38FDFEF31F2B609F002ECC3A /* Pure.swift in Sources */,
+				38FDFEEF1F2B609F002ECC3A /* DeferredType.swift in Sources */,
+				38FDFEEC1F2B609F002ECC3A /* AnyError.swift in Sources */,
+				38FDFEFB1F2B609F002ECC3A /* OptionalTransformer.generated.swift in Sources */,
+				38FDFEF81F2B609F002ECC3A /* EffectTransformer.generated.swift in Sources */,
+				38FDFEF41F2B609F002ECC3A /* ResultType.swift in Sources */,
+				38FDFEED1F2B609F002ECC3A /* ArrayType.swift in Sources */,
+				38FDFEFE1F2B609F002ECC3A /* Zip.generated.swift in Sources */,
+				38FDFEF61F2B609F002ECC3A /* WriterType.swift in Sources */,
+				38FDFEF91F2B609F002ECC3A /* FlatMap.generated.swift in Sources */,
+				38FDFEF71F2B609F002ECC3A /* Apply.generated.swift in Sources */,
+				38FDFEF51F2B609F002ECC3A /* Weakly.swift in Sources */,
+				38FDFEFC1F2B609F002ECC3A /* ResultTransformer.generated.swift in Sources */,
+				38FDFEEE1F2B609F002ECC3A /* CoeffectType.swift in Sources */,
+				38FDFEF21F2B609F002ECC3A /* OptionalType.swift in Sources */,
+				38FDFEF11F2B609F002ECC3A /* Functions.swift in Sources */,
+				38FDFEFA1F2B609F002ECC3A /* Lift.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_19 /* Sources */ = {
+		38FDFED91F2B6059002ECC3A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
+			buildActionMask = 2147483647;
 			files = (
-				3821B12F1F264C5400F75F39 /* FlatMap.generated.swift in Sources */,
-				38E4B79E1F27419500EEC287 /* ArrayType.swift in Sources */,
-				38808CF31F26A81700792FEA /* Zip.generated.swift in Sources */,
-				38E4B79A1F27291A00EEC287 /* Lift.generated.swift in Sources */,
-				388D77291F28E70F001EAC57 /* WriterType.swift in Sources */,
-				388D77261F28E149001EAC57 /* OptionalTransformer.generated.swift in Sources */,
-				38E4B7D81F27968000EEC287 /* ResultType.swift in Sources */,
-				388D772C1F28EE12001EAC57 /* WriterTransformer.generated.swift in Sources */,
-				38E4B7941F2726B100EEC287 /* Functions.swift in Sources */,
-				38808CF11F26A81700792FEA /* Apply.generated.swift in Sources */,
-				38A14E401F2A084400A2900C /* EffectType.swift in Sources */,
-				3821B1221F2643CF00F75F39 /* Pure.swift in Sources */,
-				388D77231F28DF17001EAC57 /* ResultTransformer.generated.swift in Sources */,
-				38A918EC1F28861C00AB25CC /* AnyError.swift in Sources */,
-				38A14E461F2A0CBC00A2900C /* CoeffectType.swift in Sources */,
-				38A14E431F2A0BF000A2900C /* EffectTransformer.generated.swift in Sources */,
-				38F4A3C11F1E64EA003966EC /* OptionalType.swift in Sources */,
-				38A14E581F2A3A4D00A2900C /* Weakly.swift in Sources */,
-				38A14E3C1F29CBE400A2900C /* DeferredType.swift in Sources */,
+				38FDFF071F2B65F0002ECC3A /* FunctorTests.generated.swift in Sources */,
+				38FDFF021F2B65F0002ECC3A /* ApplicativeLaws.generated.swift in Sources */,
+				38FDFF041F2B65F0002ECC3A /* Law.generated.swift in Sources */,
+				38FDFF011F2B65F0002ECC3A /* CustomArbitraryDefinitions.swift in Sources */,
+				38FDFF051F2B65F0002ECC3A /* MonadLaws.generated.swift in Sources */,
+				38FDFF081F2B65F0002ECC3A /* MonadTests.generated.swift in Sources */,
+				38FDFF061F2B65F0002ECC3A /* ApplicativeTests.generated.swift in Sources */,
+				38FDFF001F2B65F0002ECC3A /* Arbitrary.generated.swift in Sources */,
+				38FDFF031F2B65F0002ECC3A /* FunctorLaws.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_26 /* Sources */ = {
+		38FDFF101F2B687A002ECC3A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
+			buildActionMask = 2147483647;
 			files = (
-				38E4B7D01F278ACF00EEC287 /* ApplicativeLaws.generated.swift in Sources */,
-				38A918F01F28936100AB25CC /* Arbitrary.generated.swift in Sources */,
-				38E4B7D21F278ACF00EEC287 /* Law.generated.swift in Sources */,
-				38E4B7B61F27762100EEC287 /* FunctorTests.generated.swift in Sources */,
-				38E4B7D41F278ED300EEC287 /* MonadLaws.generated.swift in Sources */,
-				38E4B7BC1F2789B400EEC287 /* ApplicativeTests.generated.swift in Sources */,
-				38A918F21F2896DD00AB25CC /* CustomArbitraryDefinitions.swift in Sources */,
-				38E4B7D61F278EDD00EEC287 /* MonadTests.generated.swift in Sources */,
-				38E4B7D11F278ACF00EEC287 /* FunctorLaws.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_30 /* PBXTargetDependency */ = {
+		38FDFEE01F2B6059002ECC3A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = OBJ_15 /* Monads */;
-			targetProxy = 38F4A3A81F1E58B5003966EC /* PBXContainerItemProxy */;
+			target = 38FDFED41F2B6059002ECC3A /* Monads */;
+			targetProxy = 38FDFEDF1F2B6059002ECC3A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		38F4A3BC1F1E641C003966EC /* Debug */ = {
+		38FDFEE71F2B6059002ECC3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5MTJLVM7R2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Monads/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = it.broomburgo.Monads;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		38FDFEE81F2B6059002ECC3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5MTJLVM7R2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Monads/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = it.broomburgo.Monads;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		38FDFEEA1F2B6059002ECC3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5MTJLVM7R2;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = InfoTests.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = it.broomburgo.MonadsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		38FDFEEB1F2B6059002ECC3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 5MTJLVM7R2;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = InfoTests.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = it.broomburgo.MonadsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		38FDFF1B1F2B687A002ECC3A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -536,16 +772,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Monads-ios/Info.plist";
+				INFOPLIST_FILE = "Monads-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "it.broomburgo.Monads-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "it.broomburgo.Monads-iOS";
 				PRODUCT_NAME = Monads;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -553,7 +788,7 @@
 			};
 			name = Debug;
 		};
-		38F4A3BD1F1E641C003966EC /* Release */ = {
+		38FDFF1C1F2B687A002ECC3A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -597,11 +832,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Monads-ios/Info.plist";
+				INFOPLIST_FILE = "Monads-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "it.broomburgo.Monads-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "it.broomburgo.Monads-iOS";
 				PRODUCT_NAME = Monads;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -610,88 +845,6 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		OBJ_17 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Monads.xcodeproj/Monads_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Monads;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = macosx;
-				TARGET_NAME = Monads;
-			};
-			name = Debug;
-		};
-		OBJ_18 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Monads.xcodeproj/Monads_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Monads;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = macosx;
-				TARGET_NAME = Monads;
-			};
-			name = Release;
-		};
-		OBJ_24 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Monads.xcodeproj/MonadsTests_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				TARGET_NAME = MonadsTests;
-			};
-			name = Debug;
-		};
-		OBJ_25 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Monads.xcodeproj/MonadsTests_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				TARGET_NAME = MonadsTests;
 			};
 			name = Release;
 		};
@@ -744,38 +897,35 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		38F4A3BB1F1E641C003966EC /* Build configuration list for PBXNativeTarget "Monads-ios" */ = {
+		38FDFEE61F2B6059002ECC3A /* Build configuration list for PBXNativeTarget "Monads" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				38F4A3BC1F1E641C003966EC /* Debug */,
-				38F4A3BD1F1E641C003966EC /* Release */,
+				38FDFEE71F2B6059002ECC3A /* Debug */,
+				38FDFEE81F2B6059002ECC3A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
 		};
-		OBJ_16 /* Build configuration list for PBXNativeTarget "Monads" */ = {
+		38FDFEE91F2B6059002ECC3A /* Build configuration list for PBXNativeTarget "MonadsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_17 /* Debug */,
-				OBJ_18 /* Release */,
+				38FDFEEA1F2B6059002ECC3A /* Debug */,
+				38FDFEEB1F2B6059002ECC3A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+		};
+		38FDFF1A1F2B687A002ECC3A /* Build configuration list for PBXNativeTarget "Monads-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38FDFF1B1F2B687A002ECC3A /* Debug */,
+				38FDFF1C1F2B687A002ECC3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		OBJ_2 /* Build configuration list for PBXProject "Monads" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_3 /* Debug */,
 				OBJ_4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		OBJ_23 /* Build configuration list for PBXNativeTarget "MonadsTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_24 /* Debug */,
-				OBJ_25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

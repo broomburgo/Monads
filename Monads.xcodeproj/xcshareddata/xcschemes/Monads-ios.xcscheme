@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "38F4A3B51F1E641C003966EC"
-               BuildableName = "Monads.framework"
-               BlueprintName = "Monads-ios"
+               BlueprintIdentifier = "38FDFF141F2B687A002ECC3A"
+               BuildableName = "Monads-iOS.framework"
+               BlueprintName = "Monads-iOS"
                ReferencedContainer = "container:Monads.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "38F4A3B51F1E641C003966EC"
-            BuildableName = "Monads.framework"
-            BlueprintName = "Monads-ios"
+            BlueprintIdentifier = "38FDFF141F2B687A002ECC3A"
+            BuildableName = "Monads-iOS.framework"
+            BlueprintName = "Monads-iOS"
             ReferencedContainer = "container:Monads.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "38F4A3B51F1E641C003966EC"
-            BuildableName = "Monads.framework"
-            BlueprintName = "Monads-ios"
+            BlueprintIdentifier = "38FDFF141F2B687A002ECC3A"
+            BuildableName = "Monads-iOS.framework"
+            BlueprintName = "Monads-iOS"
             ReferencedContainer = "container:Monads.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
