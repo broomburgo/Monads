@@ -1,6 +1,6 @@
 import Abstract
 
-enum F {
+public enum F {
 	public static func identity <A> (_ value: A) -> A {
 		return value
 	}
