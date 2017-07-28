@@ -59,10 +59,16 @@ extension OptionalType {
 		}
 	}
 
-	public func get(or elseValue: @autoclosure () -> ElementType) -> ElementType {
+	public func get(or getElseValue: @autoclosure () -> ElementType) -> ElementType {
 		return run(
 			ifSome: F.identity,
-			ifNone: elseValue)
+			ifNone: getElseValue)
+	}
+
+	public func get<E>(orError getError: @autoclosure () -> E) -> Result<ElementType,E> where E: Error {
+		return run(
+			ifSome: { .success($0) },
+			ifNone: { .failure(getError()) })
 	}
 
 	public var isNotNil: Bool {
