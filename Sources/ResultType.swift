@@ -127,15 +127,22 @@ public func zip <A,B,Z> (_ a: A, _ b: B) -> Result<(A.ElementType,B.ElementType)
 extension ResultType {
 	public func mapError<E>(_ transform: @escaping (ErrorType) -> E) -> Result<ElementType,E> {
 		return run(
-			ifSuccess: { .success($0) },
-			ifFailure: { .failure(transform($0)) },
-			ifCancel: { .cancel })
+			ifSuccess: Result.success,
+			ifFailure: Result.failure • transform,
+			ifCancel: F.constant(Result.cancel))
 	}
 
-	public var toOptional: ElementType? {
+	public var toOptionalValue: ElementType? {
 		return run(
 			ifSuccess: F.identity,
 			ifFailure: F.constant(nil),
+			ifCancel: F.constant(nil))
+	}
+
+	public var toOptionalError: ErrorType? {
+		return run(
+			ifSuccess: F.constant(nil),
+			ifFailure: F.identity,
 			ifCancel: F.constant(nil))
 	}
 
