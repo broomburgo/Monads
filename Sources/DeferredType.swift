@@ -43,6 +43,10 @@ public final class Deferred<T>: DeferredType {
 			callbacks.append(callback)
 		}
 	}
+
+	public var peek: T? {
+		return value
+	}
 }
 
 extension Deferred where T: Equatable {
