@@ -1,7 +1,7 @@
 //MARK: - Definition
 
 // sourcery: concrete = "Deferred"
-// sourcery: flatMap, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, flatMap, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer1
 public protocol DeferredType: PureConstructible {
 	init(completion: (@escaping (ElementType) -> ()) -> ())

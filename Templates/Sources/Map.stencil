@@ -1,0 +1,12 @@
+//: `map` definitions; requires `concrete`
+
+import Abstract
+
+{% for type in types.protocols|annotated:"map"|annotated:"concrete" %}
+// MARK: - {{ type.name }}
+
+public func <^> <A,B{% if type.annotations.context %},Z{% endif %}> (left: @escaping (A.ElementType) -> B, right: A) -> {{ type.annotations.concrete }}<B{% if type.annotations.context %}, Z{% endif %}> where A: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == Z{% endif %}{% if type.annotations.contextRequiredProtocols %}, Z: {{ type.annotations.contextRequiredProtocols }}{% endif %} {
+    return right.map(left)
+}
+
+{% endfor %}
