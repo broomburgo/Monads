@@ -4,6 +4,7 @@
 // sourcery: map, flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer1, transformer2, transformer3
 public protocol OptionalType: PureConstructible {
+	init()
 	func run<A>(ifSome: (ElementType) throws -> A, ifNone: () -> A) rethrows -> A
 }
 
@@ -14,6 +15,10 @@ public protocol OptionalType: PureConstructible {
 // sourcery: fixedTypesForTests = "Int"
 extension Optional: OptionalType {
 	public typealias ElementType = Wrapped
+
+	public init() {
+		self = nil
+	}
 
 	public func run<A>(ifSome: (Wrapped) throws -> A, ifNone: () -> A) rethrows -> A {
 		if let this = self {
