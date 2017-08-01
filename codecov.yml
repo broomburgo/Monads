@@ -25,5 +25,5 @@ parsers:
   javascript:
     enable_partials: false
 ignore:
-  - Tests/.*
-  - *.generated.swift
+  - "Tests"
+  - "*.generated.swift"
