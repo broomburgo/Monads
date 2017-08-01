@@ -132,6 +132,13 @@ extension ResultType {
 			ifCancel: F.constant(Result.cancel))
 	}
 
+	public func fallback(to defaultValue: ElementType) -> Result<ElementType,ErrorType> {
+		return run(
+			ifSuccess: Result<ElementType,ErrorType>.success,
+			ifFailure: F.constant(Result<ElementType,ErrorType>.success(defaultValue)),
+			ifCancel: F.constant(Result<ElementType,ErrorType>.success(defaultValue)))
+	}
+
 	public var toOptionalValue: ElementType? {
 		return run(
 			ifSuccess: F.identity,
