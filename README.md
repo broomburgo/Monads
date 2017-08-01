@@ -1,6 +1,7 @@
 # Monads
 [![travis-ci](https://travis-ci.org/facile-it/Monads.svg?branch=master)](https://travis-ci.org/facile-it/Monads)
 [![codecov](https://codecov.io/gh/facile-it/Monads/branch/master/graph/badge.svg)](https://codecov.io/gh/facile-it/Monads)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 Definitions for some monadic types in Swift, along with their [transformers](https://en.wikipedia.org/wiki/Monad_transformer).
 
