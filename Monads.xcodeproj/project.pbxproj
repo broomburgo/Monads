@@ -128,6 +128,10 @@
 		38F4A3B81F1E641C003966EC /* Monads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Monads.h; sourceTree = "<group>"; };
 		38F4A3B91F1E641C003966EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38F4A3C01F1E64EA003966EC /* OptionalType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
+		38F5D5F81F3068B4002EC246 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		38F5D5F91F3068B4002EC246 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		38F5D5FA1F3068B4002EC246 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		38F5D5FB1F3068B4002EC246 /* codecov.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = codecov.yml; sourceTree = "<group>"; };
 		38FDFED51F2B6059002ECC3A /* Monads.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Monads.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38FDFED71F2B6059002ECC3A /* Monads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Monads.h; sourceTree = "<group>"; };
 		38FDFED81F2B6059002ECC3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -259,6 +263,10 @@
 			children = (
 				388D771F1F28D501001EAC57 /* Templates */,
 				OBJ_6 /* Package.swift */,
+				38F5D5F81F3068B4002EC246 /* LICENSE */,
+				38F5D5F91F3068B4002EC246 /* README.md */,
+				38F5D5FA1F3068B4002EC246 /* .travis.yml */,
+				38F5D5FB1F3068B4002EC246 /* codecov.yml */,
 				38FDFED61F2B6059002ECC3A /* Monads */,
 				38F4A3A91F1E62B6003966EC /* Frameworks */,
 				38F4A3B71F1E641C003966EC /* Monads-ios */,
