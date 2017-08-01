@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		380932801F308B030001545A /* OptionalTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3809327F1F308B030001545A /* OptionalTypeTests.swift */; };
 		389C0EF91F2F2D5D0030243A /* Map.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389C0EF81F2F2D5D0030243A /* Map.generated.swift */; };
 		389C0EFA1F2F2D5D0030243A /* Map.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389C0EF81F2F2D5D0030243A /* Map.generated.swift */; };
 		38FDFEDE1F2B6059002ECC3A /* Monads.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FDFED51F2B6059002ECC3A /* Monads.framework */; };
@@ -92,6 +93,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3809327F1F308B030001545A /* OptionalTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionalTypeTests.swift; path = Tests/MonadsTests/OptionalTypeTests.swift; sourceTree = "<group>"; };
 		3821B1211F2643CF00F75F39 /* Pure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pure.swift; sourceTree = "<group>"; };
 		3821B12E1F264C5400F75F39 /* FlatMap.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlatMap.generated.swift; sourceTree = "<group>"; };
 		38808CEF1F26A81700792FEA /* Apply.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Apply.generated.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				38A918EE1F28936100AB25CC /* Utilities */,
 				38E4B7CC1F278ACF00EEC287 /* Laws */,
 				OBJ_10 /* MonadsTests */,
+				3809327F1F308B030001545A /* OptionalTypeTests.swift */,
 			);
 			name = Tests;
 			sourceTree = SOURCE_ROOT;
@@ -511,6 +514,7 @@
 				38FDFF061F2B65F0002ECC3A /* ApplicativeTests.generated.swift in Sources */,
 				38FDFF001F2B65F0002ECC3A /* Arbitrary.generated.swift in Sources */,
 				38FDFF031F2B65F0002ECC3A /* FunctorLaws.generated.swift in Sources */,
+				380932801F308B030001545A /* OptionalTypeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

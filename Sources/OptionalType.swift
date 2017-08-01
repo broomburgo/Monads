@@ -5,7 +5,7 @@
 // sourcery: transformer1, transformer2, transformer3
 public protocol OptionalType: PureConstructible {
 	init()
-	func run<A>(ifSome: (ElementType) throws -> A, ifNone: () -> A) rethrows -> A
+	func run<A>(ifSome: (ElementType) throws -> A, ifNone: () throws -> A) rethrows -> A
 }
 
 // MARK: - Concrete
@@ -20,11 +20,11 @@ extension Optional: OptionalType {
 		self = nil
 	}
 
-	public func run<A>(ifSome: (Wrapped) throws -> A, ifNone: () -> A) rethrows -> A {
+	public func run<A>(ifSome: (Wrapped) throws -> A, ifNone: () throws -> A) rethrows -> A {
 		if let this = self {
 			return try ifSome(this)
 		} else {
-			return ifNone()
+			return try ifNone()
 		}
 	}
 }
@@ -70,7 +70,13 @@ extension OptionalType {
 			ifNone: getElseValue)
 	}
 
-	public func get<E>(orError getError: @autoclosure () -> E) -> Result<ElementType,E> where E: Error {
+	public func get(orError getError: @autoclosure () -> Error) throws -> ElementType {
+		return try run(
+			ifSome: F.identity,
+			ifNone: { throw getError() })
+	}
+
+	public func toResult<E>(getError: @autoclosure () -> E) -> Result<ElementType,E> where E: Error {
 		return run(
 			ifSome: { .success($0) },
 			ifNone: { .failure(getError()) })
