@@ -22,7 +22,7 @@ extension F {
 	}
 
 	public static func bilift<A,B,T{% if type.annotations.context %},Z{% endif %}>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> {{ type.annotations.concrete }}<T{% if type.annotations.context %},Z{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == Z, B.{{ type.annotations.context }} == Z{% endif %}{% if type.annotations.contextRequiredProtocols %}, Z: {{ type.annotations.contextRequiredProtocols }}{% endif %} {
-		return { zip($0,$1).map(function) }
+		return { {{ type.annotations.concrete }}.zip($0,$1).map(function) }
 	}
 }
 {% if type.annotations.lift+ %}

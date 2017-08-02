@@ -14,7 +14,7 @@ extension F {
 	}
 
 	public static func bilift<A,B,T>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Array<T> where A: ArrayType, B: ArrayType {
-		return { zip($0,$1).map(function) }
+		return { Array.zip($0,$1).map(function) }
 	}
 }
 
@@ -85,7 +85,7 @@ extension F {
 	}
 
 	public static func bilift<A,B,T>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Deferred<T> where A: DeferredType, B: DeferredType {
-		return { zip($0,$1).map(function) }
+		return { Deferred.zip($0,$1).map(function) }
 	}
 }
 public func + <A,B> (left: A, right: B) -> Deferred<Int> where A: DeferredType, B: DeferredType, A.ElementType == Int, B.ElementType == Int {
@@ -171,7 +171,7 @@ extension F {
 	}
 
 	public static func bilift<A,B,T>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Effect<T> where A: EffectType, B: EffectType {
-		return { zip($0,$1).map(function) }
+		return { Effect.zip($0,$1).map(function) }
 	}
 }
 public func + <A,B> (left: A, right: B) -> Effect<Int> where A: EffectType, B: EffectType, A.ElementType == Int, B.ElementType == Int {
@@ -257,7 +257,7 @@ extension F {
 	}
 
 	public static func bilift<A,B,T>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Optional<T> where A: OptionalType, B: OptionalType {
-		return { zip($0,$1).map(function) }
+		return { Optional.zip($0,$1).map(function) }
 	}
 }
 public func + <A,B> (left: A, right: B) -> Optional<Int> where A: OptionalType, B: OptionalType, A.ElementType == Int, B.ElementType == Int {
@@ -343,7 +343,7 @@ extension F {
 	}
 
 	public static func bilift<A,B,T,Z>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Result<T,Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
-		return { zip($0,$1).map(function) }
+		return { Result.zip($0,$1).map(function) }
 	}
 }
 public func + <A,B,Z> (left: A, right: B) -> Result<Int,Z> where A: ResultType, B: ResultType, A.ElementType == Int, B.ElementType == Int, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
@@ -429,7 +429,7 @@ extension F {
 	}
 
 	public static func bilift<A,B,T,Z>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Writer<T,Z> where A: WriterType, B: WriterType, A.LogType == Z, B.LogType == Z, Z: Monoid {
-		return { zip($0,$1).map(function) }
+		return { Writer.zip($0,$1).map(function) }
 	}
 }
 public func + <A,B,Z> (left: A, right: B) -> Writer<Int,Z> where A: WriterType, B: WriterType, A.ElementType == Int, B.ElementType == Int, A.LogType == Z, B.LogType == Z, Z: Monoid {
