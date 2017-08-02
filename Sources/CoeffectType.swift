@@ -33,9 +33,19 @@ extension CoeffectType {
 
 // MARK: - Zip
 
-public func zip <A,B> (_ first: A, _ second: B) -> Coeffect<(A.ElementType,B.ElementType)> where A: CoeffectType, B:CoeffectType {
-	return Coeffect<(A.ElementType,B.ElementType)>.init {
-		first.run($0)
-		second.run($1)
+extension Coeffect {
+	public static func zip <A,B> (_ first: A, _ second: B) -> Coeffect<(A.ElementType,B.ElementType)> where A: CoeffectType, B: CoeffectType, ElementType == (A.ElementType,B.ElementType) {
+		return Coeffect<(A.ElementType,B.ElementType)>.init {
+			first.run($0)
+			second.run($1)
+		}
+	}
+
+	public static func zip <A,B,C> (_ first: A, _ second: B, _ third: C) -> Coeffect<(A.ElementType,B.ElementType,C.ElementType)> where A: CoeffectType, B: CoeffectType, C: CoeffectType, ElementType == (A.ElementType,B.ElementType,C.ElementType) {
+		return Coeffect<(A.ElementType,B.ElementType,C.ElementType)>.init {
+			first.run($0)
+			second.run($1)
+			third.run($2)
+		}
 	}
 }
