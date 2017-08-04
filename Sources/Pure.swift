@@ -3,20 +3,26 @@ public protocol PureConstructible {
 	init(_ value: ElementType)
 }
 
+extension PureConstructible {
+	public static func pure(_ value: ElementType) -> Self {
+		return Self.init(value)
+	}
+}
+
 extension PureConstructible where ElementType: PureConstructible {
-	public init(_ valueT: ElementType.ElementType) {
-		self.init(ElementType.init(valueT))
+	public static func pure(_ valueT: ElementType.ElementType) -> Self {
+		return pure(ElementType.pure(valueT))
 	}
 }
 
 extension PureConstructible where ElementType: PureConstructible, ElementType.ElementType: PureConstructible {
-	public init(_ valueTT: ElementType.ElementType.ElementType) {
-		self.init(ElementType.init(ElementType.ElementType.init(valueTT)))
+	public static func pure(_ valueTT: ElementType.ElementType.ElementType) -> Self {
+		return pure(ElementType.pure(ElementType.ElementType.pure(valueTT)))
 	}
 }
 
 extension PureConstructible where ElementType: PureConstructible, ElementType.ElementType: PureConstructible, ElementType.ElementType.ElementType: PureConstructible {
-	public init(_ valueTTT: ElementType.ElementType.ElementType.ElementType) {
-		self.init(ElementType.init(ElementType.ElementType.init(ElementType.ElementType.ElementType.init(valueTTT))))
+	public static func pure(_ valueTTT: ElementType.ElementType.ElementType.ElementType) -> Self {
+		return pure(ElementType.pure(ElementType.ElementType.pure(ElementType.ElementType.ElementType.pure(valueTTT))))
 	}
 }
