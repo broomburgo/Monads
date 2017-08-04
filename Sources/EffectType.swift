@@ -1,4 +1,4 @@
-//MARK: - Definition
+// MARK: - Definition
 
 // sourcery: concrete = "Effect"
 // sourcery: map, flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
@@ -33,7 +33,7 @@ extension Effect where T: Equatable {
 	}
 }
 
-//MARK: - Functor
+// MARK: - Functor
 
 extension EffectType {
 	public func map <A> (_ transform: @escaping (ElementType) -> A) -> Effect<A> {
@@ -41,7 +41,7 @@ extension EffectType {
 	}
 }
 
-//MARK: - Joined
+// MARK: - Joined
 
 extension EffectType where ElementType: EffectType {
 	public var joined: Effect<ElementType.ElementType> {

@@ -1,6 +1,6 @@
 import Abstract
 
-//MARK: - Definition
+// MARK: - Definition
 
 public protocol CoeffectType {
 	associatedtype ElementType
@@ -21,9 +21,13 @@ public struct Coeffect<T>: CoeffectType {
 	public func run(_ value: T) {
 		execute(value)
 	}
+
+	public static var ignored: Coeffect {
+		return Coeffect.init(execute: F.ignore)
+	}
 }
 
-//MARK: - Contravariant Functor
+// MARK: - Contravariant Functor
 
 extension CoeffectType {
 	public func contramap <A> (_ transform: @escaping (A) -> ElementType) -> Coeffect<A> {
@@ -46,6 +50,21 @@ extension Coeffect {
 			first.run($0)
 			second.run($1)
 			third.run($2)
+		}
+	}
+}
+
+// MARK: - Monoid
+
+extension Coeffect: Monoid {
+	public static var empty: Coeffect {
+		return .ignored
+	}
+
+	public static func <> (left: Coeffect, right: Coeffect) -> Coeffect {
+		return Coeffect.init {
+			left.run($0)
+			right.run($0)
 		}
 	}
 }

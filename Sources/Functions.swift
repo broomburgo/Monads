@@ -51,6 +51,22 @@ public enum F {
 		return { b in { a in try function(a)(b) } }
 	}
 
+	public static func duplicate<A> (_ a: A) -> (A,A) {
+		return (a,a)
+	}
+
+	public static func duplicate <A,B> (_ f: @escaping (A) -> B) -> (A,A) -> (B,B) {
+		return { tuple in (f(tuple.0),f(tuple.1)) }
+	}
+
+	public static func triplicate <A> (_ a: A) -> (A,A,A) {
+		return (a,a,a)
+	}
+
+	public static func triplicate <A,B> (_ f: @escaping (A) -> B) -> (A,A,A) -> (B,B,B) {
+		return { tuple in (f(tuple.0),f(tuple.1),f(tuple.2)) }
+	}
+
 	public static func curry<A, B, C>(_ function: @escaping (A, B) -> C) -> (A) -> (B) -> C {
 		return { (a: A) -> (B) -> C in
 			{ (b: B) -> C in

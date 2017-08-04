@@ -1,4 +1,4 @@
-//MARK: - Definition
+// MARK: - Definition
 
 // sourcery: concrete = "Deferred"
 // sourcery: map, flatMap, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
@@ -8,7 +8,7 @@ public protocol DeferredType: PureConstructible {
 	func run(_ callback: @escaping (ElementType) -> ())
 }
 
-//MARK: - Concrete
+// MARK: - Concrete
 
 // sourcery: fixedTypesForTests = "Int"
 // sourcery: functorLaws, applicativeLaws, monadLaws
@@ -55,7 +55,7 @@ extension Deferred where T: Equatable {
 	}
 }
 
-//MARK: - Functor
+// MARK: - Functor
 
 extension DeferredType {
 	public func map <A> (_ transform: @escaping (ElementType) -> A) -> Deferred<A> {
@@ -65,7 +65,7 @@ extension DeferredType {
 	}
 }
 
-//MARK: - Joined
+// MARK: - Joined
 
 extension DeferredType where ElementType: DeferredType {
 	public var joined: Deferred<ElementType.ElementType> {
