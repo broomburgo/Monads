@@ -107,19 +107,21 @@ extension ResultType where ElementType: ResultType, ElementType.ErrorType == Err
 	}
 }
 
-// MARK: -  CustomZip (ErrorType: Semigroup)
+// MARK: -  Custom Zip (ErrorType: Semigroup)
 
-public func zip <A,B,Z> (_ a: A, _ b: B) -> Result<(A.ElementType,B.ElementType),Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error & Semigroup {
-	return a.run(
-		ifSuccess: { aValue in b.run(
-			ifSuccess: { bValue in .success((aValue,bValue)) },
-			ifFailure: { bError in .failure(bError) },
-			ifCancel: { .cancel }) },
-		ifFailure: { aError in b.run(
-			ifSuccess: F.constant(.failure(aError)),
-			ifFailure: { bError in .failure(aError <> bError)},
-			ifCancel: { .cancel }) },
-		ifCancel: { .cancel })
+extension ResultType where ErrorType: Semigroup {
+	public static func zip <A,B> (_ a: A, _ b: B) -> Result<(A.ElementType,B.ElementType),ErrorType> where A: ResultType, B: ResultType, A.ErrorType == ErrorType, B.ErrorType == ErrorType, ElementType == (A.ElementType,B.ElementType) {
+		return a.run(
+			ifSuccess: { aValue in b.run(
+				ifSuccess: { bValue in .success((aValue,bValue)) },
+				ifFailure: { bError in .failure(bError) },
+				ifCancel: { .cancel }) },
+			ifFailure: { aError in b.run(
+				ifSuccess: F.constant(.failure(aError)),
+				ifFailure: { bError in .failure(aError <> bError)},
+				ifCancel: { .cancel }) },
+			ifCancel: { .cancel })
+	}
 }
 
 // MARK: Utility
@@ -153,10 +155,10 @@ extension ResultType {
 			ifCancel: F.constant(nil))
 	}
 
-	public func ifCanceled(_ converted: @autoclosure () -> Result<ElementType,ErrorType>) -> Result<ElementType,ErrorType> {
+	public var isCanceled: Bool {
 		return run(
-			ifSuccess: Result.success,
-			ifFailure: Result.failure,
-			ifCancel: converted)
+			ifSuccess: F.constant(false),
+			ifFailure: F.constant(false),
+			ifCancel: F.constant(true))
 	}
 }

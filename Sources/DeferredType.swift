@@ -1,5 +1,7 @@
 // MARK: - Definition
 
+import Abstract
+
 // sourcery: concrete = "Deferred"
 // sourcery: map, flatMap, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer1
@@ -75,9 +77,9 @@ extension DeferredType where ElementType: DeferredType {
 	}
 }
 
-// MARK: -  CustomZip (parallel computation)
+// MARK: -  Custom Zip (parallel computation)
 
-extension Deferred {
+extension DeferredType {
 	public static func zip <A,B> (_ a: A, _ b: B) -> Deferred<(A.ElementType,B.ElementType)> where A: DeferredType, B: DeferredType, ElementType == (A.ElementType,B.ElementType) {
 		return Deferred<(A.ElementType,B.ElementType)>.init { (done) in
 			var aValue: A.ElementType? = nil

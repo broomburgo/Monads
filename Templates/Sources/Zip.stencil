@@ -5,7 +5,7 @@ import Abstract
 {% for type in types.protocols|annotated:"zip"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
-extension {{ type.annotations.concrete }} {
+extension {{ type.name }} {
 	public static func zip <A,B> (_ a: A, _ b: B) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType){% if type.annotations.context %},{{ type.annotations.context }}{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}, B.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %}, ElementType == (A.ElementType,B.ElementType) {
 		return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
 	}

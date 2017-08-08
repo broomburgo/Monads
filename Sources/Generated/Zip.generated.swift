@@ -7,7 +7,7 @@ import Abstract
 
 // MARK: - ArrayType
 
-extension Array {
+extension ArrayType {
 	public static func zip <A,B> (_ a: A, _ b: B) -> Array<(A.ElementType,B.ElementType)> where A: ArrayType, B: ArrayType, ElementType == (A.ElementType,B.ElementType) {
 		return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
 	}
@@ -23,7 +23,7 @@ extension Array {
 
 // MARK: - EffectType
 
-extension Effect {
+extension EffectType {
 	public static func zip <A,B> (_ a: A, _ b: B) -> Effect<(A.ElementType,B.ElementType)> where A: EffectType, B: EffectType, ElementType == (A.ElementType,B.ElementType) {
 		return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
 	}
@@ -39,7 +39,7 @@ extension Effect {
 
 // MARK: - OptionalType
 
-extension Optional {
+extension OptionalType {
 	public static func zip <A,B> (_ a: A, _ b: B) -> Optional<(A.ElementType,B.ElementType)> where A: OptionalType, B: OptionalType, ElementType == (A.ElementType,B.ElementType) {
 		return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
 	}
@@ -55,7 +55,7 @@ extension Optional {
 
 // MARK: - ResultType
 
-extension Result {
+extension ResultType {
 	public static func zip <A,B> (_ a: A, _ b: B) -> Result<(A.ElementType,B.ElementType),ErrorType> where A: ResultType, B: ResultType, A.ErrorType == ErrorType, B.ErrorType == ErrorType, ElementType == (A.ElementType,B.ElementType) {
 		return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
 	}
@@ -71,7 +71,7 @@ extension Result {
 
 // MARK: - WriterType
 
-extension Writer {
+extension WriterType {
 	public static func zip <A,B> (_ a: A, _ b: B) -> Writer<(A.ElementType,B.ElementType),LogType> where A: WriterType, B: WriterType, A.LogType == LogType, B.LogType == LogType, ElementType == (A.ElementType,B.ElementType) {
 		return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
 	}
