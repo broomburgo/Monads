@@ -1,5 +1,7 @@
 import Abstract
 
+public typealias Endo<T> = (T) -> T
+
 public enum F {
 	public static func identity <A> (_ value: A) -> A {
 		return value
