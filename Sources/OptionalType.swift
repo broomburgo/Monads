@@ -82,6 +82,12 @@ extension OptionalType {
 			ifNone: { .failure(getError()) })
 	}
 
+	public var isNil: Bool {
+		return run(
+			ifSome: F.constant(false),
+			ifNone: F.constant(true))
+	}
+
 	public var isNotNil: Bool {
 		return run(
 			ifSome: F.constant(true),

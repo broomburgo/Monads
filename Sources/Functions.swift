@@ -481,3 +481,15 @@ public func |> <A,B,C> (first: @escaping (A) -> B, second: @escaping (B) throws 
 public func |> <A,B,C> (first: @escaping (A) throws -> B, second: @escaping (B) throws -> C) -> (A) throws -> C {
 	return F.compose(first, second)
 }
+
+precedencegroup LogicalImplicationPrecedence {
+	associativity: left
+	higherThan: TernaryPrecedence
+	lowerThan: LogicalDisjunctionPrecedence
+}
+
+infix operator --> : LogicalConjunctionPrecedence
+
+public func --> (_ left: Bool, _ right: Bool) -> Bool {
+	return (left == false) || right
+}
