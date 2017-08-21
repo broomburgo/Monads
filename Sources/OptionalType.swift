@@ -1,7 +1,7 @@
 // MARK: - Definition
 
 // sourcery: concrete = "Optional"
-// sourcery: map, flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, joined, flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer1, transformer2, transformer3
 public protocol OptionalType: PureConstructible {
 	init()
@@ -80,6 +80,12 @@ extension OptionalType {
 		return run(
 			ifSome: { .success($0) },
 			ifNone: { .failure(getError()) })
+	}
+
+	public var isNil: Bool {
+		return run(
+			ifSome: F.constant(false),
+			ifNone: F.constant(true))
 	}
 
 	public var isNotNil: Bool {

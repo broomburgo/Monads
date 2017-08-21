@@ -3,7 +3,7 @@
 import Abstract
 
 // sourcery: concrete = "Deferred"
-// sourcery: map, flatMap, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, joined, flatMap, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer1
 public protocol DeferredType: PureConstructible {
 	init(completion: (@escaping (ElementType) -> ()) -> ())
