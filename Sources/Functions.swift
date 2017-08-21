@@ -490,8 +490,8 @@ precedencegroup LogicalImplicationPrecedence {
 	lowerThan: LogicalDisjunctionPrecedence
 }
 
-infix operator --> : LogicalConjunctionPrecedence
+infix operator => : LogicalConjunctionPrecedence
 
-public func --> (_ left: Bool, _ right: Bool) -> Bool {
+public func => (_ left: Bool, _ right: Bool) -> Bool {
 	return (left == false) || right
 }
