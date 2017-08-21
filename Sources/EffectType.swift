@@ -1,7 +1,7 @@
 // MARK: - Definition
 
 // sourcery: concrete = "Effect"
-// sourcery: map, flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, joined, flatMap, zip, <*>, lift, lift+, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer1, transformer2, transformer3
 public protocol EffectType: PureConstructible {
 	init(execute: @escaping () -> ElementType)
