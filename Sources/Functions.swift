@@ -492,6 +492,6 @@ precedencegroup LogicalImplicationPrecedence {
 
 infix operator => : LogicalConjunctionPrecedence
 
-public func => (_ left: Bool, _ right: Bool) -> Bool {
-	return (left == false) || right
+public func => (_ left: Bool, _ right: @autoclosure () -> Bool) -> Bool {
+	return (left == false) || right()
 }
