@@ -1,8 +1,8 @@
-//: `<*>` definitions; requires `concrete`
+//: `apply` definitions; requires `concrete`
 
 import Abstract
 
-{% for type in types.protocols|annotated:"<*>"|annotated:"concrete" %}
+{% for type in types.protocols|annotated:"apply"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
 extension {{ type.name }} {
