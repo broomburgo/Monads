@@ -6,3 +6,5 @@ Monads.xcodeproj/xcuserdata
 Sourcery
 Carthage/Checkouts
 *.bcsymbolmap
+Play.playground
+Play.xcworkspace
