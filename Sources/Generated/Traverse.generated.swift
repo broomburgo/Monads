@@ -43,6 +43,14 @@ extension Sequence {
 	}
 
 
+// MARK: - ReaderType - traverse
+	public func traverse<T>(_ transform: (Iterator.Element) -> T) -> Reader<Array<T.ElementType>,T.EnvironmentType> where T: ReaderType {
+		return reduce(Reader<Array<T.ElementType>,T.EnvironmentType>.init([])) { (acc,x) in
+			transform(x).map(appending) <*> acc
+		}
+	}
+
+
 // MARK: - ResultType - traverse
 	public func traverse<T>(_ transform: (Iterator.Element) -> T) -> Result<Array<T.ElementType>,T.ErrorType> where T: ResultType {
 		return reduce(Result<Array<T.ElementType>,T.ErrorType>.init([])) { (acc,x) in
@@ -84,6 +92,13 @@ extension Sequence where Iterator.Element: EffectType {
 // MARK: - OptionalType - flip
 extension Sequence where Iterator.Element: OptionalType {
 	public var flip: Optional<Array<Iterator.Element.ElementType>> {
+		return traverse(F.identity)
+	}
+}
+
+// MARK: - ReaderType - flip
+extension Sequence where Iterator.Element: ReaderType {
+	public var flip: Reader<Array<Iterator.Element.ElementType>,Iterator.Element.EnvironmentType> {
 		return traverse(F.identity)
 	}
 }

@@ -64,6 +64,20 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 	return object.flatMapT(transform)
 }
 
+extension ReaderType where ElementType: EffectType {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Reader<Effect<A>,EnvironmentType> {
+		return map { $0.map(transform) }
+	}
+
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Reader<Effect<A>,EnvironmentType>) -> Reader<Effect<A>,EnvironmentType> {
+		return flatMap { transform($0.run()) }
+	}
+}
+
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> Reader<Effect<A>,T.EnvironmentType>) -> Reader<Effect<A>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType {
+	return object.flatMapT(transform)
+}
+
 extension ResultType where ElementType: EffectType {
 	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Result<Effect<A>,ErrorType> {
 		return map { $0.map(transform) }
@@ -315,6 +329,62 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: E
 }
 
 public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Optional<Writer<Effect<A>,T.ElementType.LogType>>) -> Optional<Writer<Effect<A>,T.ElementType.LogType>> where T: OptionalType, T.ElementType: WriterType, T.ElementType.ElementType: EffectType {
+	return object.flatMapTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: EffectType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Effect<A>>,EnvironmentType> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Effect<Effect<A>>,EnvironmentType>) -> Reader<Effect<Effect<A>>,EnvironmentType> {
+		return flatMapT { transform($0.run()) }
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Reader<Effect<Effect<A>>,T.EnvironmentType>) -> Reader<Effect<Effect<A>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: EffectType {
+	return object.flatMapTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: EffectType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Effect<A>>,EnvironmentType> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Optional<Effect<A>>,EnvironmentType>) -> Reader<Optional<Effect<A>>,EnvironmentType> {
+		return flatMapT { transform($0.run()) }
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Reader<Optional<Effect<A>>,T.EnvironmentType>) -> Reader<Optional<Effect<A>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: EffectType {
+	return object.flatMapTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: EffectType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Reader<Result<Effect<A>,ElementType.ErrorType>,EnvironmentType> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Result<Effect<A>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Effect<A>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapT { transform($0.run()) }
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Reader<Result<Effect<A>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Effect<A>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: EffectType {
+	return object.flatMapTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: EffectType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Effect<A>,ElementType.LogType>,EnvironmentType> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Writer<Effect<A>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Effect<A>,ElementType.LogType>,EnvironmentType> {
+		return flatMapT { transform($0.run()) }
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Reader<Writer<Effect<A>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Effect<A>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: EffectType {
 	return object.flatMapTT(transform)
 }
 
@@ -1325,6 +1395,230 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: W
 }
 
 public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Optional<Writer<Writer<Effect<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) -> Optional<Writer<Writer<Effect<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: OptionalType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: EffectType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Effect<Effect<A>>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Effect<Effect<A>>>,EnvironmentType>) -> Reader<Effect<Effect<Effect<A>>>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Effect<Effect<A>>>,T.EnvironmentType>) -> Reader<Effect<Effect<Effect<A>>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: EffectType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Optional<Effect<A>>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Optional<Effect<A>>>,EnvironmentType>) -> Reader<Effect<Optional<Effect<A>>>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Optional<Effect<A>>>,T.EnvironmentType>) -> Reader<Effect<Optional<Effect<A>>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Result<Effect<A>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Result<Effect<A>,ElementType.ElementType.ErrorType>>,EnvironmentType>) -> Reader<Effect<Result<Effect<A>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Result<Effect<A>,T.ElementType.ElementType.ErrorType>>,T.EnvironmentType>) -> Reader<Effect<Result<Effect<A>,T.ElementType.ElementType.ErrorType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Writer<Effect<A>,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Writer<Effect<A>,ElementType.ElementType.LogType>>,EnvironmentType>) -> Reader<Effect<Writer<Effect<A>,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Writer<Effect<A>,T.ElementType.ElementType.LogType>>,T.EnvironmentType>) -> Reader<Effect<Writer<Effect<A>,T.ElementType.ElementType.LogType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: EffectType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Effect<Effect<A>>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Effect<Effect<A>>>,EnvironmentType>) -> Reader<Optional<Effect<Effect<A>>>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Effect<Effect<A>>>,T.EnvironmentType>) -> Reader<Optional<Effect<Effect<A>>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: EffectType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Optional<Effect<A>>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Optional<Effect<A>>>,EnvironmentType>) -> Reader<Optional<Optional<Effect<A>>>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Optional<Effect<A>>>,T.EnvironmentType>) -> Reader<Optional<Optional<Effect<A>>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Result<Effect<A>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Result<Effect<A>,ElementType.ElementType.ErrorType>>,EnvironmentType>) -> Reader<Optional<Result<Effect<A>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Result<Effect<A>,T.ElementType.ElementType.ErrorType>>,T.EnvironmentType>) -> Reader<Optional<Result<Effect<A>,T.ElementType.ElementType.ErrorType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Writer<Effect<A>,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Writer<Effect<A>,ElementType.ElementType.LogType>>,EnvironmentType>) -> Reader<Optional<Writer<Effect<A>,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Writer<Effect<A>,T.ElementType.ElementType.LogType>>,T.EnvironmentType>) -> Reader<Optional<Writer<Effect<A>,T.ElementType.ElementType.LogType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: EffectType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Result<Effect<Effect<A>>,ElementType.ErrorType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Effect<Effect<A>>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Effect<Effect<A>>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Effect<Effect<A>>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Effect<Effect<A>>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: EffectType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Result<Optional<Effect<A>>,ElementType.ErrorType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Optional<Effect<A>>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Optional<Effect<A>>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Optional<Effect<A>>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Optional<Effect<A>>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Result<Result<Effect<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Result<Effect<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Result<Effect<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Result<Effect<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Result<Effect<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Result<Writer<Effect<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Writer<Effect<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Writer<Effect<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Writer<Effect<A>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Writer<Effect<A>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: EffectType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Effect<Effect<A>>,ElementType.LogType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Effect<Effect<A>>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Effect<Effect<A>>,ElementType.LogType>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Effect<Effect<A>>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Effect<Effect<A>>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: EffectType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Optional<Effect<A>>,ElementType.LogType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Optional<Effect<A>>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Optional<Effect<A>>,ElementType.LogType>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Optional<Effect<A>>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Optional<Effect<A>>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Result<Effect<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Result<Effect<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Result<Effect<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Result<Effect<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Result<Effect<A>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: EffectType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: EffectType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Writer<Effect<A>,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Writer<Effect<A>,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Writer<Effect<A>,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType> {
+		return flatMapTT { transform($0.run()) }
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Writer<Effect<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Writer<Effect<A>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: EffectType {
 	return object.flatMapTTT(transform)
 }
 

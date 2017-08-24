@@ -68,6 +68,21 @@ class MonadLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Reader
+    func testReader() {
+        property("Monad law: identity left") <- forAll { (a: Int, af: ArrowOf<Int,ReaderOf<Int,String>>, context: String) in
+            Law.Monad.OnReader.identityLeft(a, { af.getArrow($0).getReader }, context)
+        }
+
+        property("Monad law: identity right") <- forAll { (a: Int, context: String) in
+            Law.Monad.OnReader.identityRight(a, context)
+        }
+
+        property("Monad law: associativity") <- forAll { (a: Int, af: ArrowOf<Int,ReaderOf<Int,String>>, ag: ArrowOf<Int,ReaderOf<Int,String>>, context: String) in
+            Law.Monad.OnReader.associativity(a, { af.getArrow($0).getReader }, { ag.getArrow($0).getReader }, context)
+        }
+    }
+
 // MARK: - Result
     func testResult() {
         property("Monad law: identity left") <- forAll { (a: Int, af: ArrowOf<Int,ResultOf<Int,AnyError>>) in

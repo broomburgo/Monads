@@ -84,6 +84,25 @@ class ApplicativeLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Reader
+    func testReader() {
+        property("Applicative law: identity") <- forAll { (a: Int, context: String) in
+            Law.Applicative.OnReader.identity(a, context)
+        }
+
+        property("Applicative law: homomorphism") <- forAll { (a: Int, af: ArrowOf<Int,Int>, context: String) in
+            Law.Applicative.OnReader.homomorphism(a, af.getArrow, context)
+        }
+
+        property("Applicative law: interchange") <- forAll { (a: Int, af: ArrowOf<Int,Int>, context: String) in
+            Law.Applicative.OnReader.interchange(a, af.getArrow, context)
+        }
+
+        property("Applicative law: composition") <- forAll { (a: Int, af: ArrowOf<Int,Int>, ag: ArrowOf<Int,Int>, context: String) in
+            Law.Applicative.OnReader.composition(a, af.getArrow, ag.getArrow, context)
+        }
+    }
+
 // MARK: - Result
     func testResult() {
         property("Applicative law: identity") <- forAll { (a: Int) in

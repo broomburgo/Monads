@@ -22,7 +22,6 @@ extension Law {
                 return try! Array.init(value).map(g • f) == (mapG • mapF § Array.init(value))
             }
         }
-
 // MARK: - Deferred
         enum OnDeferred {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -35,7 +34,6 @@ extension Law {
                 return Deferred.init(value).map(g • f) == (mapG • mapF § Deferred.init(value))
             }
         }
-
 // MARK: - Effect
         enum OnEffect {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -48,7 +46,6 @@ extension Law {
                 return Effect.init(value).map(g • f) == (mapG • mapF § Effect.init(value))
             }
         }
-
 // MARK: - Optional
         enum OnOptional {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -61,7 +58,18 @@ extension Law {
                 return try! Optional.init(value).map(g • f) == (mapG • mapF § Optional.init(value))
             }
         }
+// MARK: - Reader
+		enum OnReader {
+			static func identity <A> (_ value: A, _ context: String) -> Bool where A: Equatable {
+				return (Reader<A,String>.init(value).map(F.identity) == F.identity(Reader<A,String>.init(value)))(context)
+			}
 
+			static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C, _ context: String) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+				let mapF = F.flip(Reader<A,String>.map)(f)
+				let mapG = F.flip(Reader<B,String>.map)(g)
+				return (Reader.init(value).map(g • f) == (mapG • mapF § Reader.init(value)))(context)
+			}
+		}
 // MARK: - Result
         enum OnResult {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -74,7 +82,6 @@ extension Law {
                 return Result.init(value).map(g • f) == (mapG • mapF § Result.init(value))
             }
         }
-
 // MARK: - Writer
         enum OnWriter {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -87,6 +94,5 @@ extension Law {
                 return Writer.init(value).map(g • f) == (mapG • mapF § Writer.init(value))
             }
         }
-
     }
 }

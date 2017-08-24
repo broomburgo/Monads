@@ -61,6 +61,20 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 	}
 }
 
+// MARK: - ReaderType
+
+extension ReaderType where ElementType: ReaderType, ElementType.EnvironmentType == EnvironmentType, ElementType.ElementType: ReaderType, ElementType.ElementType.EnvironmentType == EnvironmentType {
+	public var joinedT: Reader<ElementType.ElementType.ElementType, EnvironmentType> {
+		return joined.joined
+	}
+}
+
+extension ReaderType where ElementType: ReaderType, ElementType.EnvironmentType == EnvironmentType, ElementType.ElementType: ReaderType, ElementType.ElementType.EnvironmentType == EnvironmentType, ElementType.ElementType.ElementType: ReaderType, ElementType.ElementType.ElementType.EnvironmentType == EnvironmentType {
+	public var joinedTT: Reader<ElementType.ElementType.ElementType.ElementType, EnvironmentType> {
+		return joined.joined.joined
+	}
+}
+
 // MARK: - ResultType
 
 extension ResultType where ElementType: ResultType, ElementType.ErrorType == ErrorType, ElementType.ElementType: ResultType, ElementType.ElementType.ErrorType == ErrorType {

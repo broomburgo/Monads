@@ -53,6 +53,22 @@ extension OptionalType {
 	}
 }
 
+// MARK: - ReaderType
+
+extension ReaderType {
+	public static func zip <A,B> (_ a: A, _ b: B) -> Reader<(A.ElementType,B.ElementType),EnvironmentType> where A: ReaderType, B: ReaderType, A.EnvironmentType == EnvironmentType, B.EnvironmentType == EnvironmentType, ElementType == (A.ElementType,B.ElementType) {
+		return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
+	}
+
+	public static func zip <A,B,C> (_ a: A, _ b: B, _ c: C) -> Reader<(A.ElementType,B.ElementType,C.ElementType),EnvironmentType> where A: ReaderType, B: ReaderType, C: ReaderType, A.EnvironmentType == EnvironmentType, B.EnvironmentType == EnvironmentType, C.EnvironmentType == EnvironmentType, ElementType == (A.ElementType,B.ElementType,C.ElementType) {
+		return a.flatMap { aValue in b.flatMap { bValue in c.map { cValue in (aValue,bValue,cValue) } } }
+	}
+
+	public static func zip <A,B,C,D> (_ a: A, _ b: B, _ c: C, _ d: D) -> Reader<(A.ElementType,B.ElementType,C.ElementType,D.ElementType),EnvironmentType> where A: ReaderType, B: ReaderType, C: ReaderType, D: ReaderType, A.EnvironmentType == EnvironmentType, B.EnvironmentType == EnvironmentType, C.EnvironmentType == EnvironmentType, D.EnvironmentType == EnvironmentType, ElementType == (A.ElementType,B.ElementType,C.ElementType,D.ElementType) {
+		return a.flatMap { aValue in b.flatMap { bValue in c.flatMap { cValue in d.map { dValue in (aValue,bValue,cValue,dValue) } } } }
+	}
+}
+
 // MARK: - ResultType
 
 extension ResultType {

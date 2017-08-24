@@ -9,6 +9,19 @@ extension Law {
     enum Functor {
     {% for type in types.all|!protocol|annotated:"functorLaws" %}
 // MARK: - {{ type.name }}
+		{% if type.annotations.requiredContextForPropertyBasedTests %}
+		enum On{{ type.name }} {
+			static func identity <A> (_ value: A, _ context: {{ type.annotations.requiredContextForPropertyBasedTests }}) -> Bool where A: Equatable {
+				return ({% call object type "A" %}.init(value).map(F.identity) == F.identity({% call object type "A" %}.init(value)))(context)
+			}
+
+			static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C, _ context: {{ type.annotations.requiredContextForPropertyBasedTests }}) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+				let mapF = {% if type.annotations.throwingMap %}try! {% endif %}F.flip({% call object type "A" %}.map)(f)
+				let mapG = {% if type.annotations.throwingMap %}try! {% endif %}F.flip({% call object type "B" %}.map)(g)
+				return ({% if type.annotations.throwingMap %}try! {% endif %}{{ type.name }}.init(value).map(g • f) == (mapG • mapF § {{ type.name }}.init(value)))(context)
+			}
+		}
+		{% else %}
         enum On{{ type.name }} {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
                 return {% call object type "A" %}.init(value).map(F.identity) == F.identity({% call object type "A" %}.init(value))
@@ -20,7 +33,7 @@ extension Law {
                 return {% if type.annotations.throwingMap %}try! {% endif %}{{ type.name }}.init(value).map(g • f) == (mapG • mapF § {{ type.name }}.init(value))
             }
         }
-
+		{% endif %}
     {% endfor %}
     }
 }

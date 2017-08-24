@@ -57,6 +57,18 @@ public func >>- <A,B> (left: A, right: @escaping (A.ElementType) -> B) -> Option
     return left.flatMap(right)
 }
 
+// MARK: - ReaderType
+
+extension ReaderType {
+    public func flatMap <A> (_ transform: @escaping (ElementType) -> A) -> Reader<A.ElementType, EnvironmentType> where A: ReaderType, A.EnvironmentType == EnvironmentType {
+        return map(transform).joined
+    }
+}
+
+public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) -> B) -> Reader<B.ElementType, Z> where A: ReaderType, B: ReaderType, A.EnvironmentType == Z, B.EnvironmentType == Z {
+    return left.flatMap(right)
+}
+
 // MARK: - ResultType
 
 extension ResultType {

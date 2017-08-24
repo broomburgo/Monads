@@ -29,6 +29,12 @@ public func <^> <A,B> (left: @escaping (A.ElementType) -> B, right: A) -> Option
     return right.map(left)
 }
 
+// MARK: - ReaderType
+
+public func <^> <A,B,Z> (left: @escaping (A.ElementType) -> B, right: A) -> Reader<B, Z> where A: ReaderType, A.EnvironmentType == Z {
+    return right.map(left)
+}
+
 // MARK: - ResultType
 
 public func <^> <A,B,Z> (left: @escaping (A.ElementType) -> B, right: A) -> Result<B, Z> where A: ResultType, A.ErrorType == Z, Z: Error {

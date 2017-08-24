@@ -57,6 +57,19 @@ public func <*> <A,B,T> (left: A, right: B) -> Optional<T> where A: OptionalType
   	return right.apply(left)
 }
 
+// MARK: - ReaderType
+
+extension ReaderType {
+	public func apply <A,T> (_ other: A) -> Reader<T, EnvironmentType> where A: ReaderType, A.ElementType == (ElementType) -> T, A.EnvironmentType == EnvironmentType
+	{
+		return Reader.zip(self,other).map { $1($0) }
+	}
+}
+
+public func <*> <A,B,T,Z> (left: A, right: B) -> Reader<T,Z> where A: ReaderType, B: ReaderType, A.ElementType == (B.ElementType) -> T, A.EnvironmentType == Z, B.EnvironmentType == Z {
+  	return right.apply(left)
+}
+
 // MARK: - ResultType
 
 extension ResultType {

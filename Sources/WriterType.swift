@@ -52,16 +52,6 @@ extension Writer where T: Equatable, L: Equatable {
 	}
 }
 
-extension String: Monoid {
-	public static func <> (left: String, right: String) -> String {
-		return left + right
-	}
-
-	public static var empty: String {
-		return ""
-	}
-}
-
 // MARK: - Functor
 
 extension WriterType {

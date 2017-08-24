@@ -336,6 +336,92 @@ public prefix func - <A> (value: A) -> Optional<Double> where A: OptionalType, A
 	return F.lift { -$0 }(value)
 }
 
+// MARK: - ReaderType
+extension F {
+	public static func lift<A,T,Z>(_ function: @escaping (A.ElementType) -> T) -> (A) -> Reader<T,Z> where A: ReaderType, A.EnvironmentType == Z {
+		return { $0.map(function) }
+	}
+
+	public static func bilift<A,B,T,Z>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> Reader<T,Z> where A: ReaderType, B: ReaderType, A.EnvironmentType == Z, B.EnvironmentType == Z {
+		return { Reader.zip($0,$1).map(function) }
+	}
+}
+public func + <A,B,Z> (left: A, right: B) -> Reader<Int,Z> where A: ReaderType, B: ReaderType, A.ElementType == Int, B.ElementType == Int, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(+)(left,right)
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Reader<UInt,Z> where A: ReaderType, B: ReaderType, A.ElementType == UInt, B.ElementType == UInt, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(+)(left,right)
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Reader<Float,Z> where A: ReaderType, B: ReaderType, A.ElementType == Float, B.ElementType == Float, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(+)(left,right)
+}
+
+public func + <A,B,Z> (left: A, right: B) -> Reader<Double,Z> where A: ReaderType, B: ReaderType, A.ElementType == Double, B.ElementType == Double, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(+)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Reader<Int,Z> where A: ReaderType, B: ReaderType, A.ElementType == Int, B.ElementType == Int, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(-)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Reader<UInt,Z> where A: ReaderType, B: ReaderType, A.ElementType == UInt, B.ElementType == UInt, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(-)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Reader<Float,Z> where A: ReaderType, B: ReaderType, A.ElementType == Float, B.ElementType == Float, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(-)(left,right)
+}
+
+public func - <A,B,Z> (left: A, right: B) -> Reader<Double,Z> where A: ReaderType, B: ReaderType, A.ElementType == Double, B.ElementType == Double, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(-)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Reader<Int,Z> where A: ReaderType, B: ReaderType, A.ElementType == Int, B.ElementType == Int, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(*)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Reader<UInt,Z> where A: ReaderType, B: ReaderType, A.ElementType == UInt, B.ElementType == UInt, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(*)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Reader<Float,Z> where A: ReaderType, B: ReaderType, A.ElementType == Float, B.ElementType == Float, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(*)(left,right)
+}
+
+public func * <A,B,Z> (left: A, right: B) -> Reader<Double,Z> where A: ReaderType, B: ReaderType, A.ElementType == Double, B.ElementType == Double, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(*)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Reader<Int,Z> where A: ReaderType, B: ReaderType, A.ElementType == Int, B.ElementType == Int, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(/)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Reader<UInt,Z> where A: ReaderType, B: ReaderType, A.ElementType == UInt, B.ElementType == UInt, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(/)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Reader<Float,Z> where A: ReaderType, B: ReaderType, A.ElementType == Float, B.ElementType == Float, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(/)(left,right)
+}
+
+public func / <A,B,Z> (left: A, right: B) -> Reader<Double,Z> where A: ReaderType, B: ReaderType, A.ElementType == Double, B.ElementType == Double, A.EnvironmentType == Z, B.EnvironmentType == Z {
+	return F.bilift(/)(left,right)
+}
+
+public prefix func - <A,Z> (value: A) -> Reader<Int,Z> where A: ReaderType, A.ElementType == Int, A.EnvironmentType == Z {
+	return F.lift { -$0 }(value)
+}
+
+public prefix func - <A,Z> (value: A) -> Reader<Float,Z> where A: ReaderType, A.ElementType == Float, A.EnvironmentType == Z {
+	return F.lift { -$0 }(value)
+}
+
+public prefix func - <A,Z> (value: A) -> Reader<Double,Z> where A: ReaderType, A.ElementType == Double, A.EnvironmentType == Z {
+	return F.lift { -$0 }(value)
+}
+
 // MARK: - ResultType
 extension F {
 	public static func lift<A,T,Z>(_ function: @escaping (A.ElementType) -> T) -> (A) -> Result<T,Z> where A: ResultType, A.ErrorType == Z, Z: Error {

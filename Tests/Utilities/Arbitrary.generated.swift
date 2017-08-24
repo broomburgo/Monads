@@ -69,3 +69,14 @@ struct ResultOf<T,E>: Arbitrary where T: Arbitrary, E: Error & Arbitrary {
 }
 
 // MARK: - Arbitrary for function wrappers
+
+struct ReaderOf<S,T>: Arbitrary where T: CoArbitrary & Hashable, S: Arbitrary {
+	let getReader: Reader<S,T>
+	init(_ value: @escaping (T) -> S) {
+		self.getReader = Reader.init(value)
+	}
+
+	public static var arbitrary: Gen<ReaderOf<S,T>> {
+		return ArrowOf<T,S>.arbitrary.map { $0.getArrow }.map(ReaderOf<S,T>.init)
+	}
+}

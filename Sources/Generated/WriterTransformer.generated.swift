@@ -94,6 +94,27 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 	return object.flatMapT(transform)
 }
 
+extension ReaderType where ElementType: WriterType {
+	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Reader<Writer<A,ElementType.LogType>,EnvironmentType> {
+		return map { $0.map(transform) }
+	}
+
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Reader<Writer<A,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<A,ElementType.LogType>,EnvironmentType> {
+		return flatMap { (writer) -> Reader<Writer<A,ElementType.LogType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.map {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> Reader<Writer<A,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<A,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType {
+	return object.flatMapT(transform)
+}
+
 extension ResultType where ElementType: WriterType {
 	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> Result<Writer<A,ElementType.LogType>,ErrorType> {
 		return map { $0.map(transform) }
@@ -471,6 +492,90 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: W
 }
 
 public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Optional<Writer<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) -> Optional<Writer<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: OptionalType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Writer<A,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Effect<Writer<A,ElementType.ElementType.LogType>>,EnvironmentType>) -> Reader<Effect<Writer<A,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return flatMapT { (writer) -> Reader<Effect<Writer<A,ElementType.ElementType.LogType>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Reader<Effect<Writer<A,T.ElementType.ElementType.LogType>>,T.EnvironmentType>) -> Reader<Effect<Writer<A,T.ElementType.ElementType.LogType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Writer<A,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Optional<Writer<A,ElementType.ElementType.LogType>>,EnvironmentType>) -> Reader<Optional<Writer<A,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return flatMapT { (writer) -> Reader<Optional<Writer<A,ElementType.ElementType.LogType>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Reader<Optional<Writer<A,T.ElementType.ElementType.LogType>>,T.EnvironmentType>) -> Reader<Optional<Writer<A,T.ElementType.ElementType.LogType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Reader<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapT { (writer) -> Reader<Result<Writer<A,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Reader<Result<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType {
+	return object.flatMapTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: WriterType {
+	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType> {
+		return mapT { $0.map(transform) }
+	}
+
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType> {
+		return flatMapT { (writer) -> Reader<Writer<Writer<A,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> Reader<Writer<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Writer<A,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType {
 	return object.flatMapTT(transform)
 }
 
@@ -1985,6 +2090,342 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: W
 }
 
 public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Optional<Writer<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>>) -> Optional<Writer<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>> where T: OptionalType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: EffectType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType>) -> Reader<Effect<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Effect<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Effect<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>,T.EnvironmentType>) -> Reader<Effect<Effect<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: EffectType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType>) -> Reader<Effect<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Effect<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>,T.EnvironmentType>) -> Reader<Effect<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>,EnvironmentType>) -> Reader<Effect<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Effect<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>>,T.EnvironmentType>) -> Reader<Effect<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: EffectType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Effect<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>,EnvironmentType>) -> Reader<Effect<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Effect<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>>,T.EnvironmentType>) -> Reader<Effect<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: EffectType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: EffectType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType>) -> Reader<Optional<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Optional<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Effect<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>,T.EnvironmentType>) -> Reader<Optional<Effect<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: EffectType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType>) -> Reader<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Optional<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>,T.EnvironmentType>) -> Reader<Optional<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>,EnvironmentType>) -> Reader<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Optional<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>>,T.EnvironmentType>) -> Reader<Optional<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: OptionalType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>,EnvironmentType>) -> Reader<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Optional<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>>,T.EnvironmentType>) -> Reader<Optional<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>>,T.EnvironmentType> where T: ReaderType, T.ElementType: OptionalType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: EffectType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Result<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Result<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Effect<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Effect<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: EffectType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Result<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.ErrorType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Result<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: ResultType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Result<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.EnvironmentType>) -> Reader<Result<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.ErrorType>,T.EnvironmentType> where T: ReaderType, T.ElementType: ResultType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: EffectType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Writer<Effect<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Effect<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Effect<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: EffectType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: OptionalType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Writer<Optional<Writer<A,ElementType.ElementType.ElementType.LogType>>,ElementType.LogType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Optional<Writer<A,T.ElementType.ElementType.ElementType.LogType>>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: OptionalType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: ResultType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Writer<Result<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.ErrorType>,ElementType.LogType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Result<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.ErrorType>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: ResultType, T.ElementType.ElementType.ElementType: WriterType {
+	return object.flatMapTTT(transform)
+}
+
+extension ReaderType where ElementType: WriterType, ElementType.ElementType: WriterType, ElementType.ElementType.ElementType: WriterType {
+	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> Reader<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType> {
+		return mapTT { $0.map(transform) }
+	}
+
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType> {
+		return flatMapTT { (writer) -> Reader<Writer<Writer<Writer<A,ElementType.ElementType.ElementType.LogType>,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType> in
+			let (oldValue,oldLog) = writer.run
+			let newObject = transform(oldValue)
+			return newObject.mapTT {
+				let (newValue,newLog) = $0.run
+				return Writer.init(value: newValue, log: oldLog <> newLog)
+			}
+		}
+	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.EnvironmentType>) -> Reader<Writer<Writer<Writer<A,T.ElementType.ElementType.ElementType.LogType>,T.ElementType.ElementType.LogType>,T.ElementType.LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: WriterType, T.ElementType.ElementType: WriterType, T.ElementType.ElementType.ElementType: WriterType {
 	return object.flatMapTTT(transform)
 }
 
