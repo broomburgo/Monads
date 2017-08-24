@@ -1,7 +1,7 @@
 // MARK: - Definition
 
 // sourcery: concrete = "Array"
-// sourcery: map, joined, flatMap, zip, apply, lift, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, joined, flatMap, zip, apply, traverse, lift, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer1
 public protocol ArrayType: PureConstructible {
 	func run(_ callback: @escaping (ElementType) throws -> ()) rethrows

@@ -1,7 +1,7 @@
 // MARK: - Definition
 
 // sourcery: concrete = "Optional"
-// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, joined, flatMap, zip, apply, traverse, lift, lift+, lift-, lift*, lift/, liftPrefix-
 // sourcery: transformer1, transformer2, transformer3
 public protocol OptionalType: PureConstructible {
 	init()
