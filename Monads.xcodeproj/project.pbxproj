@@ -15,6 +15,8 @@
 		389C0EF91F2F2D5D0030243A /* Map.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389C0EF81F2F2D5D0030243A /* Map.generated.swift */; };
 		389C0EFA1F2F2D5D0030243A /* Map.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389C0EF81F2F2D5D0030243A /* Map.generated.swift */; };
 		389D15841F31C59A003D4CCA /* ResultTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389D15831F31C59A003D4CCA /* ResultTypeTests.swift */; };
+		38AC5D481F502CF6007164FD /* ArrayTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AC5D471F502CF6007164FD /* ArrayTransformer.generated.swift */; };
+		38AC5D491F502CF6007164FD /* ArrayTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AC5D471F502CF6007164FD /* ArrayTransformer.generated.swift */; };
 		38C652B91F4B167900CB0790 /* Joined.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C652B81F4B167900CB0790 /* Joined.generated.swift */; };
 		38C652BA1F4B167900CB0790 /* Joined.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C652B81F4B167900CB0790 /* Joined.generated.swift */; };
 		38FDFEDE1F2B6059002ECC3A /* Monads.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FDFED51F2B6059002ECC3A /* Monads.framework */; };
@@ -122,6 +124,7 @@
 		38A918EB1F28861C00AB25CC /* AnyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyError.swift; sourceTree = "<group>"; };
 		38A918EF1F28936100AB25CC /* Arbitrary.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arbitrary.generated.swift; sourceTree = "<group>"; };
 		38A918F11F2896DD00AB25CC /* CustomArbitraryDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomArbitraryDefinitions.swift; sourceTree = "<group>"; };
+		38AC5D471F502CF6007164FD /* ArrayTransformer.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTransformer.generated.swift; sourceTree = "<group>"; };
 		38C652B81F4B167900CB0790 /* Joined.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Joined.generated.swift; sourceTree = "<group>"; };
 		38E4B7931F2726B100EEC287 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		38E4B7991F27291A00EEC287 /* Lift.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lift.generated.swift; sourceTree = "<group>"; };
@@ -188,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				38808CEF1F26A81700792FEA /* Apply.generated.swift */,
+				38AC5D471F502CF6007164FD /* ArrayTransformer.generated.swift */,
 				38A14E421F2A0BF000A2900C /* EffectTransformer.generated.swift */,
 				3821B12E1F264C5400F75F39 /* FlatMap.generated.swift */,
 				38C652B81F4B167900CB0790 /* Joined.generated.swift */,
@@ -495,6 +499,7 @@
 				38FDFEFD1F2B609F002ECC3A /* WriterTransformer.generated.swift in Sources */,
 				38FDFEF31F2B609F002ECC3A /* Pure.swift in Sources */,
 				3848739B1F4EDB620087D81F /* ReaderType.swift in Sources */,
+				38AC5D481F502CF6007164FD /* ArrayTransformer.generated.swift in Sources */,
 				38FDFEEF1F2B609F002ECC3A /* DeferredType.swift in Sources */,
 				38FDFEEC1F2B609F002ECC3A /* AnyError.swift in Sources */,
 				38FDFEFB1F2B609F002ECC3A /* OptionalTransformer.generated.swift in Sources */,
@@ -543,6 +548,7 @@
 				38FDFF391F2B7F2C002ECC3A /* WriterTransformer.generated.swift in Sources */,
 				38FDFF2F1F2B7F2C002ECC3A /* Pure.swift in Sources */,
 				3848739C1F4EDB620087D81F /* ReaderType.swift in Sources */,
+				38AC5D491F502CF6007164FD /* ArrayTransformer.generated.swift in Sources */,
 				38FDFF2B1F2B7F2C002ECC3A /* DeferredType.swift in Sources */,
 				38FDFF281F2B7F2C002ECC3A /* AnyError.swift in Sources */,
 				38FDFF371F2B7F2C002ECC3A /* OptionalTransformer.generated.swift in Sources */,
