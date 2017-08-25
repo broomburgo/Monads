@@ -67,7 +67,7 @@ extension OptionalType {
 extension Optional: Reducible {
 	public typealias ReducibleElementType = ElementType
 
-	public func reduce<T>(_ initialResult: T, _ nextPartialResult: (T, Wrapped) throws -> T) rethrows -> T {
+	public func reduce<T>(_ initialResult: T, _ nextPartialResult: (T, ElementType) throws -> T) rethrows -> T {
 		switch self {
 		case .some(let value):
 			return try nextPartialResult(initialResult,value)

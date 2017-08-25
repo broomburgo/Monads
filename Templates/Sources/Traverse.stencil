@@ -8,9 +8,9 @@ import Abstract
 extension {{ type1.name }} where Self: Reducible, Self.ReducibleElementType == ElementType {
 {% for type2 in types.protocols|annotated:"map"|annotated:"apply"|annotated:"concrete" %}
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType>{% if type2.annotations.context %},T.{{ type2.annotations.context }}{% endif %}> where T: {{ type2.name }} {
-		return reduce({{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType>{% if type2.annotations.context %},T.{{ type2.annotations.context }}{% endif %}>.init(.neutral)) { (acc,x) in
-			transform(x).map({{ type1.annotations.concrete }}<T.ElementType>.appending) <*> acc
+	public func traverse<T>(_ transform: (ElementType) -> T) -> {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% if type2.annotations.context %},T.{{ type2.annotations.context }}{% endif %}> where T: {{ type2.name }} {
+		return reduce({{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% if type2.annotations.context %},T.{{ type2.annotations.context }}{% endif %}>.init(.neutral)) { (acc,x) in
+			transform(x).map({{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>.appending) <*> acc
 		}
 	}
 
@@ -20,7 +20,7 @@ extension {{ type1.name }} where Self: Reducible, Self.ReducibleElementType == E
 // MARK: - {{ type1.name }} - flip
 {% for type2 in types.protocols|annotated:"map"|annotated:"apply"|annotated:"concrete" %}
 extension {{ type1.name }} where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: {{ type2.name }} {
-	public var flip: {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<ElementType.ElementType>{% if type2.annotations.context %},ElementType.{{ type2.annotations.context }}{% endif %}> {
+	public var flip: {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<ElementType.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% if type2.annotations.context %},ElementType.{{ type2.annotations.context }}{% endif %}> {
 		return traverse(F.identity)
 	}
 }

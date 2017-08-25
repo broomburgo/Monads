@@ -199,3 +199,100 @@ extension OptionalType where Self: Reducible, Self.ReducibleElementType == Eleme
 	}
 }
 
+
+// MARK: - ResultType - traverse
+extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType {
+
+	public func traverse<T>(_ transform: (ElementType) -> T) -> Array<Result<T.ElementType,ErrorType>> where T: ArrayType {
+		return reduce(Array<Result<T.ElementType,ErrorType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: (ElementType) -> T) -> Deferred<Result<T.ElementType,ErrorType>> where T: DeferredType {
+		return reduce(Deferred<Result<T.ElementType,ErrorType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: (ElementType) -> T) -> Effect<Result<T.ElementType,ErrorType>> where T: EffectType {
+		return reduce(Effect<Result<T.ElementType,ErrorType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: (ElementType) -> T) -> Optional<Result<T.ElementType,ErrorType>> where T: OptionalType {
+		return reduce(Optional<Result<T.ElementType,ErrorType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: (ElementType) -> T) -> Reader<Result<T.ElementType,ErrorType>,T.EnvironmentType> where T: ReaderType {
+		return reduce(Reader<Result<T.ElementType,ErrorType>,T.EnvironmentType>.init(.neutral)) { (acc,x) in
+			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: (ElementType) -> T) -> Result<Result<T.ElementType,ErrorType>,T.ErrorType> where T: ResultType {
+		return reduce(Result<Result<T.ElementType,ErrorType>,T.ErrorType>.init(.neutral)) { (acc,x) in
+			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: (ElementType) -> T) -> Writer<Result<T.ElementType,ErrorType>,T.LogType> where T: WriterType {
+		return reduce(Writer<Result<T.ElementType,ErrorType>,T.LogType>.init(.neutral)) { (acc,x) in
+			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
+		}
+	}
+
+}
+
+// MARK: - ResultType - flip
+extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: ArrayType {
+	public var flip: Array<Result<ElementType.ElementType,ErrorType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: DeferredType {
+	public var flip: Deferred<Result<ElementType.ElementType,ErrorType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: EffectType {
+	public var flip: Effect<Result<ElementType.ElementType,ErrorType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: OptionalType {
+	public var flip: Optional<Result<ElementType.ElementType,ErrorType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: ReaderType {
+	public var flip: Reader<Result<ElementType.ElementType,ErrorType>,ElementType.EnvironmentType> {
+		return traverse(F.identity)
+	}
+}
+
+extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: ResultType {
+	public var flip: Result<Result<ElementType.ElementType,ErrorType>,ElementType.ErrorType> {
+		return traverse(F.identity)
+	}
+}
+
+extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: WriterType {
+	public var flip: Writer<Result<ElementType.ElementType,ErrorType>,ElementType.LogType> {
+		return traverse(F.identity)
+	}
+}
+
