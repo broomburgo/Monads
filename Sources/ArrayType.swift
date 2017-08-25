@@ -1,7 +1,8 @@
 // MARK: - Definition
 
 // sourcery: concrete = "Array"
-// sourcery: map, joined, flatMap, zip, apply, traverse, lift, lift-, lift*, lift/, liftPrefix-
+// sourcery: reducible
+// sourcery: map, joined, flatMap, zip, apply, lift, lift-, lift*, lift/, liftPrefix-
 public protocol ArrayType: PureConstructible {
 	func run(_ callback: @escaping (ElementType) throws -> ()) rethrows
 }
@@ -41,6 +42,22 @@ extension ArrayType where ElementType: ArrayType {
 		run { $0.run { reduced.append($0) } }
 		return reduced
 	}
+}
+
+// MARK: - Reducible
+
+extension ArrayType {
+	static var neutral: Array<ElementType> {
+		return []
+	}
+
+	static func appending(_ x: ElementType) -> Endo<Array<ElementType>> {
+		return { $0 + [x] }
+	}
+}
+
+extension Array: Reducible {
+	public typealias ReducibleElementType = ElementType
 }
 
 // MARK: - Utility
