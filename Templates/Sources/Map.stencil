@@ -6,13 +6,10 @@
 
 {% macro getReturnTypeTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<B{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 
-{% macro getReturnTypeTTT type1 type2 type3 type4 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<{{ type4.annotations.concrete }}<B{% if type4.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.ElementType.{{ type4.annotations.context }}{% endif %}>{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
-
 import Abstract
 
 infix operator |<^> : FunctorPrecedence
 infix operator ||<^> : FunctorPrecedence
-infix operator |||<^> : FunctorPrecedence
 
 {% for type1 in types.protocols|annotated:"map"|annotated:"concrete" %}
 // MARK: - {{ type1.name }}
@@ -45,19 +42,6 @@ public func ||<^> <A,B> (left: @escaping (A.ElementType.ElementType.ElementType)
 	return right.mapTT(left)
 }
 
-{% for type4 in types.protocols|annotated:"map"|annotated:"concrete" %}
-
-extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: {{ type3.name }}, ElementType.ElementType.ElementType: {{ type4.name }} {
-	public func mapTTT <B> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> B) -> {% call getReturnTypeTTT type1 type2 type3 type4 "" %} {
-		return mapTT { $0.map(transform) }
-	}
-}
-
-public func |||<^> <A,B> (left: @escaping (A.ElementType.ElementType.ElementType.ElementType) -> B, right: A) -> {% call getReturnTypeTTT type1 type2 type3 type4 "A" %} where A: {{ type1.name }}, A.ElementType: {{ type2.name }}, A.ElementType.ElementType: {{ type3.name }}, A.ElementType.ElementType.ElementType: {{ type4.name }} {
-	return right.mapTTT(left)
-}
-
-{% endfor %}
 {% endfor %}
 {% endfor %}
 {% endfor %}
