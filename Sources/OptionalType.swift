@@ -1,7 +1,8 @@
 // MARK: - Definition
 
 // sourcery: concrete = "Optional"
-// sourcery: map, joined, flatMap, zip, apply, traverse, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: reducible
 // sourcery: transformer1, transformer2
 public protocol OptionalType: PureConstructible {
 	init()
@@ -48,6 +49,31 @@ extension OptionalType where ElementType: OptionalType {
 				ifSome: { .some($0) },
 				ifNone: { .none }) },
 			ifNone: { .none })
+	}
+}
+
+// MARK: - Reducible
+
+extension OptionalType {
+	static var neutral: Optional<ElementType> {
+		return .none
+	}
+
+	static func appending(_ x: ElementType) -> Endo<Optional<ElementType>> {
+		return { $0 ?? .some(x) }
+	}
+}
+
+extension Optional: Reducible {
+	public typealias ReducibleElementType = ElementType
+
+	public func reduce<T>(_ initialResult: T, _ nextPartialResult: (T, ElementType) throws -> T) rethrows -> T {
+		switch self {
+		case .some(let value):
+			return try nextPartialResult(initialResult,value)
+		default:
+			return initialResult
+		}
 	}
 }
 

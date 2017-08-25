@@ -1,30 +1,29 @@
-//: `traverse` definitions; requires `concrete`
+//: traverse definitions; requires `reducible` and `concrete`
 
 import Abstract
 
-private func appending<A>(_ x: A) -> ([A]) -> [A] {
-	return { xs in xs + [x] }
-}
+{% for type1 in types.protocols|annotated:"reducible"|annotated:"concrete" %}
 
-extension Sequence {
-{% for type in types.protocols|annotated:"traverse"|annotated:"concrete" %}
+// MARK: - {{ type1.name }} - traverse
+extension {{ type1.name }} where Self: Reducible, Self.ReducibleElementType == ElementType {
+{% for type2 in types.protocols|annotated:"map"|annotated:"apply"|annotated:"concrete" %}
 
-// MARK: - {{ type.name }} - traverse
-	public func traverse<T>(_ transform: (Iterator.Element) -> T) -> {{ type.annotations.concrete }}<Array<T.ElementType>{% if type.annotations.context %},T.{{ type.annotations.context }}{% endif %}> where T: {{ type.name }} {
-		return reduce({{ type.annotations.concrete }}<Array<T.ElementType>{% if type.annotations.context %},T.{{ type.annotations.context }}{% endif %}>.init([])) { (acc,x) in
-			transform(x).map(appending) <*> acc
+	public func traverse<T>(_ transform: (ElementType) -> T) -> {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% if type2.annotations.context %},T.{{ type2.annotations.context }}{% endif %}> where T: {{ type2.name }} {
+		return reduce({{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% if type2.annotations.context %},T.{{ type2.annotations.context }}{% endif %}>.init(.neutral)) { (acc,x) in
+			transform(x).map({{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>.appending) <*> acc
 		}
 	}
 
 {% endfor %}
 }
 
-{% for type in types.protocols|annotated:"traverse"|annotated:"concrete" %}
-// MARK: - {{ type.name }} - flip
-extension Sequence where Iterator.Element: {{ type.name }} {
-	public var flip: {{ type.annotations.concrete }}<Array<Iterator.Element.ElementType>{% if type.annotations.context %},Iterator.Element.{{ type.annotations.context }}{% endif %}> {
+// MARK: - {{ type1.name }} - flip
+{% for type2 in types.protocols|annotated:"map"|annotated:"apply"|annotated:"concrete" %}
+extension {{ type1.name }} where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: {{ type2.name }} {
+	public var flip: {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<ElementType.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% if type2.annotations.context %},ElementType.{{ type2.annotations.context }}{% endif %}> {
 		return traverse(F.identity)
 	}
 }
 
+{% endfor %}
 {% endfor %}

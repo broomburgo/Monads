@@ -5,7 +5,8 @@ import Abstract
 // sourcery: concrete = "Result"
 // sourcery: context = "ErrorType"
 // sourcery: contextRequiredProtocols = "Error"
-// sourcery: map, joined, flatMap, zip, apply, traverse, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: reducible
 // sourcery: transformer1, transformer2
 public protocol ResultType: PureConstructible {
 	associatedtype ErrorType: Error
@@ -121,6 +122,37 @@ extension ResultType where ErrorType: Semigroup {
 				ifFailure: { bError in .failure(aError <> bError)},
 				ifCancel: { .cancel }) },
 			ifCancel: { .cancel })
+	}
+}
+
+// MARK: - Reducible
+
+extension ResultType {
+	static var neutral: Result<ElementType,ErrorType> {
+		return .cancel
+	}
+
+	static func appending(_ x: ElementType) -> Endo<Result<ElementType,ErrorType>> {
+		return { $0.run(
+			ifSuccess: Result.success,
+			ifFailure: F.constant(Result.success(x)),
+			ifCancel: F.constant(Result.success(x)))
+		}
+	}
+}
+
+extension Result: Reducible {
+	public typealias ReducibleElementType = ElementType
+
+	public func reduce<T>(_ initialResult: T, _ nextPartialResult: (T, ElementType) throws -> T) rethrows -> T {
+		switch self {
+		case .success(let value):
+			return try nextPartialResult(initialResult,value)
+		case .failure:
+			return initialResult
+		case .cancel:
+			return initialResult
+		}
 	}
 }
 
