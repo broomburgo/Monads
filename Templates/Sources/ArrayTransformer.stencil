@@ -6,7 +6,7 @@
 
 {% macro getReturnTypeTTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Array<A>{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 
-// MARK: - Level 1 Transformer: map
+// MARK: - Level 1 Transformer
 {% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: ArrayType {

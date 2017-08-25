@@ -6,7 +6,7 @@
 
 
 
-// MARK: - Level 1 Transformer: map
+// MARK: - Level 1 Transformer
 
 extension ArrayType where ElementType: EffectType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Array<Effect<A>>) -> Array<Effect<A>> {
