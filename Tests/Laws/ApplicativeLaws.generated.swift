@@ -38,7 +38,6 @@ extension Law {
 				return (Array.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
-
 // MARK: - Deferred
         enum OnDeferred {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -67,7 +66,6 @@ extension Law {
 				return (Deferred.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
-
 // MARK: - Effect
         enum OnEffect {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -96,7 +94,6 @@ extension Law {
 				return (Effect.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
-
 // MARK: - Optional
         enum OnOptional {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -125,7 +122,34 @@ extension Law {
 				return (Optional.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
+// MARK: - Reader
+		enum OnReader {
+			static func identity <A> (_ value: A, _ context: String) -> Bool where A: Equatable {
+				let a_a = Reader<(A)->A,String>.init(F.identity)
+				let a = Reader<A,String>.init(value)
+				return ((a_a <*> a) == a)(context)
+			}
 
+			static func homomorphism <A,B> (_ value: A, _ f: @escaping (A) -> B, _ context: String) -> Bool where A: Equatable, B: Equatable {
+				let a_b = Reader<(A)->B,String>.init(f)
+				let a = Reader<A,String>.init(value)
+				let b = Reader<B,String>.init(f(value))
+				return ((a_b <*> a) == b)(context)
+			}
+
+			static func interchange <A,B> (_ value: A, _ f: @escaping (A) -> B, _ context: String) -> Bool where A: Equatable, B: Equatable {
+				let a_b = Reader<(A)->B,String>.init(f)
+				let a = Reader<A,String>.init(value)
+				return ((a_b <*> a) == (Reader.init({ $0(value) }) <*> a_b))(context)
+			}
+
+			static func composition<A,B,C>(_ value: A, _ f: @escaping (A) -> B, _ g: @escaping (B) -> C, _ context: String) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+				let a_b = Reader<(A)->B,String>.init(f)
+				let b_c = Reader<(B)->C,String>.init(g)
+				let a = Reader<A,String>.init(value)
+				return ((Reader.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a)))(context)
+			}
+		}
 // MARK: - Result
         enum OnResult {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -154,7 +178,6 @@ extension Law {
 				return (Result.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
-
 // MARK: - Writer
         enum OnWriter {
             static func identity <A> (_ value: A) -> Bool where A: Equatable {
@@ -183,6 +206,5 @@ extension Law {
 				return (Writer.init(F.curry(•)) <*> b_c <*> a_b <*> a) == (b_c <*> (a_b <*> a))
             }
         }
-
     }
 }

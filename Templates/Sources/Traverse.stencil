@@ -1,0 +1,30 @@
+//: `traverse` definitions; requires `concrete`
+
+import Abstract
+
+private func appending<A>(_ x: A) -> ([A]) -> [A] {
+	return { xs in xs + [x] }
+}
+
+extension Sequence {
+{% for type in types.protocols|annotated:"traverse"|annotated:"concrete" %}
+
+// MARK: - {{ type.name }} - traverse
+	public func traverse<T>(_ transform: (Iterator.Element) -> T) -> {{ type.annotations.concrete }}<Array<T.ElementType>{% if type.annotations.context %},T.{{ type.annotations.context }}{% endif %}> where T: {{ type.name }} {
+		return reduce({{ type.annotations.concrete }}<Array<T.ElementType>{% if type.annotations.context %},T.{{ type.annotations.context }}{% endif %}>.init([])) { (acc,x) in
+			transform(x).map(appending) <*> acc
+		}
+	}
+
+{% endfor %}
+}
+
+{% for type in types.protocols|annotated:"traverse"|annotated:"concrete" %}
+// MARK: - {{ type.name }} - flip
+extension Sequence where Iterator.Element: {{ type.name }} {
+	public var flip: {{ type.annotations.concrete }}<Array<Iterator.Element.ElementType>{% if type.annotations.context %},Iterator.Element.{{ type.annotations.context }}{% endif %}> {
+		return traverse(F.identity)
+	}
+}
+
+{% endfor %}

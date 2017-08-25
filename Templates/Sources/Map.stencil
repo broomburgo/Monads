@@ -1,12 +1,47 @@
 //: `map` definitions; requires `concrete`
 
+{% macro getReturnType type1 external %}{{ type1.annotations.concrete }}<B{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+
+{% macro getReturnTypeT type1 type2 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<B{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+
+{% macro getReturnTypeTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<B{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+
 import Abstract
 
-{% for type in types.protocols|annotated:"map"|annotated:"concrete" %}
-// MARK: - {{ type.name }}
+infix operator |<^> : FunctorPrecedence
+infix operator ||<^> : FunctorPrecedence
 
-public func <^> <A,B{% if type.annotations.context %},Z{% endif %}> (left: @escaping (A.ElementType) -> B, right: A) -> {{ type.annotations.concrete }}<B{% if type.annotations.context %}, Z{% endif %}> where A: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == Z{% endif %}{% if type.annotations.contextRequiredProtocols %}, Z: {{ type.annotations.contextRequiredProtocols }}{% endif %} {
+{% for type1 in types.protocols|annotated:"map"|annotated:"concrete" %}
+// MARK: - {{ type1.name }}
+
+public func <^> <A,B> (left: @escaping (A.ElementType) -> B, right: A) -> {% call getReturnType type1 "A" %} where A: {{ type1.name }} {
     return right.map(left)
 }
 
+{% for type2 in types.protocols|annotated:"map"|annotated:"concrete" %}
+
+extension {{ type1.name }} where ElementType: {{ type2.name }} {
+	public func mapT <B> (_ transform: @escaping (ElementType.ElementType) -> B) -> {% call getReturnTypeT type1 type2 "" %} {
+		return map { $0.map(transform) }
+	}
+}
+
+public func |<^> <A,B> (left: @escaping (A.ElementType.ElementType) -> B, right: A) -> {% call getReturnTypeT type1 type2 "A" %} where A: {{ type1.name }}, A.ElementType: {{ type2.name }} {
+	return right.mapT(left)
+}
+
+{% for type3 in types.protocols|annotated:"map"|annotated:"concrete" %}
+
+extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: {{ type3.name }} {
+	public func mapTT <B> (_ transform: @escaping (ElementType.ElementType.ElementType) -> B) -> {% call getReturnTypeTT type1 type2 type3 "" %} {
+		return mapT { $0.map(transform) }
+	}
+}
+
+public func ||<^> <A,B> (left: @escaping (A.ElementType.ElementType.ElementType) -> B, right: A) -> {% call getReturnTypeTT type1 type2 type3 "A" %} where A: {{ type1.name }}, A.ElementType: {{ type2.name }}, A.ElementType.ElementType: {{ type3.name }} {
+	return right.mapTT(left)
+}
+
+{% endfor %}
+{% endfor %}
 {% endfor %}

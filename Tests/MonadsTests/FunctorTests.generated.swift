@@ -10,7 +10,7 @@ import SwiftCheck
 class FunctorLawsTests: XCTestCase {
 // MARK: - Array
     func testArray() {
-        property("Functor law: identity") <- forAll { (a: Int) in
+		property("Functor law: identity") <- forAll { (a: Int) in
             Law.Functor.OnArray.identity(a)
         }
 
@@ -21,7 +21,7 @@ class FunctorLawsTests: XCTestCase {
 
 // MARK: - Deferred
     func testDeferred() {
-        property("Functor law: identity") <- forAll { (a: Int) in
+		property("Functor law: identity") <- forAll { (a: Int) in
             Law.Functor.OnDeferred.identity(a)
         }
 
@@ -32,7 +32,7 @@ class FunctorLawsTests: XCTestCase {
 
 // MARK: - Effect
     func testEffect() {
-        property("Functor law: identity") <- forAll { (a: Int) in
+		property("Functor law: identity") <- forAll { (a: Int) in
             Law.Functor.OnEffect.identity(a)
         }
 
@@ -43,7 +43,7 @@ class FunctorLawsTests: XCTestCase {
 
 // MARK: - Optional
     func testOptional() {
-        property("Functor law: identity") <- forAll { (a: Int) in
+		property("Functor law: identity") <- forAll { (a: Int) in
             Law.Functor.OnOptional.identity(a)
         }
 
@@ -52,9 +52,20 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 
+// MARK: - Reader
+    func testReader() {
+		property("Functor law: identity") <- forAll { (a: Int, context: String) in
+            Law.Functor.OnReader.identity(a, context)
+        }
+
+        property("Functor law: composition") <- forAll { (a: Int, af: ArrowOf<Int,Int>, ag: ArrowOf<Int,Int>, context: String) in
+            Law.Functor.OnReader.composition(a, af.getArrow, ag.getArrow, context)
+        }
+    }
+
 // MARK: - Result
     func testResult() {
-        property("Functor law: identity") <- forAll { (a: Int) in
+		property("Functor law: identity") <- forAll { (a: Int) in
             Law.Functor.OnResult.identity(a)
         }
 
@@ -65,7 +76,7 @@ class FunctorLawsTests: XCTestCase {
 
 // MARK: - Writer
     func testWriter() {
-        property("Functor law: identity") <- forAll { (a: Int) in
+		property("Functor law: identity") <- forAll { (a: Int) in
             Law.Functor.OnWriter.identity(a)
         }
 

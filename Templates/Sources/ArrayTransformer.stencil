@@ -1,0 +1,54 @@
+//: `transformer` definitions for `ArrayType`; requires `concrete`
+
+{% macro getReturnTypeT type1 external %}{{ type1.annotations.concrete }}<Array<A>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+
+{% macro getReturnTypeTT type1 type2 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<Array<A>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+
+{% macro getReturnTypeTTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Array<A>{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+
+// MARK: - Level 1 Transformer
+{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+
+extension {{ type1.name }} where ElementType: ArrayType {
+	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> {% call getReturnTypeT type1 "" %}) -> {% call getReturnTypeT type1 "" %} {
+		return flatMap { $0.getArray.traverse(transform).map { $0.joined } }
+	}
+}
+
+public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType) -> {% call getReturnTypeT type1 "T"%}) -> {% call getReturnTypeT type1 "T"%} where T: {{ type1.name }}, T.ElementType: ArrayType {
+	return object.flatMapT(transform)
+}
+{% endfor %}
+
+// MARK: - Level 2 Transformer
+{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
+
+extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: ArrayType {
+	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> {% call getReturnTypeTT type1 type2 "" %}) -> {% call getReturnTypeTT type1 type2 "" %} {
+		return flatMapT { $0.getArray.traverse(transform).map { $0.flip.map { $0.joined } } }
+	}
+}
+
+public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType) -> {% call getReturnTypeTT type1 type2 "T"%}) -> {% call getReturnTypeTT type1 type2 "T"%} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: ArrayType {
+	return object.flatMapTT(transform)
+}
+{% endfor %}
+{% endfor %}
+
+// MARK: - Level 3 Transformer
+{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
+{% for type3 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
+
+extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: {{ type3.name }}, ElementType.ElementType.ElementType: ArrayType {
+	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> {% call getReturnTypeTTT type1 type2 type3 "" %}) -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
+		return flatMapTT { $0.getArray.traverse(transform).map { $0.flip.map { $0.flip.map { $0.joined } } } }	}
+}
+
+public func |||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.ElementType.ElementType.ElementType) -> {% call getReturnTypeTTT type1 type2 type3 "T"%}) -> {% call getReturnTypeTTT type1 type2 type3 "T"%} where T: {{ type1.name }}, T.ElementType: {{ type2.name }}, T.ElementType.ElementType: {{ type3.name }}, T.ElementType.ElementType.ElementType: ArrayType {
+	return object.flatMapTTT(transform)
+}
+{% endfor %}
+{% endfor %}
+{% endfor %}

@@ -132,14 +132,27 @@ extension {{ type.name }}: Arbitrary {
 // MARK: - Arbitrary for function wrappers
 {% for type in types.all|annotated:"arbitraryFunction" %}
 
+{% if type.annotations.arbitraryFunctionInverseParameters %}
+struct {{ type.name }}Of<S,T>: Arbitrary where T: CoArbitrary & Hashable, S: Arbitrary{% if type.annotations.arbitraryGenericParameterProtocols %} & {{ type.annotations.arbitraryGenericParameterProtocols }}{% endif %}{% if type.annotations.additionalGenericParameterSubtypeRequirements %}, {% for annotation in type.annotations.additionalGenericParameterSubtypeRequirements %} T.{{ annotation }}{% if not forloop.last %}, {% endif %}{% endfor %}{% elif type.annotations.additionalGenericParameterSubtypeRequirement %}, T.{{ type.annotations.additionalGenericParameterSubtypeRequirement }}{% endif %} {
+	let get{{ type.name }}: {{ type.name }}<S,T>
+	init(_ value: @escaping (T) -> S) {
+		self.get{{ type.name }} = {{ type.name }}.init(value)
+	}
+
+	public static var arbitrary: Gen<{{ type.name }}Of<S,T>> {
+		return ArrowOf<T,S>.arbitrary.map { $0.getArrow }.map({{ type.name }}Of<S,T>.init)
+	}
+}
+{% else %}
 struct {{ type.name }}Of<S,T>: Arbitrary where S: CoArbitrary & Hashable, T: Arbitrary{% if type.annotations.arbitraryGenericParameterProtocols %} & {{ type.annotations.arbitraryGenericParameterProtocols }}{% endif %}{% if type.annotations.additionalGenericParameterSubtypeRequirements %}, {% for annotation in type.annotations.additionalGenericParameterSubtypeRequirements %} T.{{ annotation }}{% if not forloop.last %}, {% endif %}{% endfor %}{% elif type.annotations.additionalGenericParameterSubtypeRequirement %}, T.{{ type.annotations.additionalGenericParameterSubtypeRequirement }}{% endif %} {
-	let get: {{ type.name }}<S,T>
+	let get{{ type.name }}: {{ type.name }}<S,T>
 	init(_ value: @escaping (S) -> T) {
-		self.get = {{ type.name }}.init(value)
+		self.get{{ type.name }} = {{ type.name }}.init(value)
 	}
 
 	public static var arbitrary: Gen<{{ type.name }}Of<S,T>> {
 		return ArrowOf<S,T>.arbitrary.map { $0.getArrow }.map({{ type.name }}Of<S,T>.init)
 	}
 }
+{% endif %}
 {% endfor %}

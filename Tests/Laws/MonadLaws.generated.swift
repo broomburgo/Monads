@@ -24,7 +24,6 @@ extension Law {
                 return (Array<A>.init(value) >>- f >>- g) == (Array<A>.init(value) >>- { f($0) >>- g })
             }
         }
-
 // MARK: - Deferred
         enum OnDeferred {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Deferred<B>) -> Bool where A: Equatable, B: Equatable {
@@ -39,7 +38,6 @@ extension Law {
                 return (Deferred<A>.init(value) >>- f >>- g) == (Deferred<A>.init(value) >>- { f($0) >>- g })
             }
         }
-
 // MARK: - Effect
         enum OnEffect {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Effect<B>) -> Bool where A: Equatable, B: Equatable {
@@ -54,7 +52,6 @@ extension Law {
                 return (Effect<A>.init(value) >>- f >>- g) == (Effect<A>.init(value) >>- { f($0) >>- g })
             }
         }
-
 // MARK: - Optional
         enum OnOptional {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Optional<B>) -> Bool where A: Equatable, B: Equatable {
@@ -69,7 +66,20 @@ extension Law {
                 return (Optional<A>.init(value) >>- f >>- g) == (Optional<A>.init(value) >>- { f($0) >>- g })
             }
         }
+// MARK: - Reader
+		enum OnReader {
+			static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Reader<B,String>, _ context: String) -> Bool where A: Equatable, B: Equatable {
+				return ((Reader<A,String>.init(value) >>- f) == f(value))(context)
+			}
 
+			static func identityRight <A> (_ value: A, _ context: String) -> Bool where A: Equatable {
+				return ((Reader<A,String>.init(value) >>- Reader<A,String>.init) == Reader<A,String>.init(value))(context)
+			}
+
+			static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Reader<B,String>, _ g: @escaping (B) -> Reader<C,String>, _ context: String) -> Bool where A: Equatable, B: Equatable, C: Equatable {
+				return ((Reader<A,String>.init(value) >>- f >>- g) == (Reader<A,String>.init(value) >>- { f($0) >>- g }))(context)
+			}
+		}
 // MARK: - Result
         enum OnResult {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Result<B,AnyError>) -> Bool where A: Equatable, B: Equatable {
@@ -84,7 +94,6 @@ extension Law {
                 return (Result<A,AnyError>.init(value) >>- f >>- g) == (Result<A,AnyError>.init(value) >>- { f($0) >>- g })
             }
         }
-
 // MARK: - Writer
         enum OnWriter {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Writer<B,String>) -> Bool where A: Equatable, B: Equatable {
@@ -99,6 +108,5 @@ extension Law {
                 return (Writer<A,String>.init(value) >>- f >>- g) == (Writer<A,String>.init(value) >>- { f($0) >>- g })
             }
         }
-
     }
 }

@@ -9,13 +9,9 @@ import Abstract
 {% macro getReturnTypeTTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Writer<A,{% if external %}{{ external }}.{% endif %}ElementType.ElementType.ElementType.LogType>{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 
 // MARK: - Level 1 Transformer
-{% for type1 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: WriterType {
-	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> {% call getReturnTypeT type1 "" %} {
-		return map { $0.map(transform) }
-	}
-
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> {% call getReturnTypeT type1 "" %}) -> {% call getReturnTypeT type1 "" %} {
 		return flatMap { (writer) -> {% call getReturnTypeT type1 "" %} in
 			let (oldValue,oldLog) = writer.run
@@ -34,14 +30,10 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 {% endfor %}
 
 // MARK: - Level 2 Transformer
-{% for type1 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
-{% for type2 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: WriterType {
-	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> {% call getReturnTypeTT type1 type2 "" %} {
-		return mapT { $0.map(transform) }
-	}
-
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> {% call getReturnTypeTT type1 type2 "" %}) -> {% call getReturnTypeTT type1 type2 "" %} {
 		return flatMapT { (writer) -> {% call getReturnTypeTT type1 type2 "" %} in
 			let (oldValue,oldLog) = writer.run
@@ -61,15 +53,11 @@ public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Elem
 {% endfor %}
 
 // MARK: - Level 3 Transformer
-{% for type1 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
-{% for type2 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
-{% for type3 in types.protocols|annotated:"transformer3"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
+{% for type3 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: {{ type3.name }}, ElementType.ElementType.ElementType: WriterType {
-	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
-		return mapTT { $0.map(transform) }
-	}
-
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> {% call getReturnTypeTTT type1 type2 type3 "" %}) -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
 		return flatMapTT { (writer) -> {% call getReturnTypeTTT type1 type2 type3 "" %} in
 			let (oldValue,oldLog) = writer.run
