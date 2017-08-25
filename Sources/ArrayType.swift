@@ -42,3 +42,14 @@ extension ArrayType where ElementType: ArrayType {
 		return reduced
 	}
 }
+
+// MARK: - Utility
+extension ArrayType {
+	public var getArray: Array<ElementType> {
+		var array: Array<ElementType> = []
+		run {
+			array.append($0)
+		}
+		return array
+	}
+}
