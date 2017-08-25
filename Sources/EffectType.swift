@@ -2,7 +2,7 @@
 
 // sourcery: concrete = "Effect"
 // sourcery: map, joined, flatMap, zip, apply, traverse, lift, lift+, lift-, lift*, lift/, liftPrefix-
-// sourcery: transformer1, transformer2, transformer3
+// sourcery: transformer1, transformer2
 public protocol EffectType: PureConstructible {
 	init(execute: @escaping () -> ElementType)
 	func run() -> ElementType

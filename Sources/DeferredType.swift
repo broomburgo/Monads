@@ -4,7 +4,6 @@ import Abstract
 
 // sourcery: concrete = "Deferred"
 // sourcery: map, joined, flatMap, apply, traverse, lift, lift+, lift-, lift*, lift/, liftPrefix-
-// sourcery: transformer1
 public protocol DeferredType: PureConstructible {
 	init(completion: (@escaping (ElementType) -> ()) -> ())
 	func run(_ callback: @escaping (ElementType) -> ())
@@ -76,6 +75,7 @@ extension DeferredType where ElementType: DeferredType {
 		}
 	}
 }
+
 
 // MARK: -  Custom Zip (parallel computation)
 

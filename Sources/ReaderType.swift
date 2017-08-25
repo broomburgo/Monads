@@ -5,7 +5,6 @@ import Abstract
 // sourcery: concrete = "Reader"
 // sourcery: context = "EnvironmentType"
 // sourcery: map, joined, flatMap, zip, apply, traverse, lift, lift+, lift-, lift*, lift/, liftPrefix-
-// sourcery: transformer1
 public protocol ReaderType: PureConstructible {
 	associatedtype EnvironmentType
 	init(_ execute: @escaping (EnvironmentType) -> ElementType)

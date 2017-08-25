@@ -2,7 +2,7 @@
 
 // sourcery: concrete = "Optional"
 // sourcery: map, joined, flatMap, zip, apply, traverse, lift, lift+, lift-, lift*, lift/, liftPrefix-
-// sourcery: transformer1, transformer2, transformer3
+// sourcery: transformer1, transformer2
 public protocol OptionalType: PureConstructible {
 	init()
 	func run<A>(ifSome: (ElementType) throws -> A, ifNone: () throws -> A) rethrows -> A

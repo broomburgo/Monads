@@ -7,7 +7,7 @@
 {% macro getReturnTypeTTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Effect<A>{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 
 // MARK: - Level 1 Transformer
-{% for type1 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: EffectType {
 	public func mapT <A> (_ transform: @escaping (ElementType.ElementType) -> A) -> {% call getReturnTypeT type1 "" %} {
@@ -25,8 +25,8 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 {% endfor %}
 
 // MARK: - Level 2 Transformer
-{% for type1 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
-{% for type2 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: EffectType {
 	public func mapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> A) -> {% call getReturnTypeTT type1 type2 "" %} {
@@ -45,9 +45,9 @@ public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Elem
 {% endfor %}
 
 // MARK: - Level 3 Transformer
-{% for type1 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
-{% for type2 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
-{% for type3 in types.protocols|annotated:"transformer3"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
+{% for type3 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: {{ type3.name }}, ElementType.ElementType.ElementType: EffectType {
 	public func mapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> A) -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
