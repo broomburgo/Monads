@@ -73,18 +73,19 @@ extension WriterType where ElementType: WriterType, ElementType.LogType == LogTy
 	}
 }
 
-// MARK: - Monoid
+// MARK: - Semigroup & Monoid
 
-extension Writer where ElementType: Monoid {
-	public static var empty: Writer {
-		return Writer.init(value: .empty, log: .empty)
-	}
-
+extension Writer where ElementType: Semigroup {
 	public static func <> (left: Writer, right: Writer) -> Writer {
 		return left >>- { value in right.map { value <> $0 } }
 	}
 }
 
+extension Writer where ElementType: Monoid {
+	public static var empty: Writer {
+		return Writer.init(value: .empty, log: .empty)
+	}
+}
 
 // MARK: - Reducible
 
@@ -94,7 +95,7 @@ extension WriterType where ElementType: Monoid {
 	}
 
 	static func appending(_ x: ElementType) -> Endo<Writer<ElementType,LogType>> {
-		return { $0.map { $0 <> x } }
+		return { $0 <> Writer.init(x) }
 	}
 }
 
