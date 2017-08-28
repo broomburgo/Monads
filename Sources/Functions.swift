@@ -490,7 +490,7 @@ precedencegroup LogicalImplicationPrecedence {
 	lowerThan: LogicalDisjunctionPrecedence
 }
 
-infix operator => : LogicalConjunctionPrecedence
+infix operator => : LogicalImplicationPrecedence
 
 public func => (_ left: Bool, _ right: @autoclosure () -> Bool) -> Bool {
 	return (left == false) || right()
