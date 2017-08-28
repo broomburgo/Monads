@@ -8,8 +8,7 @@ import Abstract
 // MARK: - ArrayType
 
 extension ArrayType {
-	public func apply <A,T> (_ other: A) -> Array<T> where A: ArrayType, A.ElementType == (ElementType) -> T
-	{
+	public func apply <A,T> (_ other: A) -> Array<T> where A: ArrayType, A.ElementType == (ElementType) -> T {
 		return Array.zip(self,other).map { $1($0) }
 	}
 }
@@ -21,8 +20,7 @@ public func <*> <A,B,T> (left: A, right: B) -> Array<T> where A: ArrayType, B: A
 // MARK: - DeferredType
 
 extension DeferredType {
-	public func apply <A,T> (_ other: A) -> Deferred<T> where A: DeferredType, A.ElementType == (ElementType) -> T
-	{
+	public func apply <A,T> (_ other: A) -> Deferred<T> where A: DeferredType, A.ElementType == (ElementType) -> T {
 		return Deferred.zip(self,other).map { $1($0) }
 	}
 }
@@ -34,8 +32,7 @@ public func <*> <A,B,T> (left: A, right: B) -> Deferred<T> where A: DeferredType
 // MARK: - EffectType
 
 extension EffectType {
-	public func apply <A,T> (_ other: A) -> Effect<T> where A: EffectType, A.ElementType == (ElementType) -> T
-	{
+	public func apply <A,T> (_ other: A) -> Effect<T> where A: EffectType, A.ElementType == (ElementType) -> T {
 		return Effect.zip(self,other).map { $1($0) }
 	}
 }
@@ -47,8 +44,7 @@ public func <*> <A,B,T> (left: A, right: B) -> Effect<T> where A: EffectType, B:
 // MARK: - OptionalType
 
 extension OptionalType {
-	public func apply <A,T> (_ other: A) -> Optional<T> where A: OptionalType, A.ElementType == (ElementType) -> T
-	{
+	public func apply <A,T> (_ other: A) -> Optional<T> where A: OptionalType, A.ElementType == (ElementType) -> T {
 		return Optional.zip(self,other).map { $1($0) }
 	}
 }
@@ -60,8 +56,7 @@ public func <*> <A,B,T> (left: A, right: B) -> Optional<T> where A: OptionalType
 // MARK: - ReaderType
 
 extension ReaderType {
-	public func apply <A,T> (_ other: A) -> Reader<T, EnvironmentType> where A: ReaderType, A.ElementType == (ElementType) -> T, A.EnvironmentType == EnvironmentType
-	{
+	public func apply <A,T> (_ other: A) -> Reader<T, EnvironmentType> where A: ReaderType, A.ElementType == (ElementType) -> T, A.EnvironmentType == EnvironmentType {
 		return Reader.zip(self,other).map { $1($0) }
 	}
 }
@@ -73,8 +68,7 @@ public func <*> <A,B,T,Z> (left: A, right: B) -> Reader<T,Z> where A: ReaderType
 // MARK: - ResultType
 
 extension ResultType {
-	public func apply <A,T> (_ other: A) -> Result<T, ErrorType> where A: ResultType, A.ElementType == (ElementType) -> T, A.ErrorType == ErrorType
-	{
+	public func apply <A,T> (_ other: A) -> Result<T, ErrorType> where A: ResultType, A.ElementType == (ElementType) -> T, A.ErrorType == ErrorType {
 		return Result.zip(self,other).map { $1($0) }
 	}
 }
@@ -86,8 +80,7 @@ public func <*> <A,B,T,Z> (left: A, right: B) -> Result<T,Z> where A: ResultType
 // MARK: - WriterType
 
 extension WriterType {
-	public func apply <A,T> (_ other: A) -> Writer<T, LogType> where A: WriterType, A.ElementType == (ElementType) -> T, A.LogType == LogType
-	{
+	public func apply <A,T> (_ other: A) -> Writer<T, LogType> where A: WriterType, A.ElementType == (ElementType) -> T, A.LogType == LogType {
 		return Writer.zip(self,other).map { $1($0) }
 	}
 }

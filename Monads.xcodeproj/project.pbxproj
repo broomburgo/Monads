@@ -209,6 +209,33 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
+		382A79A81F540F46000B169E /* Functors */ = {
+			isa = PBXGroup;
+			children = (
+				38E4B79D1F27419500EEC287 /* ArrayType.swift */,
+				38A14E451F2A0CBC00A2900C /* CoeffectType.swift */,
+				38A14E3B1F29CBE400A2900C /* DeferredType.swift */,
+				38A14E3F1F2A084400A2900C /* EffectType.swift */,
+				38F4A3C01F1E64EA003966EC /* OptionalType.swift */,
+				3848739A1F4EDB620087D81F /* ReaderType.swift */,
+				38E4B7D71F27968000EEC287 /* ResultType.swift */,
+				388D77281F28E70F001EAC57 /* WriterType.swift */,
+			);
+			name = Functors;
+			sourceTree = "<group>";
+		};
+		382A79A91F540F67000B169E /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				38A918EB1F28861C00AB25CC /* AnyError.swift */,
+				38E4B7931F2726B100EEC287 /* Functions.swift */,
+				3821B1211F2643CF00F75F39 /* Pure.swift */,
+				38AC5D4C1F506603007164FD /* Reducible.swift */,
+				38A14E571F2A3A4D00A2900C /* Weakly.swift */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
 		38A918EE1F28936100AB25CC /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,20 +328,9 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				38A918EB1F28861C00AB25CC /* AnyError.swift */,
-				38E4B79D1F27419500EEC287 /* ArrayType.swift */,
-				38A14E451F2A0CBC00A2900C /* CoeffectType.swift */,
-				38A14E3B1F29CBE400A2900C /* DeferredType.swift */,
-				38A14E3F1F2A084400A2900C /* EffectType.swift */,
-				38E4B7931F2726B100EEC287 /* Functions.swift */,
-				38F4A3C01F1E64EA003966EC /* OptionalType.swift */,
-				3821B1211F2643CF00F75F39 /* Pure.swift */,
-				3848739A1F4EDB620087D81F /* ReaderType.swift */,
-				38E4B7D71F27968000EEC287 /* ResultType.swift */,
-				38A14E571F2A3A4D00A2900C /* Weakly.swift */,
-				388D77281F28E70F001EAC57 /* WriterType.swift */,
+				382A79A81F540F46000B169E /* Functors */,
 				3821B1251F26487C00F75F39 /* Generated */,
-				38AC5D4C1F506603007164FD /* Reducible.swift */,
+				382A79A91F540F67000B169E /* Other */,
 			);
 			path = Sources;
 			sourceTree = SOURCE_ROOT;
