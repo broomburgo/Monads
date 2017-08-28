@@ -71,7 +71,7 @@ extension Optional: Reducible {
 		switch self {
 		case .some(let value):
 			return try nextPartialResult(initialResult,value)
-		default:
+		case .none:
 			return initialResult
 		}
 	}

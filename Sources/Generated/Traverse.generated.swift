@@ -9,49 +9,49 @@ import Abstract
 // MARK: - ArrayType - traverse
 extension ArrayType where Self: Reducible, Self.ReducibleElementType == ElementType {
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Array<Array<T.ElementType>> where T: ArrayType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Array<Array<T.ElementType>> where T: ArrayType {
 		return reduce(Array<Array<T.ElementType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Array<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Deferred<Array<T.ElementType>> where T: DeferredType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Deferred<Array<T.ElementType>> where T: DeferredType {
 		return reduce(Deferred<Array<T.ElementType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Array<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Effect<Array<T.ElementType>> where T: EffectType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Effect<Array<T.ElementType>> where T: EffectType {
 		return reduce(Effect<Array<T.ElementType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Array<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Optional<Array<T.ElementType>> where T: OptionalType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Optional<Array<T.ElementType>> where T: OptionalType {
 		return reduce(Optional<Array<T.ElementType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Array<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Reader<Array<T.ElementType>,T.EnvironmentType> where T: ReaderType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Reader<Array<T.ElementType>,T.EnvironmentType> where T: ReaderType {
 		return reduce(Reader<Array<T.ElementType>,T.EnvironmentType>.init(.neutral)) { (acc,x) in
 			transform(x).map(Array<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Result<Array<T.ElementType>,T.ErrorType> where T: ResultType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Result<Array<T.ElementType>,T.ErrorType> where T: ResultType {
 		return reduce(Result<Array<T.ElementType>,T.ErrorType>.init(.neutral)) { (acc,x) in
 			transform(x).map(Array<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Writer<Array<T.ElementType>,T.LogType> where T: WriterType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Writer<Array<T.ElementType>,T.LogType> where T: WriterType {
 		return reduce(Writer<Array<T.ElementType>,T.LogType>.init(.neutral)) { (acc,x) in
 			transform(x).map(Array<T.ElementType>.appending) <*> acc
 		}
@@ -103,52 +103,149 @@ extension ArrayType where Self: Reducible, Self.ReducibleElementType == ElementT
 }
 
 
+// MARK: - EffectType - traverse
+extension EffectType where Self: Reducible, Self.ReducibleElementType == ElementType, Self.ElementType: Monoid {
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Array<Effect<T.ElementType>> where T: ArrayType, T.ElementType: Monoid {
+		return reduce(Array<Effect<T.ElementType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Effect<T.ElementType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Deferred<Effect<T.ElementType>> where T: DeferredType, T.ElementType: Monoid {
+		return reduce(Deferred<Effect<T.ElementType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Effect<T.ElementType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Effect<Effect<T.ElementType>> where T: EffectType, T.ElementType: Monoid {
+		return reduce(Effect<Effect<T.ElementType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Effect<T.ElementType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Optional<Effect<T.ElementType>> where T: OptionalType, T.ElementType: Monoid {
+		return reduce(Optional<Effect<T.ElementType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Effect<T.ElementType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Reader<Effect<T.ElementType>,T.EnvironmentType> where T: ReaderType, T.ElementType: Monoid {
+		return reduce(Reader<Effect<T.ElementType>,T.EnvironmentType>.init(.neutral)) { (acc,x) in
+			transform(x).map(Effect<T.ElementType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Result<Effect<T.ElementType>,T.ErrorType> where T: ResultType, T.ElementType: Monoid {
+		return reduce(Result<Effect<T.ElementType>,T.ErrorType>.init(.neutral)) { (acc,x) in
+			transform(x).map(Effect<T.ElementType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Writer<Effect<T.ElementType>,T.LogType> where T: WriterType, T.ElementType: Monoid {
+		return reduce(Writer<Effect<T.ElementType>,T.LogType>.init(.neutral)) { (acc,x) in
+			transform(x).map(Effect<T.ElementType>.appending) <*> acc
+		}
+	}
+
+}
+
+// MARK: - EffectType - flip
+extension EffectType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: ArrayType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Array<Effect<ElementType.ElementType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension EffectType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: DeferredType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Deferred<Effect<ElementType.ElementType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension EffectType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: EffectType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Effect<Effect<ElementType.ElementType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension EffectType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: OptionalType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Optional<Effect<ElementType.ElementType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension EffectType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: ReaderType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Reader<Effect<ElementType.ElementType>,ElementType.EnvironmentType> {
+		return traverse(F.identity)
+	}
+}
+
+extension EffectType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: ResultType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Result<Effect<ElementType.ElementType>,ElementType.ErrorType> {
+		return traverse(F.identity)
+	}
+}
+
+extension EffectType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: WriterType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Writer<Effect<ElementType.ElementType>,ElementType.LogType> {
+		return traverse(F.identity)
+	}
+}
+
+
 // MARK: - OptionalType - traverse
 extension OptionalType where Self: Reducible, Self.ReducibleElementType == ElementType {
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Array<Optional<T.ElementType>> where T: ArrayType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Array<Optional<T.ElementType>> where T: ArrayType {
 		return reduce(Array<Optional<T.ElementType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Optional<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Deferred<Optional<T.ElementType>> where T: DeferredType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Deferred<Optional<T.ElementType>> where T: DeferredType {
 		return reduce(Deferred<Optional<T.ElementType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Optional<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Effect<Optional<T.ElementType>> where T: EffectType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Effect<Optional<T.ElementType>> where T: EffectType {
 		return reduce(Effect<Optional<T.ElementType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Optional<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Optional<Optional<T.ElementType>> where T: OptionalType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Optional<Optional<T.ElementType>> where T: OptionalType {
 		return reduce(Optional<Optional<T.ElementType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Optional<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Reader<Optional<T.ElementType>,T.EnvironmentType> where T: ReaderType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Reader<Optional<T.ElementType>,T.EnvironmentType> where T: ReaderType {
 		return reduce(Reader<Optional<T.ElementType>,T.EnvironmentType>.init(.neutral)) { (acc,x) in
 			transform(x).map(Optional<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Result<Optional<T.ElementType>,T.ErrorType> where T: ResultType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Result<Optional<T.ElementType>,T.ErrorType> where T: ResultType {
 		return reduce(Result<Optional<T.ElementType>,T.ErrorType>.init(.neutral)) { (acc,x) in
 			transform(x).map(Optional<T.ElementType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Writer<Optional<T.ElementType>,T.LogType> where T: WriterType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Writer<Optional<T.ElementType>,T.LogType> where T: WriterType {
 		return reduce(Writer<Optional<T.ElementType>,T.LogType>.init(.neutral)) { (acc,x) in
 			transform(x).map(Optional<T.ElementType>.appending) <*> acc
 		}
@@ -203,49 +300,49 @@ extension OptionalType where Self: Reducible, Self.ReducibleElementType == Eleme
 // MARK: - ResultType - traverse
 extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType {
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Array<Result<T.ElementType,ErrorType>> where T: ArrayType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Array<Result<T.ElementType,ErrorType>> where T: ArrayType {
 		return reduce(Array<Result<T.ElementType,ErrorType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Deferred<Result<T.ElementType,ErrorType>> where T: DeferredType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Deferred<Result<T.ElementType,ErrorType>> where T: DeferredType {
 		return reduce(Deferred<Result<T.ElementType,ErrorType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Effect<Result<T.ElementType,ErrorType>> where T: EffectType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Effect<Result<T.ElementType,ErrorType>> where T: EffectType {
 		return reduce(Effect<Result<T.ElementType,ErrorType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Optional<Result<T.ElementType,ErrorType>> where T: OptionalType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Optional<Result<T.ElementType,ErrorType>> where T: OptionalType {
 		return reduce(Optional<Result<T.ElementType,ErrorType>>.init(.neutral)) { (acc,x) in
 			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Reader<Result<T.ElementType,ErrorType>,T.EnvironmentType> where T: ReaderType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Reader<Result<T.ElementType,ErrorType>,T.EnvironmentType> where T: ReaderType {
 		return reduce(Reader<Result<T.ElementType,ErrorType>,T.EnvironmentType>.init(.neutral)) { (acc,x) in
 			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Result<Result<T.ElementType,ErrorType>,T.ErrorType> where T: ResultType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Result<Result<T.ElementType,ErrorType>,T.ErrorType> where T: ResultType {
 		return reduce(Result<Result<T.ElementType,ErrorType>,T.ErrorType>.init(.neutral)) { (acc,x) in
 			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
 		}
 	}
 
 
-	public func traverse<T>(_ transform: (ElementType) -> T) -> Writer<Result<T.ElementType,ErrorType>,T.LogType> where T: WriterType {
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Writer<Result<T.ElementType,ErrorType>,T.LogType> where T: WriterType {
 		return reduce(Writer<Result<T.ElementType,ErrorType>,T.LogType>.init(.neutral)) { (acc,x) in
 			transform(x).map(Result<T.ElementType,ErrorType>.appending) <*> acc
 		}
@@ -292,6 +389,103 @@ extension ResultType where Self: Reducible, Self.ReducibleElementType == Element
 
 extension ResultType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: WriterType {
 	public var flip: Writer<Result<ElementType.ElementType,ErrorType>,ElementType.LogType> {
+		return traverse(F.identity)
+	}
+}
+
+
+// MARK: - WriterType - traverse
+extension WriterType where Self: Reducible, Self.ReducibleElementType == ElementType, Self.ElementType: Monoid {
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Array<Writer<T.ElementType,LogType>> where T: ArrayType, T.ElementType: Monoid {
+		return reduce(Array<Writer<T.ElementType,LogType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Writer<T.ElementType,LogType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Deferred<Writer<T.ElementType,LogType>> where T: DeferredType, T.ElementType: Monoid {
+		return reduce(Deferred<Writer<T.ElementType,LogType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Writer<T.ElementType,LogType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Effect<Writer<T.ElementType,LogType>> where T: EffectType, T.ElementType: Monoid {
+		return reduce(Effect<Writer<T.ElementType,LogType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Writer<T.ElementType,LogType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Optional<Writer<T.ElementType,LogType>> where T: OptionalType, T.ElementType: Monoid {
+		return reduce(Optional<Writer<T.ElementType,LogType>>.init(.neutral)) { (acc,x) in
+			transform(x).map(Writer<T.ElementType,LogType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Reader<Writer<T.ElementType,LogType>,T.EnvironmentType> where T: ReaderType, T.ElementType: Monoid {
+		return reduce(Reader<Writer<T.ElementType,LogType>,T.EnvironmentType>.init(.neutral)) { (acc,x) in
+			transform(x).map(Writer<T.ElementType,LogType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Result<Writer<T.ElementType,LogType>,T.ErrorType> where T: ResultType, T.ElementType: Monoid {
+		return reduce(Result<Writer<T.ElementType,LogType>,T.ErrorType>.init(.neutral)) { (acc,x) in
+			transform(x).map(Writer<T.ElementType,LogType>.appending) <*> acc
+		}
+	}
+
+
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> Writer<Writer<T.ElementType,LogType>,T.LogType> where T: WriterType, T.ElementType: Monoid {
+		return reduce(Writer<Writer<T.ElementType,LogType>,T.LogType>.init(.neutral)) { (acc,x) in
+			transform(x).map(Writer<T.ElementType,LogType>.appending) <*> acc
+		}
+	}
+
+}
+
+// MARK: - WriterType - flip
+extension WriterType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: ArrayType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Array<Writer<ElementType.ElementType,LogType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension WriterType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: DeferredType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Deferred<Writer<ElementType.ElementType,LogType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension WriterType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: EffectType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Effect<Writer<ElementType.ElementType,LogType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension WriterType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: OptionalType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Optional<Writer<ElementType.ElementType,LogType>> {
+		return traverse(F.identity)
+	}
+}
+
+extension WriterType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: ReaderType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Reader<Writer<ElementType.ElementType,LogType>,ElementType.EnvironmentType> {
+		return traverse(F.identity)
+	}
+}
+
+extension WriterType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: ResultType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Result<Writer<ElementType.ElementType,LogType>,ElementType.ErrorType> {
+		return traverse(F.identity)
+	}
+}
+
+extension WriterType where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: WriterType, Self.ElementType: Monoid, ElementType.ElementType: Monoid {
+	public var flip: Writer<Writer<ElementType.ElementType,LogType>,ElementType.LogType> {
 		return traverse(F.identity)
 	}
 }

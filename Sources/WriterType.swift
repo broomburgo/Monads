@@ -6,6 +6,8 @@ import Abstract
 // sourcery: context = "LogType"
 // sourcery: contextRequiredProtocols = "Monoid"
 // sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: reducible
+// sourcery: traverseRequirement = "ElementType: Monoid"
 // sourcery: transformer1, transformer2
 public protocol WriterType: PureConstructible {
 	associatedtype LogType: Monoid
@@ -68,6 +70,38 @@ extension WriterType where ElementType: WriterType, ElementType.LogType == LogTy
 		let (inner, log1) = run
 		let (value, log2) = inner.run
 		return Writer<ElementType.ElementType,LogType>.init(value: value, log: log1 <> log2)
+	}
+}
+
+// MARK: - Semigroup & Monoid
+
+extension Writer where ElementType: Semigroup {
+	public static func <> (left: Writer, right: Writer) -> Writer {
+		return left >>- { value in right.map { value <> $0 } }
+	}
+}
+
+extension Writer where ElementType: Monoid {
+	public static var empty: Writer {
+		return Writer.init(value: .empty, log: .empty)
+	}
+}
+
+// MARK: - Reducible
+
+extension WriterType where ElementType: Monoid {
+	static var neutral: Writer<ElementType,LogType> {
+		return .empty
+	}
+
+	static func appending(_ x: ElementType) -> Endo<Writer<ElementType,LogType>> {
+		return { $0 <> Writer.init(x) }
+	}
+}
+
+extension Writer: Reducible {
+	public func reduce<T>(_ initialResult: T, _ nextPartialResult: (T,ElementType) throws -> (T)) rethrows -> T {
+		return try nextPartialResult(initialResult,run.0)
 	}
 }
 

@@ -6,8 +6,7 @@ import Abstract
 // MARK: - {{ type.name }}
 
 extension {{ type.name }} {
-	public func apply <A,T> (_ other: A) -> {{ type.annotations.concrete }}<T{% if type.annotations.context %}, {{ type.annotations.context }}{% endif %}> where A: {{ type.name }}, A.ElementType == (ElementType) -> T{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %}
-	{
+	public func apply <A,T> (_ other: A) -> {{ type.annotations.concrete }}<T{% if type.annotations.context %}, {{ type.annotations.context }}{% endif %}> where A: {{ type.name }}, A.ElementType == (ElementType) -> T{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %} {
 		return {{ type.annotations.concrete }}.zip(self,other).map { $1($0) }
 	}
 }
