@@ -484,6 +484,12 @@ public func |> <A,B,C> (first: @escaping (A) throws -> B, second: @escaping (B) 
 	return F.compose(first, second)
 }
 
+extension Bool {
+	public var not: Bool {
+		return self == false
+	}
+}
+
 precedencegroup LogicalImplicationPrecedence {
 	associativity: left
 	higherThan: TernaryPrecedence
