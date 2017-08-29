@@ -4,8 +4,8 @@ import Functional
 // MARK: - Definition
 
 // sourcery: concrete = "Effect"
-// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/
-// sourcery: reducible
+// sourcery: map, joined, reducible
+// sourcery: generateZip
 // sourcery: traverseRequirement = "ElementType: Monoid"
 // sourcery: transformer1, transformer2
 public protocol EffectType: PureConstructible {

@@ -1,7 +1,7 @@
 // Generated using Sourcery 0.7.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
-//: `flatMap` definitions; requires `concrete`
+//: `flatMap` definitions; requires `map`, `joined`, `concrete`
 
 import Abstract
 

@@ -6,8 +6,8 @@ import Functional
 // sourcery: concrete = "Writer"
 // sourcery: context = "LogType"
 // sourcery: contextRequiredProtocols = "Monoid"
-// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/
-// sourcery: reducible
+// sourcery: map, joined, reducible
+// sourcery: generateZip
 // sourcery: traverseRequirement = "ElementType: Monoid"
 // sourcery: transformer1, transformer2
 public protocol WriterType: PureConstructible {

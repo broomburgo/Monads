@@ -1,4 +1,4 @@
-//: `map` definitions; requires `concrete`
+//: `map` definitions; requires `map`, `concrete`
 
 {% macro getReturnType type1 external %}{{ type1.annotations.concrete }}<B{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
 

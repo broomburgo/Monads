@@ -1,4 +1,4 @@
-//: `lift` definitions; requires `concrete`
+//: `lift` definitions; requires `map`, `joined`, `concrete`
 
 {% macro getReturnType type parameter %}{{ type.annotations.concrete }}<{{ parameter }}{% if type.annotations.context %},{{ type.annotations.context }}{% endif %}>{% endmacro %}
 
@@ -10,7 +10,7 @@ public func {{ operator }}{% if type.annotations.context %} <{{ type.annotations
 
 import Abstract
 
-{% for type in types.protocols|annotated:"lift"|annotated:"concrete" %}
+{% for type in types.protocols|annotated:"map"|annotated:"joined"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 extension {{ type.annotations.concrete }} {
 	public static func lift<A,B>(_ function: @escaping (A) -> B) -> ({% call getReturnType type "A" %}) -> {% call getReturnType type "B" %} where ElementType == (A) -> B {
@@ -21,7 +21,8 @@ extension {{ type.annotations.concrete }} {
 		return { {{ type.annotations.concrete }}<(A1,A2){% if type.annotations.context %},{{ type.annotations.context }}{% endif %}>.zip($0,$1).map(function) }
 	}
 }
-{% if type.annotations.lift+ %}
+
+{% if not type.name == "ArrayType" %}
 {% call getBilifted type "+" "Int" %}
 
 {% call getBilifted type "+" "UInt" %}
@@ -31,7 +32,6 @@ extension {{ type.annotations.concrete }} {
 {% call getBilifted type "+" "Double" %}
 {% endif %}
 
-{% if type.annotations.lift- %}
 {% call getBilifted type "-" "Int" %}
 
 {% call getBilifted type "-" "UInt" %}
@@ -39,9 +39,7 @@ extension {{ type.annotations.concrete }} {
 {% call getBilifted type "-" "Float" %}
 
 {% call getBilifted type "-" "Double" %}
-{% endif %}
 
-{% if type.annotations.lift* %}
 {% call getBilifted type "*" "Int" %}
 
 {% call getBilifted type "*" "UInt" %}
@@ -49,9 +47,7 @@ extension {{ type.annotations.concrete }} {
 {% call getBilifted type "*" "Float" %}
 
 {% call getBilifted type "*" "Double" %}
-{% endif %}
 
-{% if type.annotations.lift/ %}
 {% call getBilifted type "/" "Int" %}
 
 {% call getBilifted type "/" "UInt" %}
@@ -59,6 +55,5 @@ extension {{ type.annotations.concrete }} {
 {% call getBilifted type "/" "Float" %}
 
 {% call getBilifted type "/" "Double" %}
-{% endif %}
 
 {% endfor %}

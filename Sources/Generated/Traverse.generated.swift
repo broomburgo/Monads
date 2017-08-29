@@ -1,7 +1,7 @@
 // Generated using Sourcery 0.7.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
-//: traverse definitions; requires `reducible` and `concrete`
+//: traverse definitions; requires `map`, `joined`, `reducible`, `concrete`
 
 import Abstract
 import Functional

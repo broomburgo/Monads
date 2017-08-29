@@ -1,8 +1,8 @@
-//: `apply` definitions; requires `concrete`
+//: `apply` definitions; requires `map`, `joined`, `concrete`
 
 import Abstract
 
-{% for type in types.protocols|annotated:"apply"|annotated:"concrete" %}
+{% for type in types.protocols|annotated:"map"|annotated:"joined"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
 extension {{ type.name }} {

@@ -1,7 +1,7 @@
 // Generated using Sourcery 0.7.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
-//: `transformer` definitions for `EffectType`; requires `concrete`
+//: `transformer` definitions for `EffectType`; requires `map`, `joined`, `concrete`
 
 
 

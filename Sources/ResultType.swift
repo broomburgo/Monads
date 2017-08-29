@@ -6,8 +6,8 @@ import Functional
 // sourcery: concrete = "Result"
 // sourcery: context = "ErrorType"
 // sourcery: contextRequiredProtocols = "Error"
-// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/
-// sourcery: reducible
+// sourcery: map, joined, reducible
+// sourcery: generateZip
 // sourcery: transformer1, transformer2
 public protocol ResultType: PureConstructible {
 	associatedtype ErrorType: Error

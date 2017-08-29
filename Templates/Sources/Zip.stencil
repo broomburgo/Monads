@@ -1,8 +1,8 @@
-//: `zip` definitions; requires `concrete`
+//: `zip` definitions; requires `generateZip`, `concrete`
 
 import Abstract
 
-{% for type in types.protocols|annotated:"zip"|annotated:"concrete" %}
+{% for type in types.protocols|annotated:"generateZip"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
 extension {{ type.name }} {

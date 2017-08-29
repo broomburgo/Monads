@@ -1,4 +1,4 @@
-//: `flatMap` definitions; requires `concrete`
+//: `flatMap` definitions; requires `map`, `joined`, `concrete`
 
 import Abstract
 
@@ -6,7 +6,7 @@ infix operator |>>- : MonadPrecedenceLeft
 infix operator ||>>- : MonadPrecedenceLeft
 infix operator |||>>- : MonadPrecedenceLeft
 
-{% for type in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type in types.protocols|annotated:"map"|annotated:"joined"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
 extension {{ type.name }} {

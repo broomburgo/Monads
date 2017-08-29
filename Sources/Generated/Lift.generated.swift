@@ -1,7 +1,7 @@
 // Generated using Sourcery 0.7.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
-//: `lift` definitions; requires `concrete`
+//: `lift` definitions; requires `map`, `joined`, `concrete`
 
 
 
@@ -17,6 +17,7 @@ extension Array {
 		return { Array<(A1,A2)>.zip($0,$1).map(function) }
 	}
 }
+
 
 public func - (left: Array<Int>, right: Array<Int>) -> Array<Int> {
 	return Array.bilift(-)(left,right)
@@ -76,6 +77,7 @@ extension Deferred {
 		return { Deferred<(A1,A2)>.zip($0,$1).map(function) }
 	}
 }
+
 public func + (left: Deferred<Int>, right: Deferred<Int>) -> Deferred<Int> {
 	return Deferred.bilift(+)(left,right)
 }
@@ -150,6 +152,7 @@ extension Effect {
 		return { Effect<(A1,A2)>.zip($0,$1).map(function) }
 	}
 }
+
 public func + (left: Effect<Int>, right: Effect<Int>) -> Effect<Int> {
 	return Effect.bilift(+)(left,right)
 }
@@ -224,6 +227,7 @@ extension Optional {
 		return { Optional<(A1,A2)>.zip($0,$1).map(function) }
 	}
 }
+
 public func + (left: Optional<Int>, right: Optional<Int>) -> Optional<Int> {
 	return Optional.bilift(+)(left,right)
 }
@@ -298,6 +302,7 @@ extension Reader {
 		return { Reader<(A1,A2),EnvironmentType>.zip($0,$1).map(function) }
 	}
 }
+
 public func + <EnvironmentType> (left: Reader<Int,EnvironmentType>, right: Reader<Int,EnvironmentType>) -> Reader<Int,EnvironmentType> {
 	return Reader.bilift(+)(left,right)
 }
@@ -372,6 +377,7 @@ extension Result {
 		return { Result<(A1,A2),ErrorType>.zip($0,$1).map(function) }
 	}
 }
+
 public func + <ErrorType> (left: Result<Int,ErrorType>, right: Result<Int,ErrorType>) -> Result<Int,ErrorType> {
 	return Result.bilift(+)(left,right)
 }
@@ -446,6 +452,7 @@ extension Writer {
 		return { Writer<(A1,A2),LogType>.zip($0,$1).map(function) }
 	}
 }
+
 public func + <LogType> (left: Writer<Int,LogType>, right: Writer<Int,LogType>) -> Writer<Int,LogType> {
 	return Writer.bilift(+)(left,right)
 }
