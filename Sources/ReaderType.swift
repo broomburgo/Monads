@@ -3,10 +3,10 @@ import Functional
 
 // MARK: - Definition
 
-// sourcery: concrete = "Reader"
-// sourcery: context = "EnvironmentType"
 // sourcery: map, joined
+// sourcery: concrete = "Reader"
 // sourcery: generateZip
+// sourcery: secondaryParameter = "EnvironmentType"
 public protocol ReaderType: PureConstructible {
 	associatedtype EnvironmentType
 	init(_ execute: @escaping (EnvironmentType) -> ElementType)
@@ -15,9 +15,9 @@ public protocol ReaderType: PureConstructible {
 
 // MARK: - Concrete
 
-// sourcery: context
-// sourcery: fixedContextForLawsAndTests = "String"
+// sourcery: secondaryParameter
 // sourcery: fixedTypesForTests = "Int"
+// sourcery: fixedSecondaryParameterForTests = "String"
 // sourcery: requiredContextForPropertyBasedTests = "String"
 // sourcery: functorLaws, applicativeLaws, monadLaws
 // sourcery: arbitraryFunction

@@ -3,12 +3,12 @@ import Functional
 
 // MARK: - Definition
 
-// sourcery: concrete = "Result"
-// sourcery: context = "ErrorType"
-// sourcery: contextRequiredProtocols = "Error"
 // sourcery: map, joined, reducible
+// sourcery: concrete = "Result"
 // sourcery: generateZip
 // sourcery: transformer1, transformer2
+// sourcery: secondaryParameter = "ErrorType"
+// sourcery: secondaryParameterRequiredProtocols = "Error"
 public protocol ResultType: PureConstructible {
 	associatedtype ErrorType: Error
 	init(_ error: ErrorType)
@@ -18,11 +18,11 @@ public protocol ResultType: PureConstructible {
 
 // MARK: - Concrete
 
-// sourcery: context
-// sourcery: contextRequiredProtocols = "Error"
+// sourcery: secondaryParameter
+// sourcery: secondaryParameterRequiredProtocols = "Error"
 // sourcery: functorLaws, applicativeLaws, monadLaws
-// sourcery: fixedContextForLawsAndTests = "AnyError"
 // sourcery: fixedTypesForTests = "Int"
+// sourcery: fixedSecondaryParameterForTests = "AnyError"
 // sourcery: arbitrary
 // sourcery: arbitraryAdditionalParameterForGeneric = "E"
 // sourcery: arbitraryAdditionalGenericParameterProtocols = "Error & Arbitrary"

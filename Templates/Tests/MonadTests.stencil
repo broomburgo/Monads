@@ -8,7 +8,7 @@ class MonadLawsTests: XCTestCase {
     {% for type in types.all|!protocol|annotated:"monadLaws"|annotated:"fixedTypesForTests" %}
 // MARK: - {{ type.name }}
     func test{{ type.name }}() {
-        property("Monad law: identity left") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.name }}Of<{{ type.annotations.fixedTypesForTests }}{% if type.annotations.fixedContextForLawsAndTests %},{{ type.annotations.fixedContextForLawsAndTests }}{% endif %}>>{% if type.annotations.requiredContextForPropertyBasedTests %}, context: {{ type.annotations.requiredContextForPropertyBasedTests }}{% endif %}) in
+        property("Monad law: identity left") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.name }}Of<{{ type.annotations.fixedTypesForTests }}{% if type.annotations.fixedSecondaryParameterForTests %},{{ type.annotations.fixedSecondaryParameterForTests }}{% endif %}>>{% if type.annotations.requiredContextForPropertyBasedTests %}, context: {{ type.annotations.requiredContextForPropertyBasedTests }}{% endif %}) in
             Law.Monad.On{{ type.name }}.identityLeft(a, { af.getArrow($0).get{{ type.name }} }{% if type.annotations.requiredContextForPropertyBasedTests %}, context{% endif %})
         }
 
@@ -16,7 +16,7 @@ class MonadLawsTests: XCTestCase {
             Law.Monad.On{{ type.name }}.identityRight(a{% if type.annotations.requiredContextForPropertyBasedTests %}, context{% endif %})
         }
 
-        property("Monad law: associativity") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.name }}Of<{{ type.annotations.fixedTypesForTests }}{% if type.annotations.fixedContextForLawsAndTests %},{{ type.annotations.fixedContextForLawsAndTests }}{% endif %}>>, ag: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.name }}Of<{{ type.annotations.fixedTypesForTests }}{% if type.annotations.fixedContextForLawsAndTests %},{{ type.annotations.fixedContextForLawsAndTests }}{% endif %}>>{% if type.annotations.requiredContextForPropertyBasedTests %}, context: {{ type.annotations.requiredContextForPropertyBasedTests }}{% endif %}) in
+        property("Monad law: associativity") <- forAll { (a: {{ type.annotations.fixedTypesForTests }}, af: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.name }}Of<{{ type.annotations.fixedTypesForTests }}{% if type.annotations.fixedSecondaryParameterForTests %},{{ type.annotations.fixedSecondaryParameterForTests }}{% endif %}>>, ag: ArrowOf<{{ type.annotations.fixedTypesForTests }},{{ type.name }}Of<{{ type.annotations.fixedTypesForTests }}{% if type.annotations.fixedSecondaryParameterForTests %},{{ type.annotations.fixedSecondaryParameterForTests }}{% endif %}>>{% if type.annotations.requiredContextForPropertyBasedTests %}, context: {{ type.annotations.requiredContextForPropertyBasedTests }}{% endif %}) in
             Law.Monad.On{{ type.name }}.associativity(a, { af.getArrow($0).get{{ type.name }} }, { ag.getArrow($0).get{{ type.name }} }{% if type.annotations.requiredContextForPropertyBasedTests %}, context{% endif %})
         }
     }

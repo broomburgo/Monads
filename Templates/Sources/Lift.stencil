@@ -1,9 +1,9 @@
 //: `lift` definitions; requires `map`, `joined`, `concrete`
 
-{% macro getReturnType type parameter %}{{ type.annotations.concrete }}<{{ parameter }}{% if type.annotations.context %},{{ type.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnType type parameter %}{{ type.annotations.concrete }}<{{ parameter }}{% if type.annotations.secondaryParameter %},{{ type.annotations.secondaryParameter }}{% endif %}>{% endmacro %}
 
 {% macro getBilifted type operator parameter %}
-public func {{ operator }}{% if type.annotations.context %} <{{ type.annotations.context }}>{% endif %} (left: {% call getReturnType type parameter %}, right: {% call getReturnType type parameter %}) -> {% call getReturnType type parameter %} {
+public func {{ operator }}{% if type.annotations.secondaryParameter %} <{{ type.annotations.secondaryParameter }}>{% endif %} (left: {% call getReturnType type parameter %}, right: {% call getReturnType type parameter %}) -> {% call getReturnType type parameter %} {
 	return {{ type.annotations.concrete }}.bilift({{ operator }})(left,right)
 }
 {% endmacro %}
@@ -18,7 +18,7 @@ extension {{ type.annotations.concrete }} {
 	}
 
 	public static func bilift<A1,A2,B>(_ function: @escaping (A1,A2) -> B) -> ({% call getReturnType type "A1" %},{% call getReturnType type "A2" %}) -> {% call getReturnType type "B" %} where ElementType == (A1,A2) -> B {
-		return { {{ type.annotations.concrete }}<(A1,A2){% if type.annotations.context %},{{ type.annotations.context }}{% endif %}>.zip($0,$1).map(function) }
+		return { {{ type.annotations.concrete }}<(A1,A2){% if type.annotations.secondaryParameter %},{{ type.annotations.secondaryParameter }}{% endif %}>.zip($0,$1).map(function) }
 	}
 }
 

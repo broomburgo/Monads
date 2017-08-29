@@ -2,8 +2,8 @@ import Functional
 
 // MARK: - Definition
 
-// sourcery: concrete = "Array"
 // sourcery: map, joined, reducible
+// sourcery: concrete = "Array"
 // sourcery: generateZip
 public protocol ArrayType: PureConstructible {
 	func run(_ callback: @escaping (ElementType) throws -> ()) rethrows

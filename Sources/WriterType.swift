@@ -3,13 +3,13 @@ import Functional
 
 // MARK: - Definition
 
-// sourcery: concrete = "Writer"
-// sourcery: context = "LogType"
-// sourcery: contextRequiredProtocols = "Monoid"
 // sourcery: map, joined, reducible
+// sourcery: concrete = "Writer"
 // sourcery: generateZip
-// sourcery: traverseRequirement = "ElementType: Monoid"
 // sourcery: transformer1, transformer2
+// sourcery: secondaryParameter = "LogType"
+// sourcery: secondaryParameterRequiredProtocols = "Monoid"
+// sourcery: traverseRequirement = "ElementType: Monoid"
 public protocol WriterType: PureConstructible {
 	associatedtype LogType: Monoid
 	init(value: ElementType, log: LogType)
@@ -18,11 +18,11 @@ public protocol WriterType: PureConstructible {
 
 // MARK: - Concrete
 
-// sourcery: context
-// sourcery: contextRequiredProtocols = "LogType"
+// sourcery: secondaryParameter
+// sourcery: secondaryParameterRequiredProtocols = "LogType"
 // sourcery: functorLaws, applicativeLaws, monadLaws
-// sourcery: fixedContextForLawsAndTests = "String"
 // sourcery: fixedTypesForTests = "Int"
+// sourcery: fixedSecondaryParameterForTests = "String"
 // sourcery: arbitrary
 // sourcery: arbitraryAdditionalParameterForGeneric = "L"
 // sourcery: arbitraryAdditionalGenericParameterProtocols = "Monoid & Arbitrary"

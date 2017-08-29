@@ -1,4 +1,4 @@
-{% macro object type parameter %}{{ type.name }}<{{ parameter }}{% if type.annotations.fixedContextForLawsAndTests %},{{ type.annotations.fixedContextForLawsAndTests }}{% endif %}>{% endmacro %}
+{% macro object type parameter %}{{ type.name }}<{{ parameter }}{% if type.annotations.fixedSecondaryParameterForTests %},{{ type.annotations.fixedSecondaryParameterForTests }}{% endif %}>{% endmacro %}
 
 //: `applicativeLaws` definitions
 
