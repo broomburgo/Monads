@@ -112,6 +112,7 @@
 		382A79AB1F545AB6000B169E /* Reference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reference.swift; sourceTree = "<group>"; };
 		382A79AE1F545FAD000B169E /* AnyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyError.swift; sourceTree = "<group>"; };
 		3848739A1F4EDB620087D81F /* ReaderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
+		384AB9451F5553B500DE1335 /* buildOperadics.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = buildOperadics.sh; sourceTree = "<group>"; };
 		38808CEF1F26A81700792FEA /* Apply.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Apply.generated.swift; sourceTree = "<group>"; };
 		38808CF01F26A81700792FEA /* Zip.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip.generated.swift; sourceTree = "<group>"; };
 		388D771F1F28D501001EAC57 /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
@@ -318,6 +319,7 @@
 				OBJ_6 /* Package.swift */,
 				38F5D5F81F3068B4002EC246 /* LICENSE */,
 				38F5D5F91F3068B4002EC246 /* README.md */,
+				384AB9451F5553B500DE1335 /* buildOperadics.sh */,
 				38F5D5FA1F3068B4002EC246 /* .travis.yml */,
 				38F5D5FB1F3068B4002EC246 /* codecov.yml */,
 				38FDFED61F2B6059002ECC3A /* Monads */,

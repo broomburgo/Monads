@@ -13,10 +13,8 @@ Most of the code is automatically generated through [Sourcery](https://github.co
 
 The project depends on [`Abstract`](https://github.com/typelift/Abstract/), that depends itself on [`Operadics`](https://github.com/typelift/Operadics). Because `Operadics` is not ready for Carthage, it has to be built manually.
 
-This means that `carthage bootstrap` or `carthage update` will fail in the build phase. Just let them fail (so at least the dependencies will be checked out), then run (from the project folder):
+After checking out this project, please run the following from the project folder:
 
-`bash Carthage/Checkouts/Monads/buildOperadics.sh`.
-
-Finally, run again `carthage bootstrap` or `carthage update`.
+`bash buildOperadics.sh`.
 
 Sorry for the inconvenience.

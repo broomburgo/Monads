@@ -1,3 +1,5 @@
 github "broomburgo/Abstract" "49b720ae6fa62e9e0ab4e79608fd6055afcea00c"
+github "broomburgo/Functional" "0.0.1"
+github "broomburgo/Operadics" "0.2.3"
 github "typelift/Operadics" "0.2.3"
 github "typelift/SwiftCheck" "0.8.0"

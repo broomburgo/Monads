@@ -1,3 +1,4 @@
+carthage checkout Abstract
 cd Carthage/Checkouts/Abstract
 carthage checkout Operadics
 cd Carthage/Checkouts/Operadics
