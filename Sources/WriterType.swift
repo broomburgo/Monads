@@ -1,11 +1,12 @@
 import Abstract
+import Functional
 
 // MARK: - Definition
 
 // sourcery: concrete = "Writer"
 // sourcery: context = "LogType"
 // sourcery: contextRequiredProtocols = "Monoid"
-// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/
 // sourcery: reducible
 // sourcery: traverseRequirement = "ElementType: Monoid"
 // sourcery: transformer1, transformer2

@@ -1,11 +1,12 @@
 import Abstract
+import Functional
 
 // MARK: - Definition
 
 // sourcery: concrete = "Result"
 // sourcery: context = "ErrorType"
 // sourcery: contextRequiredProtocols = "Error"
-// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/, liftPrefix-
+// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/
 // sourcery: reducible
 // sourcery: transformer1, transformer2
 public protocol ResultType: PureConstructible {

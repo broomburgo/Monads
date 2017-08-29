@@ -7,6 +7,7 @@
 
 @testable import Monads
 import Abstract
+import Functional
 
 extension Law {
     enum Functor {

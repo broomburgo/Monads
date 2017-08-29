@@ -1,6 +1,7 @@
 //: traverse definitions; requires `reducible` and `concrete`
 
 import Abstract
+import Functional
 
 {% for type1 in types.protocols|annotated:"reducible"|annotated:"concrete" %}
 

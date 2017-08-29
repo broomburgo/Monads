@@ -4,6 +4,7 @@
 //: traverse definitions; requires `reducible` and `concrete`
 
 import Abstract
+import Functional
 
 
 // MARK: - ArrayType - traverse
