@@ -18,51 +18,51 @@ extension Array {
 	}
 }
 
-public func -  (left: Array<Int>, right: Array<Int>) -> Array<Int> {
+public func - (left: Array<Int>, right: Array<Int>) -> Array<Int> {
 	return Array.bilift(-)(left,right)
 }
 
-public func -  (left: Array<UInt>, right: Array<UInt>) -> Array<UInt> {
+public func - (left: Array<UInt>, right: Array<UInt>) -> Array<UInt> {
 	return Array.bilift(-)(left,right)
 }
 
-public func -  (left: Array<Float>, right: Array<Float>) -> Array<Float> {
+public func - (left: Array<Float>, right: Array<Float>) -> Array<Float> {
 	return Array.bilift(-)(left,right)
 }
 
-public func -  (left: Array<Double>, right: Array<Double>) -> Array<Double> {
+public func - (left: Array<Double>, right: Array<Double>) -> Array<Double> {
 	return Array.bilift(-)(left,right)
 }
 
-public func *  (left: Array<Int>, right: Array<Int>) -> Array<Int> {
+public func * (left: Array<Int>, right: Array<Int>) -> Array<Int> {
 	return Array.bilift(*)(left,right)
 }
 
-public func *  (left: Array<UInt>, right: Array<UInt>) -> Array<UInt> {
+public func * (left: Array<UInt>, right: Array<UInt>) -> Array<UInt> {
 	return Array.bilift(*)(left,right)
 }
 
-public func *  (left: Array<Float>, right: Array<Float>) -> Array<Float> {
+public func * (left: Array<Float>, right: Array<Float>) -> Array<Float> {
 	return Array.bilift(*)(left,right)
 }
 
-public func *  (left: Array<Double>, right: Array<Double>) -> Array<Double> {
+public func * (left: Array<Double>, right: Array<Double>) -> Array<Double> {
 	return Array.bilift(*)(left,right)
 }
 
-public func /  (left: Array<Int>, right: Array<Int>) -> Array<Int> {
+public func / (left: Array<Int>, right: Array<Int>) -> Array<Int> {
 	return Array.bilift(/)(left,right)
 }
 
-public func /  (left: Array<UInt>, right: Array<UInt>) -> Array<UInt> {
+public func / (left: Array<UInt>, right: Array<UInt>) -> Array<UInt> {
 	return Array.bilift(/)(left,right)
 }
 
-public func /  (left: Array<Float>, right: Array<Float>) -> Array<Float> {
+public func / (left: Array<Float>, right: Array<Float>) -> Array<Float> {
 	return Array.bilift(/)(left,right)
 }
 
-public func /  (left: Array<Double>, right: Array<Double>) -> Array<Double> {
+public func / (left: Array<Double>, right: Array<Double>) -> Array<Double> {
 	return Array.bilift(/)(left,right)
 }
 
@@ -76,67 +76,67 @@ extension Deferred {
 		return { Deferred<(A1,A2)>.zip($0,$1).map(function) }
 	}
 }
-public func +  (left: Deferred<Int>, right: Deferred<Int>) -> Deferred<Int> {
+public func + (left: Deferred<Int>, right: Deferred<Int>) -> Deferred<Int> {
 	return Deferred.bilift(+)(left,right)
 }
 
-public func +  (left: Deferred<UInt>, right: Deferred<UInt>) -> Deferred<UInt> {
+public func + (left: Deferred<UInt>, right: Deferred<UInt>) -> Deferred<UInt> {
 	return Deferred.bilift(+)(left,right)
 }
 
-public func +  (left: Deferred<Float>, right: Deferred<Float>) -> Deferred<Float> {
+public func + (left: Deferred<Float>, right: Deferred<Float>) -> Deferred<Float> {
 	return Deferred.bilift(+)(left,right)
 }
 
-public func +  (left: Deferred<Double>, right: Deferred<Double>) -> Deferred<Double> {
+public func + (left: Deferred<Double>, right: Deferred<Double>) -> Deferred<Double> {
 	return Deferred.bilift(+)(left,right)
 }
 
-public func -  (left: Deferred<Int>, right: Deferred<Int>) -> Deferred<Int> {
+public func - (left: Deferred<Int>, right: Deferred<Int>) -> Deferred<Int> {
 	return Deferred.bilift(-)(left,right)
 }
 
-public func -  (left: Deferred<UInt>, right: Deferred<UInt>) -> Deferred<UInt> {
+public func - (left: Deferred<UInt>, right: Deferred<UInt>) -> Deferred<UInt> {
 	return Deferred.bilift(-)(left,right)
 }
 
-public func -  (left: Deferred<Float>, right: Deferred<Float>) -> Deferred<Float> {
+public func - (left: Deferred<Float>, right: Deferred<Float>) -> Deferred<Float> {
 	return Deferred.bilift(-)(left,right)
 }
 
-public func -  (left: Deferred<Double>, right: Deferred<Double>) -> Deferred<Double> {
+public func - (left: Deferred<Double>, right: Deferred<Double>) -> Deferred<Double> {
 	return Deferred.bilift(-)(left,right)
 }
 
-public func *  (left: Deferred<Int>, right: Deferred<Int>) -> Deferred<Int> {
+public func * (left: Deferred<Int>, right: Deferred<Int>) -> Deferred<Int> {
 	return Deferred.bilift(*)(left,right)
 }
 
-public func *  (left: Deferred<UInt>, right: Deferred<UInt>) -> Deferred<UInt> {
+public func * (left: Deferred<UInt>, right: Deferred<UInt>) -> Deferred<UInt> {
 	return Deferred.bilift(*)(left,right)
 }
 
-public func *  (left: Deferred<Float>, right: Deferred<Float>) -> Deferred<Float> {
+public func * (left: Deferred<Float>, right: Deferred<Float>) -> Deferred<Float> {
 	return Deferred.bilift(*)(left,right)
 }
 
-public func *  (left: Deferred<Double>, right: Deferred<Double>) -> Deferred<Double> {
+public func * (left: Deferred<Double>, right: Deferred<Double>) -> Deferred<Double> {
 	return Deferred.bilift(*)(left,right)
 }
 
-public func /  (left: Deferred<Int>, right: Deferred<Int>) -> Deferred<Int> {
+public func / (left: Deferred<Int>, right: Deferred<Int>) -> Deferred<Int> {
 	return Deferred.bilift(/)(left,right)
 }
 
-public func /  (left: Deferred<UInt>, right: Deferred<UInt>) -> Deferred<UInt> {
+public func / (left: Deferred<UInt>, right: Deferred<UInt>) -> Deferred<UInt> {
 	return Deferred.bilift(/)(left,right)
 }
 
-public func /  (left: Deferred<Float>, right: Deferred<Float>) -> Deferred<Float> {
+public func / (left: Deferred<Float>, right: Deferred<Float>) -> Deferred<Float> {
 	return Deferred.bilift(/)(left,right)
 }
 
-public func /  (left: Deferred<Double>, right: Deferred<Double>) -> Deferred<Double> {
+public func / (left: Deferred<Double>, right: Deferred<Double>) -> Deferred<Double> {
 	return Deferred.bilift(/)(left,right)
 }
 
@@ -150,67 +150,67 @@ extension Effect {
 		return { Effect<(A1,A2)>.zip($0,$1).map(function) }
 	}
 }
-public func +  (left: Effect<Int>, right: Effect<Int>) -> Effect<Int> {
+public func + (left: Effect<Int>, right: Effect<Int>) -> Effect<Int> {
 	return Effect.bilift(+)(left,right)
 }
 
-public func +  (left: Effect<UInt>, right: Effect<UInt>) -> Effect<UInt> {
+public func + (left: Effect<UInt>, right: Effect<UInt>) -> Effect<UInt> {
 	return Effect.bilift(+)(left,right)
 }
 
-public func +  (left: Effect<Float>, right: Effect<Float>) -> Effect<Float> {
+public func + (left: Effect<Float>, right: Effect<Float>) -> Effect<Float> {
 	return Effect.bilift(+)(left,right)
 }
 
-public func +  (left: Effect<Double>, right: Effect<Double>) -> Effect<Double> {
+public func + (left: Effect<Double>, right: Effect<Double>) -> Effect<Double> {
 	return Effect.bilift(+)(left,right)
 }
 
-public func -  (left: Effect<Int>, right: Effect<Int>) -> Effect<Int> {
+public func - (left: Effect<Int>, right: Effect<Int>) -> Effect<Int> {
 	return Effect.bilift(-)(left,right)
 }
 
-public func -  (left: Effect<UInt>, right: Effect<UInt>) -> Effect<UInt> {
+public func - (left: Effect<UInt>, right: Effect<UInt>) -> Effect<UInt> {
 	return Effect.bilift(-)(left,right)
 }
 
-public func -  (left: Effect<Float>, right: Effect<Float>) -> Effect<Float> {
+public func - (left: Effect<Float>, right: Effect<Float>) -> Effect<Float> {
 	return Effect.bilift(-)(left,right)
 }
 
-public func -  (left: Effect<Double>, right: Effect<Double>) -> Effect<Double> {
+public func - (left: Effect<Double>, right: Effect<Double>) -> Effect<Double> {
 	return Effect.bilift(-)(left,right)
 }
 
-public func *  (left: Effect<Int>, right: Effect<Int>) -> Effect<Int> {
+public func * (left: Effect<Int>, right: Effect<Int>) -> Effect<Int> {
 	return Effect.bilift(*)(left,right)
 }
 
-public func *  (left: Effect<UInt>, right: Effect<UInt>) -> Effect<UInt> {
+public func * (left: Effect<UInt>, right: Effect<UInt>) -> Effect<UInt> {
 	return Effect.bilift(*)(left,right)
 }
 
-public func *  (left: Effect<Float>, right: Effect<Float>) -> Effect<Float> {
+public func * (left: Effect<Float>, right: Effect<Float>) -> Effect<Float> {
 	return Effect.bilift(*)(left,right)
 }
 
-public func *  (left: Effect<Double>, right: Effect<Double>) -> Effect<Double> {
+public func * (left: Effect<Double>, right: Effect<Double>) -> Effect<Double> {
 	return Effect.bilift(*)(left,right)
 }
 
-public func /  (left: Effect<Int>, right: Effect<Int>) -> Effect<Int> {
+public func / (left: Effect<Int>, right: Effect<Int>) -> Effect<Int> {
 	return Effect.bilift(/)(left,right)
 }
 
-public func /  (left: Effect<UInt>, right: Effect<UInt>) -> Effect<UInt> {
+public func / (left: Effect<UInt>, right: Effect<UInt>) -> Effect<UInt> {
 	return Effect.bilift(/)(left,right)
 }
 
-public func /  (left: Effect<Float>, right: Effect<Float>) -> Effect<Float> {
+public func / (left: Effect<Float>, right: Effect<Float>) -> Effect<Float> {
 	return Effect.bilift(/)(left,right)
 }
 
-public func /  (left: Effect<Double>, right: Effect<Double>) -> Effect<Double> {
+public func / (left: Effect<Double>, right: Effect<Double>) -> Effect<Double> {
 	return Effect.bilift(/)(left,right)
 }
 
@@ -224,67 +224,67 @@ extension Optional {
 		return { Optional<(A1,A2)>.zip($0,$1).map(function) }
 	}
 }
-public func +  (left: Optional<Int>, right: Optional<Int>) -> Optional<Int> {
+public func + (left: Optional<Int>, right: Optional<Int>) -> Optional<Int> {
 	return Optional.bilift(+)(left,right)
 }
 
-public func +  (left: Optional<UInt>, right: Optional<UInt>) -> Optional<UInt> {
+public func + (left: Optional<UInt>, right: Optional<UInt>) -> Optional<UInt> {
 	return Optional.bilift(+)(left,right)
 }
 
-public func +  (left: Optional<Float>, right: Optional<Float>) -> Optional<Float> {
+public func + (left: Optional<Float>, right: Optional<Float>) -> Optional<Float> {
 	return Optional.bilift(+)(left,right)
 }
 
-public func +  (left: Optional<Double>, right: Optional<Double>) -> Optional<Double> {
+public func + (left: Optional<Double>, right: Optional<Double>) -> Optional<Double> {
 	return Optional.bilift(+)(left,right)
 }
 
-public func -  (left: Optional<Int>, right: Optional<Int>) -> Optional<Int> {
+public func - (left: Optional<Int>, right: Optional<Int>) -> Optional<Int> {
 	return Optional.bilift(-)(left,right)
 }
 
-public func -  (left: Optional<UInt>, right: Optional<UInt>) -> Optional<UInt> {
+public func - (left: Optional<UInt>, right: Optional<UInt>) -> Optional<UInt> {
 	return Optional.bilift(-)(left,right)
 }
 
-public func -  (left: Optional<Float>, right: Optional<Float>) -> Optional<Float> {
+public func - (left: Optional<Float>, right: Optional<Float>) -> Optional<Float> {
 	return Optional.bilift(-)(left,right)
 }
 
-public func -  (left: Optional<Double>, right: Optional<Double>) -> Optional<Double> {
+public func - (left: Optional<Double>, right: Optional<Double>) -> Optional<Double> {
 	return Optional.bilift(-)(left,right)
 }
 
-public func *  (left: Optional<Int>, right: Optional<Int>) -> Optional<Int> {
+public func * (left: Optional<Int>, right: Optional<Int>) -> Optional<Int> {
 	return Optional.bilift(*)(left,right)
 }
 
-public func *  (left: Optional<UInt>, right: Optional<UInt>) -> Optional<UInt> {
+public func * (left: Optional<UInt>, right: Optional<UInt>) -> Optional<UInt> {
 	return Optional.bilift(*)(left,right)
 }
 
-public func *  (left: Optional<Float>, right: Optional<Float>) -> Optional<Float> {
+public func * (left: Optional<Float>, right: Optional<Float>) -> Optional<Float> {
 	return Optional.bilift(*)(left,right)
 }
 
-public func *  (left: Optional<Double>, right: Optional<Double>) -> Optional<Double> {
+public func * (left: Optional<Double>, right: Optional<Double>) -> Optional<Double> {
 	return Optional.bilift(*)(left,right)
 }
 
-public func /  (left: Optional<Int>, right: Optional<Int>) -> Optional<Int> {
+public func / (left: Optional<Int>, right: Optional<Int>) -> Optional<Int> {
 	return Optional.bilift(/)(left,right)
 }
 
-public func /  (left: Optional<UInt>, right: Optional<UInt>) -> Optional<UInt> {
+public func / (left: Optional<UInt>, right: Optional<UInt>) -> Optional<UInt> {
 	return Optional.bilift(/)(left,right)
 }
 
-public func /  (left: Optional<Float>, right: Optional<Float>) -> Optional<Float> {
+public func / (left: Optional<Float>, right: Optional<Float>) -> Optional<Float> {
 	return Optional.bilift(/)(left,right)
 }
 
-public func /  (left: Optional<Double>, right: Optional<Double>) -> Optional<Double> {
+public func / (left: Optional<Double>, right: Optional<Double>) -> Optional<Double> {
 	return Optional.bilift(/)(left,right)
 }
 

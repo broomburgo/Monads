@@ -3,7 +3,7 @@
 {% macro getReturnType type parameter %}{{ type.annotations.concrete }}<{{ parameter }}{% if type.annotations.context %},{{ type.annotations.context }}{% endif %}>{% endmacro %}
 
 {% macro getBilifted type operator parameter %}
-public func {{ operator }} {% if type.annotations.context %}<{{ type.annotations.context }}>{% endif %} (left: {% call getReturnType type parameter %}, right: {% call getReturnType type parameter %}) -> {% call getReturnType type parameter %} {
+public func {{ operator }}{% if type.annotations.context %} <{{ type.annotations.context }}>{% endif %} (left: {% call getReturnType type parameter %}, right: {% call getReturnType type parameter %}) -> {% call getReturnType type parameter %} {
 	return {{ type.annotations.concrete }}.bilift({{ operator }})(left,right)
 }
 {% endmacro %}
