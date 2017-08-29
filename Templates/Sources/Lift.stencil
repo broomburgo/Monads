@@ -2,13 +2,7 @@
 
 {% macro getBilifted type operator parameter %}
 public func {{ operator }} <A,B{% if type.annotations.context %},Z{% endif %}> (left: A, right: B) -> {{ type.annotations.concrete }}<{{ parameter }}{% if type.annotations.context %},Z{% endif %}> where A: {{ type.name }}, B: {{ type.name }}, A.ElementType == {{ parameter }}, B.ElementType == {{ parameter }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == Z, B.{{ type.annotations.context }} == Z{% endif %}{% if type.annotations.contextRequiredProtocols %}, Z: {{ type.annotations.contextRequiredProtocols }}{% endif %} {
-	return F.bilift({{ operator }})(left,right)
-}
-{% endmacro %}
-
-{% macro getPrefixLifted type operator parameter %}
-public prefix func {{ operator }} <A{% if type.annotations.context %},Z{% endif %}> (value: A) -> {{ type.annotations.concrete }}<{{ parameter }}{% if type.annotations.context %},Z{% endif %}> where A: {{ type.name }}, A.ElementType == {{ parameter }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == Z{% endif %}{% if type.annotations.contextRequiredProtocols %}, Z: {{ type.annotations.contextRequiredProtocols }}{% endif %} {
-	return F.lift { {{ operator }}$0 }(value)
+	return {{ type.annotations.concrete }}.bilift({{ operator }})(left,right)
 }
 {% endmacro %}
 
@@ -16,12 +10,12 @@ import Abstract
 
 {% for type in types.protocols|annotated:"lift"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
-extension F {
-	public static func lift<A,T{% if type.annotations.context %},Z{% endif %}>(_ function: @escaping (A.ElementType) -> T) -> (A) -> {{ type.annotations.concrete }}<T{% if type.annotations.context %},Z{% endif %}> where A: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == Z{% endif %}{% if type.annotations.contextRequiredProtocols %}, Z: {{ type.annotations.contextRequiredProtocols }}{% endif %} {
+extension {{ type.annotations.concrete }} {
+	public static func lift<A,T>(_ function: @escaping (A.ElementType) -> T) -> (A) -> {{ type.annotations.concrete }}<T{% if type.annotations.context %},{{ type.annotations.context }}{% endif %}> where A: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %} {
 		return { $0.map(function) }
 	}
 
-	public static func bilift<A,B,T{% if type.annotations.context %},Z{% endif %}>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> {{ type.annotations.concrete }}<T{% if type.annotations.context %},Z{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == Z, B.{{ type.annotations.context }} == Z{% endif %}{% if type.annotations.contextRequiredProtocols %}, Z: {{ type.annotations.contextRequiredProtocols }}{% endif %} {
+	public static func bilift<A,B,T>(_ function: @escaping (A.ElementType,B.ElementType) -> T) -> (A,B) -> {{ type.annotations.concrete }}<T{% if type.annotations.context %},{{ type.annotations.context }}{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}, B.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %}, ElementType == (A.ElementType,B.ElementType) {
 		return { {{ type.annotations.concrete }}.zip($0,$1).map(function) }
 	}
 }
@@ -63,14 +57,6 @@ extension F {
 {% call getBilifted type "/" "Float" %}
 
 {% call getBilifted type "/" "Double" %}
-{% endif %}
-
-{% if type.annotations.liftPrefix- %}
-{% call getPrefixLifted type "-" "Int" %}
-
-{% call getPrefixLifted type "-" "Float" %}
-
-{% call getPrefixLifted type "-" "Double" %}
 {% endif %}
 
 {% endfor %}
