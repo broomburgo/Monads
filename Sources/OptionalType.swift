@@ -4,7 +4,6 @@ import Functional
 
 // sourcery: map, joined, reducible
 // sourcery: concrete = "Optional"
-// sourcery: generateZip
 // sourcery: transformer1, transformer2
 public protocol OptionalType: PureConstructible {
 	init()

@@ -5,7 +5,6 @@ import Functional
 
 // sourcery: map, joined, reducible
 // sourcery: concrete = "Effect"
-// sourcery: generateZip
 // sourcery: transformer1, transformer2
 // sourcery: traverseRequirement = "ElementType: Monoid"
 public protocol EffectType: PureConstructible {

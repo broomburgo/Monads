@@ -5,7 +5,6 @@ import Functional
 
 // sourcery: map, joined, reducible
 // sourcery: concrete = "Writer"
-// sourcery: generateZip
 // sourcery: transformer1, transformer2
 // sourcery: secondaryParameter = "LogType"
 // sourcery: secondaryParameterRequiredProtocols = "Monoid"

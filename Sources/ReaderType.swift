@@ -5,7 +5,6 @@ import Functional
 
 // sourcery: map, joined
 // sourcery: concrete = "Reader"
-// sourcery: generateZip
 // sourcery: secondaryParameter = "EnvironmentType"
 public protocol ReaderType: PureConstructible {
 	associatedtype EnvironmentType

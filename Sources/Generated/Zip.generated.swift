@@ -1,7 +1,7 @@
 // Generated using Sourcery 0.7.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
-//: `zip` definitions; requires `generateZip`, `concrete`
+//: `zip` definitions; requires `map`, `joined`, `concrete`; skips `manualZip`
 
 import Abstract
 

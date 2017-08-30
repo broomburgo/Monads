@@ -5,6 +5,7 @@ import Functional
 
 // sourcery: map, joined
 // sourcery: concrete = "Deferred"
+// sourcery: manualZip
 public protocol DeferredType: PureConstructible {
 	init(completion: (@escaping (ElementType) -> ()) -> ())
 	func run(_ callback: @escaping (ElementType) -> ())

@@ -1,8 +1,8 @@
-//: `zip` definitions; requires `generateZip`, `concrete`
+//: `zip` definitions; requires `map`, `joined`, `concrete`; skips `manualZip`
 
 import Abstract
 
-{% for type in types.protocols|annotated:"generateZip"|annotated:"concrete" %}
+{% for type in types.protocols|annotated:"map"|annotated:"joined"|!annotated:"manualZip"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
 extension {{ type.name }} {
