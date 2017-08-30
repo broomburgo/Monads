@@ -1,10 +1,10 @@
-//: `map` definitions; requires `concrete`
+//: `map` definitions; requires `map`, `concrete`
 
-{% macro getReturnType type1 external %}{{ type1.annotations.concrete }}<B{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnType type1 external %}{{ type1.annotations.concrete }}<B{% if type1.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.secondaryParameter }}{% endif %}>{% endmacro %}
 
-{% macro getReturnTypeT type1 type2 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<B{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnTypeT type1 type2 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<B{% if type2.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.secondaryParameter }}{% endif %}>{% if type1.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.secondaryParameter }}{% endif %}>{% endmacro %}
 
-{% macro getReturnTypeTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<B{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnTypeTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<B{% if type3.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.secondaryParameter }}{% endif %}>{% if type2.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.secondaryParameter }}{% endif %}>{% if type1.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.secondaryParameter }}{% endif %}>{% endmacro %}
 
 import Abstract
 

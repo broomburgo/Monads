@@ -1,4 +1,4 @@
-//: `flatMap` definitions; requires `concrete`
+//: `flatMap` definitions; requires `map`, `joined`, `concrete`
 
 import Abstract
 
@@ -6,16 +6,16 @@ infix operator |>>- : MonadPrecedenceLeft
 infix operator ||>>- : MonadPrecedenceLeft
 infix operator |||>>- : MonadPrecedenceLeft
 
-{% for type in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type in types.protocols|annotated:"map"|annotated:"joined"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
 extension {{ type.name }} {
-    public func flatMap <A> (_ transform: @escaping (ElementType) -> A) -> {{ type.annotations.concrete }}<A.ElementType{% if type.annotations.context %}, {{ type.annotations.context }}{% endif %}> where A: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %} {
+    public func flatMap <A> (_ transform: @escaping (ElementType) -> A) -> {{ type.annotations.concrete }}<A.ElementType{% if type.annotations.secondaryParameter %}, {{ type.annotations.secondaryParameter }}{% endif %}> where A: {{ type.name }}{% if type.annotations.secondaryParameter %}, A.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}{% endif %} {
         return map(transform).joined
     }
 }
 
-public func >>- <A,B{% if type.annotations.context %},Z{% endif %}> (left: A, right: @escaping (A.ElementType) -> B) -> {{ type.annotations.concrete }}<B.ElementType{% if type.annotations.context %}, Z{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == Z, B.{{ type.annotations.context }} == Z{% endif %}{% if type.annotations.contextRequiredProtocols %}, Z: {{ type.annotations.contextRequiredProtocols }}{% endif %} {
+public func >>- <A,B{% if type.annotations.secondaryParameter %},Z{% endif %}> (left: A, right: @escaping (A.ElementType) -> B) -> {{ type.annotations.concrete }}<B.ElementType{% if type.annotations.secondaryParameter %}, Z{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.secondaryParameter %}, A.{{ type.annotations.secondaryParameter }} == Z, B.{{ type.annotations.secondaryParameter }} == Z{% endif %}{% if type.annotations.secondaryParameterRequiredProtocols %}, Z: {{ type.annotations.secondaryParameterRequiredProtocols }}{% endif %} {
     return left.flatMap(right)
 }
 

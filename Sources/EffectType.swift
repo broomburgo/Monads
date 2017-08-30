@@ -3,11 +3,10 @@ import Functional
 
 // MARK: - Definition
 
+// sourcery: map, joined, reducible
 // sourcery: concrete = "Effect"
-// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/
-// sourcery: reducible
-// sourcery: traverseRequirement = "ElementType: Monoid"
 // sourcery: transformer1, transformer2
+// sourcery: traverseRequirement = "ElementType: Monoid"
 public protocol EffectType: PureConstructible {
 	init(execute: @escaping () -> ElementType)
 	func run() -> ElementType

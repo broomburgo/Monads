@@ -1,7 +1,7 @@
 // Generated using Sourcery 0.7.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
-//: `joined` definitions; requires `concrete`
+//: `joined` definitions; requires `joined`, `concrete`
 
 import Abstract
 

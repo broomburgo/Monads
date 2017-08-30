@@ -1,20 +1,20 @@
-//: `zip` definitions; requires `concrete`
+//: `zip` definitions; requires `map`, `joined`, `concrete`; skips `manualZip`
 
 import Abstract
 
-{% for type in types.protocols|annotated:"zip"|annotated:"concrete" %}
+{% for type in types.protocols|annotated:"map"|annotated:"joined"|!annotated:"manualZip"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
 extension {{ type.name }} {
-	public static func zip <A,B> (_ a: A, _ b: B) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType){% if type.annotations.context %},{{ type.annotations.context }}{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}, B.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %}, ElementType == (A.ElementType,B.ElementType) {
+	public static func zip <A,B> (_ a: A, _ b: B) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType){% if type.annotations.secondaryParameter %},{{ type.annotations.secondaryParameter }}{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.secondaryParameter %}, A.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}, B.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}{% endif %}, ElementType == (A.ElementType,B.ElementType) {
 		return a.flatMap { aValue in b.map { bValue in (aValue,bValue) } }
 	}
 
-	public static func zip <A,B,C> (_ a: A, _ b: B, _ c: C) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType,C.ElementType){% if type.annotations.context %},{{ type.annotations.context }}{% endif %}> where A: {{ type.name }}, B: {{ type.name }}, C: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}, B.{{ type.annotations.context }} == {{ type.annotations.context }}, C.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %}, ElementType == (A.ElementType,B.ElementType,C.ElementType) {
+	public static func zip <A,B,C> (_ a: A, _ b: B, _ c: C) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType,C.ElementType){% if type.annotations.secondaryParameter %},{{ type.annotations.secondaryParameter }}{% endif %}> where A: {{ type.name }}, B: {{ type.name }}, C: {{ type.name }}{% if type.annotations.secondaryParameter %}, A.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}, B.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}, C.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}{% endif %}, ElementType == (A.ElementType,B.ElementType,C.ElementType) {
 		return a.flatMap { aValue in b.flatMap { bValue in c.map { cValue in (aValue,bValue,cValue) } } }
 	}
 
-	public static func zip <A,B,C,D> (_ a: A, _ b: B, _ c: C, _ d: D) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType,C.ElementType,D.ElementType){% if type.annotations.context %},{{ type.annotations.context }}{% endif %}> where A: {{ type.name }}, B: {{ type.name }}, C: {{ type.name }}, D: {{ type.name }}{% if type.annotations.context %}, A.{{ type.annotations.context }} == {{ type.annotations.context }}, B.{{ type.annotations.context }} == {{ type.annotations.context }}, C.{{ type.annotations.context }} == {{ type.annotations.context }}, D.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %}, ElementType == (A.ElementType,B.ElementType,C.ElementType,D.ElementType) {
+	public static func zip <A,B,C,D> (_ a: A, _ b: B, _ c: C, _ d: D) -> {{ type.annotations.concrete }}<(A.ElementType,B.ElementType,C.ElementType,D.ElementType){% if type.annotations.secondaryParameter %},{{ type.annotations.secondaryParameter }}{% endif %}> where A: {{ type.name }}, B: {{ type.name }}, C: {{ type.name }}, D: {{ type.name }}{% if type.annotations.secondaryParameter %}, A.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}, B.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}, C.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}, D.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}{% endif %}, ElementType == (A.ElementType,B.ElementType,C.ElementType,D.ElementType) {
 		return a.flatMap { aValue in b.flatMap { bValue in c.flatMap { cValue in d.map { dValue in (aValue,bValue,cValue,dValue) } } } }
 	}
 }

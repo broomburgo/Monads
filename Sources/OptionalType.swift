@@ -2,9 +2,8 @@ import Functional
 
 // MARK: - Definition
 
+// sourcery: map, joined, reducible
 // sourcery: concrete = "Optional"
-// sourcery: map, joined, flatMap, zip, apply, lift, lift+, lift-, lift*, lift/
-// sourcery: reducible
 // sourcery: transformer1, transformer2
 public protocol OptionalType: PureConstructible {
 	init()

@@ -1,7 +1,7 @@
 // Generated using Sourcery 0.7.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
-//: `apply` definitions; requires `concrete`
+//: `apply` definitions; requires `map`, `joined`, `concrete`
 
 import Abstract
 

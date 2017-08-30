@@ -3,8 +3,9 @@ import Functional
 
 // MARK: - Definition
 
+// sourcery: map, joined
 // sourcery: concrete = "Deferred"
-// sourcery: map, joined, flatMap, apply, lift, lift+, lift-, lift*, lift/
+// sourcery: manualZip
 public protocol DeferredType: PureConstructible {
 	init(completion: (@escaping (ElementType) -> ()) -> ())
 	func run(_ callback: @escaping (ElementType) -> ())

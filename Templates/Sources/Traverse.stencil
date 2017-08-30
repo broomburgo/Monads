@@ -1,17 +1,17 @@
-//: traverse definitions; requires `reducible` and `concrete`
+//: traverse definitions; requires `map`, `joined`, `reducible`, `concrete`
 
 import Abstract
 import Functional
 
-{% for type1 in types.protocols|annotated:"reducible"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"map"|annotated:"joined"|annotated:"reducible"|annotated:"concrete" %}
 
 // MARK: - {{ type1.name }} - traverse
 extension {{ type1.name }} where Self: Reducible, Self.ReducibleElementType == ElementType{% if type1.annotations.traverseRequirement %}, Self.{{ type1.annotations.traverseRequirement }}{% endif %} {
-{% for type2 in types.protocols|annotated:"map"|annotated:"apply"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"map"|annotated:"concrete" %}
 
-	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% if type2.annotations.context %},T.{{ type2.annotations.context }}{% endif %}> where T: {{ type2.name }}{% if type1.annotations.traverseRequirement %}, T.{{ type1.annotations.traverseRequirement }}{% endif %} {
-		return reduce({{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% if type2.annotations.context %},T.{{ type2.annotations.context }}{% endif %}>.init(.neutral)) { (acc,x) in
-			transform(x).map({{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>.appending) <*> acc
+	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.secondaryParameter %},{{ type1.annotations.secondaryParameter }}{% endif %}>{% if type2.annotations.secondaryParameter %},T.{{ type2.annotations.secondaryParameter }}{% endif %}> where T: {{ type2.name }}{% if type1.annotations.traverseRequirement %}, T.{{ type1.annotations.traverseRequirement }}{% endif %} {
+		return reduce({{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.secondaryParameter %},{{ type1.annotations.secondaryParameter }}{% endif %}>{% if type2.annotations.secondaryParameter %},T.{{ type2.annotations.secondaryParameter }}{% endif %}>.init(.neutral)) { (acc,x) in
+			transform(x).map({{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.secondaryParameter %},{{ type1.annotations.secondaryParameter }}{% endif %}>.appending) <*> acc
 		}
 	}
 
@@ -19,9 +19,9 @@ extension {{ type1.name }} where Self: Reducible, Self.ReducibleElementType == E
 }
 
 // MARK: - {{ type1.name }} - flip
-{% for type2 in types.protocols|annotated:"map"|annotated:"apply"|annotated:"concrete" %}
+{% for type2 in types.protocols|annotated:"map"|annotated:"concrete" %}
 extension {{ type1.name }} where Self: Reducible, Self.ReducibleElementType == ElementType, ElementType: {{ type2.name }}{% if type1.annotations.traverseRequirement %}, Self.{{ type1.annotations.traverseRequirement }}, ElementType.{{ type1.annotations.traverseRequirement }}{% endif %} {
-	public var flip: {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<ElementType.ElementType{% if type1.annotations.context %},{{ type1.annotations.context }}{% endif %}>{% if type2.annotations.context %},ElementType.{{ type2.annotations.context }}{% endif %}> {
+	public var flip: {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<ElementType.ElementType{% if type1.annotations.secondaryParameter %},{{ type1.annotations.secondaryParameter }}{% endif %}>{% if type2.annotations.secondaryParameter %},ElementType.{{ type2.annotations.secondaryParameter }}{% endif %}> {
 		return traverse(F.identity)
 	}
 }

@@ -1,13 +1,13 @@
-//: `transformer` definitions for `EffectType`; requires `concrete`
+//: `transformer` definitions for `EffectType`; requires `map`, `joined`, `concrete`
 
-{% macro getReturnTypeT type1 external %}{{ type1.annotations.concrete }}<Effect<A>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnTypeT type1 external %}{{ type1.annotations.concrete }}<Effect<A>{% if type1.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.secondaryParameter }}{% endif %}>{% endmacro %}
 
-{% macro getReturnTypeTT type1 type2 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<Effect<A>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnTypeTT type1 type2 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<Effect<A>{% if type2.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.secondaryParameter }}{% endif %}>{% if type1.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.secondaryParameter }}{% endif %}>{% endmacro %}
 
-{% macro getReturnTypeTTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Effect<A>{% if type3.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.context }}{% endif %}>{% if type2.annotations.context %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.context }}{% endif %}>{% if type1.annotations.context %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.context }}{% endif %}>{% endmacro %}
+{% macro getReturnTypeTTT type1 type2 type3 external %}{{ type1.annotations.concrete }}<{{ type2.annotations.concrete }}<{{ type3.annotations.concrete }}<Effect<A>{% if type3.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}ElementType.ElementType.{{ type3.annotations.secondaryParameter }}{% endif %}>{% if type2.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}ElementType.{{ type2.annotations.secondaryParameter }}{% endif %}>{% if type1.annotations.secondaryParameter %},{% if external %}{{ external }}.{% endif %}{{ type1.annotations.secondaryParameter }}{% endif %}>{% endmacro %}
 
 // MARK: - Level 1 Transformer
-{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"map"|annotated:"joined"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: EffectType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> {% call getReturnTypeT type1 "" %}) -> {% call getReturnTypeT type1 "" %} {
@@ -21,7 +21,7 @@ public func |>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Eleme
 {% endfor %}
 
 // MARK: - Level 2 Transformer
-{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"map"|annotated:"joined"|annotated:"concrete" %}
 {% for type2 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
 
 extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.ElementType: EffectType {
@@ -37,7 +37,7 @@ public func ||>>- <T,A> (_ object: T, _ transform: @escaping (T.ElementType.Elem
 {% endfor %}
 
 // MARK: - Level 3 Transformer
-{% for type1 in types.protocols|annotated:"flatMap"|annotated:"concrete" %}
+{% for type1 in types.protocols|annotated:"map"|annotated:"joined"|annotated:"concrete" %}
 {% for type2 in types.protocols|annotated:"transformer1"|annotated:"concrete" %}
 {% for type3 in types.protocols|annotated:"transformer2"|annotated:"concrete" %}
 

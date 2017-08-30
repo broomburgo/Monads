@@ -1,18 +1,18 @@
-//: `joined` definitions; requires `concrete`
+//: `joined` definitions; requires `joined`, `concrete`
 
 import Abstract
 
 {% for type in types.protocols|annotated:"joined"|annotated:"concrete" %}
 // MARK: - {{ type.name }}
 
-extension {{ type.name }} where ElementType: {{ type.name }}{% if type.annotations.context %}, ElementType.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %}, ElementType.ElementType: {{ type.name }}{% if type.annotations.context %}, ElementType.ElementType.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %} {
-	public var joinedT: {{ type.annotations.concrete }}<ElementType.ElementType.ElementType{% if type.annotations.context %}, {{ type.annotations.context }}{% endif %}> {
+extension {{ type.name }} where ElementType: {{ type.name }}{% if type.annotations.secondaryParameter %}, ElementType.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}{% endif %}, ElementType.ElementType: {{ type.name }}{% if type.annotations.secondaryParameter %}, ElementType.ElementType.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}{% endif %} {
+	public var joinedT: {{ type.annotations.concrete }}<ElementType.ElementType.ElementType{% if type.annotations.secondaryParameter %}, {{ type.annotations.secondaryParameter }}{% endif %}> {
 		return joined.joined
 	}
 }
 
-extension {{ type.name }} where ElementType: {{ type.name }}{% if type.annotations.context %}, ElementType.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %}, ElementType.ElementType: {{ type.name }}{% if type.annotations.context %}, ElementType.ElementType.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %}, ElementType.ElementType.ElementType: {{ type.name }}{% if type.annotations.context %}, ElementType.ElementType.ElementType.{{ type.annotations.context }} == {{ type.annotations.context }}{% endif %} {
-	public var joinedTT: {{ type.annotations.concrete }}<ElementType.ElementType.ElementType.ElementType{% if type.annotations.context %}, {{ type.annotations.context }}{% endif %}> {
+extension {{ type.name }} where ElementType: {{ type.name }}{% if type.annotations.secondaryParameter %}, ElementType.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}{% endif %}, ElementType.ElementType: {{ type.name }}{% if type.annotations.secondaryParameter %}, ElementType.ElementType.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}{% endif %}, ElementType.ElementType.ElementType: {{ type.name }}{% if type.annotations.secondaryParameter %}, ElementType.ElementType.ElementType.{{ type.annotations.secondaryParameter }} == {{ type.annotations.secondaryParameter }}{% endif %} {
+	public var joinedTT: {{ type.annotations.concrete }}<ElementType.ElementType.ElementType.ElementType{% if type.annotations.secondaryParameter %}, {{ type.annotations.secondaryParameter }}{% endif %}> {
 		return joined.joined.joined
 	}
 }
