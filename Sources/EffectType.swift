@@ -23,7 +23,7 @@ public struct Effect<T>: EffectType {
 	}
 
 	public init(_ value: ElementType) {
-		self.init(execute: F.constant(value))
+		self.init { value }
 	}
 
 	public func run() -> T {

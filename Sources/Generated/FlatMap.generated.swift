@@ -77,7 +77,7 @@ extension ResultType {
     }
 }
 
-public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) -> B) -> Result<B.ElementType, Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
+public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) -> B) -> Result<B.ElementType, Z> where A: ResultType, B: ResultType, A.ErrorType == Z, B.ErrorType == Z {
     return left.flatMap(right)
 }
 
@@ -89,7 +89,7 @@ extension WriterType {
     }
 }
 
-public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) -> B) -> Writer<B.ElementType, Z> where A: WriterType, B: WriterType, A.LogType == Z, B.LogType == Z, Z: Monoid {
+public func >>- <A,B,Z> (left: A, right: @escaping (A.ElementType) -> B) -> Writer<B.ElementType, Z> where A: WriterType, B: WriterType, A.LogType == Z, B.LogType == Z {
     return left.flatMap(right)
 }
 

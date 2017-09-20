@@ -111,18 +111,16 @@ extension OptionalType {
 
 	public var isNil: Bool {
 		return run(
-			ifSome: F.constant(false),
-			ifNone: F.constant(true))
+			ifSome: { _ in false },
+			ifNone: { true })
 	}
 
 	public var isNotNil: Bool {
-		return run(
-			ifSome: F.constant(true),
-			ifNone: F.constant(false))
+		return isNil.not
 	}
 
 	public func ifNotNil(_ action: @escaping (ElementType) -> ()) {
 		run(ifSome: action,
-			ifNone: F.ignore)
+		    ifNone: {})
 	}
 }

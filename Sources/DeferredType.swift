@@ -88,7 +88,7 @@ extension DeferredType {
 			var bValue: B.ElementType? = nil
 			func checkDone() {
 				guard let aValue = aValue, let bValue = bValue else { return }
-				done(aValue,bValue)
+				done((aValue,bValue))
 			}
 			a.run { aValue = $0; checkDone() }
 			b.run { bValue = $0; checkDone() }

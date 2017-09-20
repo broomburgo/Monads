@@ -118,7 +118,7 @@ extension ResultType where ErrorType: Semigroup {
 				ifFailure: { bError in .failure(bError) },
 				ifCancel: { .cancel }) },
 			ifFailure: { aError in b.run(
-				ifSuccess: F.constant(.failure(aError)),
+				ifSuccess: { _ in .failure(aError) },
 				ifFailure: { bError in .failure(aError <> bError)},
 				ifCancel: { .cancel }) },
 			ifCancel: { .cancel })
@@ -135,8 +135,8 @@ extension ResultType {
 	static func appending(_ x: ElementType) -> Endo<Result<ElementType,ErrorType>> {
 		return { $0.run(
 			ifSuccess: Result.success,
-			ifFailure: F.constant(Result.success(x)),
-			ifCancel: F.constant(Result.success(x)))
+			ifFailure: { _ in Result.success(x) },
+			ifCancel: { Result.success(x) })
 		}
 	}
 }
@@ -163,34 +163,34 @@ extension ResultType {
 		return run(
 			ifSuccess: Result.success,
 			ifFailure: Result.failure • transform,
-			ifCancel: F.constant(Result.cancel))
+			ifCancel: { Result.cancel })
 	}
 
 	public func fallback(to defaultValue: ElementType) -> Result<ElementType,ErrorType> {
 		return run(
-			ifSuccess: Result<ElementType,ErrorType>.success,
-			ifFailure: F.constant(Result<ElementType,ErrorType>.success(defaultValue)),
-			ifCancel: F.constant(Result<ElementType,ErrorType>.success(defaultValue)))
+			ifSuccess: Result.success,
+			ifFailure: { _ in Result.success(defaultValue) },
+			ifCancel: { Result.success(defaultValue) })
 	}
 
 	public var toOptionalValue: ElementType? {
 		return run(
 			ifSuccess: F.identity,
-			ifFailure: F.constant(nil),
-			ifCancel: F.constant(nil))
+			ifFailure: { _ in nil },
+			ifCancel: { nil })
 	}
 
 	public var toOptionalError: ErrorType? {
 		return run(
-			ifSuccess: F.constant(nil),
+			ifSuccess: { _ in nil },
 			ifFailure: F.identity,
-			ifCancel: F.constant(nil))
+			ifCancel: { nil })
 	}
 
 	public var isCanceled: Bool {
 		return run(
-			ifSuccess: F.constant(false),
-			ifFailure: F.constant(false),
-			ifCancel: F.constant(true))
+			ifSuccess: { _ in false },
+			ifFailure: { _ in false },
+			ifCancel: { true })
 	}
 }
