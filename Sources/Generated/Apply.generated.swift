@@ -14,7 +14,7 @@ extension ArrayType {
 }
 
 public func <*> <A,B,T> (left: A, right: B) -> Array<T> where A: ArrayType, B: ArrayType, A.ElementType == (B.ElementType) -> T {
-  	return right.apply(left)
+	return Array.zip(right,left).map { $1($0) }
 }
 
 // MARK: - DeferredType
@@ -26,7 +26,7 @@ extension DeferredType {
 }
 
 public func <*> <A,B,T> (left: A, right: B) -> Deferred<T> where A: DeferredType, B: DeferredType, A.ElementType == (B.ElementType) -> T {
-  	return right.apply(left)
+	return Deferred.zip(right,left).map { $1($0) }
 }
 
 // MARK: - EffectType
@@ -38,7 +38,7 @@ extension EffectType {
 }
 
 public func <*> <A,B,T> (left: A, right: B) -> Effect<T> where A: EffectType, B: EffectType, A.ElementType == (B.ElementType) -> T {
-  	return right.apply(left)
+	return Effect.zip(right,left).map { $1($0) }
 }
 
 // MARK: - OptionalType
@@ -50,7 +50,7 @@ extension OptionalType {
 }
 
 public func <*> <A,B,T> (left: A, right: B) -> Optional<T> where A: OptionalType, B: OptionalType, A.ElementType == (B.ElementType) -> T {
-  	return right.apply(left)
+	return Optional.zip(right,left).map { $1($0) }
 }
 
 // MARK: - ReaderType
@@ -62,7 +62,7 @@ extension ReaderType {
 }
 
 public func <*> <A,B,T,Z> (left: A, right: B) -> Reader<T,Z> where A: ReaderType, B: ReaderType, A.ElementType == (B.ElementType) -> T, A.EnvironmentType == Z, B.EnvironmentType == Z {
-  	return right.apply(left)
+	return Reader.zip(right,left).map { $1($0) }
 }
 
 // MARK: - ResultType
@@ -73,8 +73,8 @@ extension ResultType {
 	}
 }
 
-public func <*> <A,B,T,Z> (left: A, right: B) -> Result<T,Z> where A: ResultType, B: ResultType, A.ElementType == (B.ElementType) -> T, A.ErrorType == Z, B.ErrorType == Z, Z: Error {
-  	return right.apply(left)
+public func <*> <A,B,T,Z> (left: A, right: B) -> Result<T,Z> where A: ResultType, B: ResultType, A.ElementType == (B.ElementType) -> T, A.ErrorType == Z, B.ErrorType == Z {
+	return Result.zip(right,left).map { $1($0) }
 }
 
 // MARK: - WriterType
@@ -85,7 +85,7 @@ extension WriterType {
 	}
 }
 
-public func <*> <A,B,T,Z> (left: A, right: B) -> Writer<T,Z> where A: WriterType, B: WriterType, A.ElementType == (B.ElementType) -> T, A.LogType == Z, B.LogType == Z, Z: Monoid {
-  	return right.apply(left)
+public func <*> <A,B,T,Z> (left: A, right: B) -> Writer<T,Z> where A: WriterType, B: WriterType, A.ElementType == (B.ElementType) -> T, A.LogType == Z, B.LogType == Z {
+	return Writer.zip(right,left).map { $1($0) }
 }
 

@@ -33,7 +33,7 @@ public struct Reader<T,E>: ReaderType {
 	}
 
 	public init(_ value: ElementType) {
-		self.init(F.constant(value))
+		self.init { _ in value }
 	}
 
 	public func run(_ environment: E) -> T {

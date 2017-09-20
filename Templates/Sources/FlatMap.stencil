@@ -15,7 +15,7 @@ extension {{ type.name }} {
     }
 }
 
-public func >>- <A,B{% if type.annotations.secondaryParameter %},Z{% endif %}> (left: A, right: @escaping (A.ElementType) -> B) -> {{ type.annotations.concrete }}<B.ElementType{% if type.annotations.secondaryParameter %}, Z{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.secondaryParameter %}, A.{{ type.annotations.secondaryParameter }} == Z, B.{{ type.annotations.secondaryParameter }} == Z{% endif %}{% if type.annotations.secondaryParameterRequiredProtocols %}, Z: {{ type.annotations.secondaryParameterRequiredProtocols }}{% endif %} {
+public func >>- <A,B{% if type.annotations.secondaryParameter %},Z{% endif %}> (left: A, right: @escaping (A.ElementType) -> B) -> {{ type.annotations.concrete }}<B.ElementType{% if type.annotations.secondaryParameter %}, Z{% endif %}> where A: {{ type.name }}, B: {{ type.name }}{% if type.annotations.secondaryParameter %}, A.{{ type.annotations.secondaryParameter }} == Z, B.{{ type.annotations.secondaryParameter }} == Z{% endif %} {
     return left.flatMap(right)
 }
 
