@@ -1,9 +1,15 @@
 {
   "iOS" : [
-
+    {
+      "hash" : "6e5e30a52393eb891c52fd11d6e6dc42efeb0337779da0c4f5cfb36ba1af34f2",
+      "name" : "Operadics"
+    }
   ],
-  "commitish" : "f6aa739369baded0b509157cc8c9beaf16bfe636",
+  "commitish" : "0.2.3",
   "Mac" : [
-
+    {
+      "hash" : "c08d91aeb5a5b2bd588bc49ae8507c37578d55f648287877b4fbe3d4705c6744",
+      "name" : "Operadics"
+    }
   ]
 }

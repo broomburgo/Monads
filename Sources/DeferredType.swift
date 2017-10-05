@@ -9,6 +9,7 @@ import Functional
 public protocol DeferredType: PureConstructible {
 	init(completion: (@escaping (ElementType) -> ()) -> ())
 	func run(_ callback: @escaping (ElementType) -> ())
+    var peek: ElementType? { get }
 }
 
 // MARK: - Concrete
@@ -77,7 +78,6 @@ extension DeferredType where ElementType: DeferredType {
 		}
 	}
 }
-
 
 // MARK: -  Custom Zip (parallel computation)
 
