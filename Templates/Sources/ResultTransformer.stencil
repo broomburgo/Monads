@@ -13,8 +13,8 @@ extension {{ type1.name }} where ElementType: ResultType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> {% call getReturnTypeT type1 "" %}) -> {% call getReturnTypeT type1 "" %} {
 		return flatMap { $0.run(
 			ifSuccess: { transform($0) },
-			ifFailure: { {{ type1.annotations.concrete }}.init(Result.failure($0)) },
-			ifCancel: { {{ type1.annotations.concrete }}.init(Result.cancel) })
+			ifFailure: { {{ type1.annotations.concrete }}.pure(Result<A,ElementType.ErrorType>.failure($0)) },
+			ifCancel: { {{ type1.annotations.concrete }}.pure(Result<A,ElementType.ErrorType>.cancel) })
 		}
 	}
 }
@@ -32,8 +32,8 @@ extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.Elem
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> {% call getReturnTypeTT type1 type2 "" %}) -> {% call getReturnTypeTT type1 type2 "" %} {
 		return flatMapT { $0.run(
 			ifSuccess: { transform($0) },
-			ifFailure: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init(Result.failure($0))) },
-			ifCancel: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init(Result.cancel)) })
+			ifFailure: { {{ type1.annotations.concrete }}.pure(Result<A,ElementType.ElementType.ErrorType>.failure($0)) },
+			ifCancel: { {{ type1.annotations.concrete }}.pure(Result<A,ElementType.ElementType.ErrorType>.cancel) })
 		}
 	}
 }
@@ -53,8 +53,8 @@ extension {{ type1.name }} where ElementType: {{ type2.name }}, ElementType.Elem
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> {% call getReturnTypeTTT type1 type2 type3 "" %}) -> {% call getReturnTypeTTT type1 type2 type3 "" %} {
 		return flatMapTT { $0.run(
 			ifSuccess: { transform($0) },
-			ifFailure: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init({{ type3.annotations.concrete }}.init(Result.failure($0)))) },
-			ifCancel: { {{ type1.annotations.concrete }}.init({{ type2.annotations.concrete }}.init({{ type3.annotations.concrete }}.init(Result.cancel))) })
+			ifFailure: { {{ type1.annotations.concrete }}.pure(Result<A,ElementType.ElementType.ElementType.ErrorType>.failure($0)) },
+			ifCancel: { {{ type1.annotations.concrete }}.pure(Result<A,ElementType.ElementType.ElementType.ErrorType>.cancel) })
 		}
 	}
 }

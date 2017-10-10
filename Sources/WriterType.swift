@@ -37,8 +37,8 @@ public struct Writer<T,L>: WriterType where L: Monoid {
 		self.log = log
 	}
 
-	public init(_ value: ElementType) {
-		self.init(value: value, log: .empty)
+	public static func pure(_ value: ElementType) -> Writer {
+		return Writer.init(value: value, log: .empty)
 	}
 
 	public var run: (T, L) {
@@ -95,7 +95,7 @@ extension WriterType where ElementType: Monoid {
 	}
 
 	static func appending(_ x: ElementType) -> Endo<Writer<ElementType,LogType>> {
-		return { $0 <> Writer.init(x) }
+		return { $0 <> Writer.pure(x) }
 	}
 }
 

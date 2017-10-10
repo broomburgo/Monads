@@ -13,99 +13,99 @@ extension Law {
 // MARK: - Array
         enum OnArray {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Array<B>) -> Bool where A: Equatable, B: Equatable {
-                return (Array<A>.init(value) >>- f) == f(value)
+                return (Array<A>.pure(value) >>- f) == f(value)
             }
 
             static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
-                return (Array<A>.init(value) >>- Array<A>.init) == Array<A>.init(value)
+                return (Array<A>.pure(value) >>- Array<A>.pure) == Array<A>.pure(value)
             }
 
             static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Array<B>, _ g: @escaping (B) -> Array<C>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Array<A>.init(value) >>- f >>- g) == (Array<A>.init(value) >>- { f($0) >>- g })
+                return (Array<A>.pure(value) >>- f >>- g) == (Array<A>.pure(value) >>- { f($0) >>- g })
             }
         }
 // MARK: - Deferred
         enum OnDeferred {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Deferred<B>) -> Bool where A: Equatable, B: Equatable {
-                return (Deferred<A>.init(value) >>- f) == f(value)
+                return (Deferred<A>.pure(value) >>- f) == f(value)
             }
 
             static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
-                return (Deferred<A>.init(value) >>- Deferred<A>.init) == Deferred<A>.init(value)
+                return (Deferred<A>.pure(value) >>- Deferred<A>.pure) == Deferred<A>.pure(value)
             }
 
             static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Deferred<B>, _ g: @escaping (B) -> Deferred<C>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Deferred<A>.init(value) >>- f >>- g) == (Deferred<A>.init(value) >>- { f($0) >>- g })
+                return (Deferred<A>.pure(value) >>- f >>- g) == (Deferred<A>.pure(value) >>- { f($0) >>- g })
             }
         }
 // MARK: - Effect
         enum OnEffect {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Effect<B>) -> Bool where A: Equatable, B: Equatable {
-                return (Effect<A>.init(value) >>- f) == f(value)
+                return (Effect<A>.pure(value) >>- f) == f(value)
             }
 
             static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
-                return (Effect<A>.init(value) >>- Effect<A>.init) == Effect<A>.init(value)
+                return (Effect<A>.pure(value) >>- Effect<A>.pure) == Effect<A>.pure(value)
             }
 
             static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Effect<B>, _ g: @escaping (B) -> Effect<C>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Effect<A>.init(value) >>- f >>- g) == (Effect<A>.init(value) >>- { f($0) >>- g })
+                return (Effect<A>.pure(value) >>- f >>- g) == (Effect<A>.pure(value) >>- { f($0) >>- g })
             }
         }
 // MARK: - Optional
         enum OnOptional {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Optional<B>) -> Bool where A: Equatable, B: Equatable {
-                return (Optional<A>.init(value) >>- f) == f(value)
+                return (Optional<A>.pure(value) >>- f) == f(value)
             }
 
             static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
-                return (Optional<A>.init(value) >>- Optional<A>.init) == Optional<A>.init(value)
+                return (Optional<A>.pure(value) >>- Optional<A>.pure) == Optional<A>.pure(value)
             }
 
             static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Optional<B>, _ g: @escaping (B) -> Optional<C>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Optional<A>.init(value) >>- f >>- g) == (Optional<A>.init(value) >>- { f($0) >>- g })
+                return (Optional<A>.pure(value) >>- f >>- g) == (Optional<A>.pure(value) >>- { f($0) >>- g })
             }
         }
 // MARK: - Reader
 		enum OnReader {
 			static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Reader<B,String>, _ context: String) -> Bool where A: Equatable, B: Equatable {
-				return ((Reader<A,String>.init(value) >>- f) == f(value))(context)
+				return ((Reader<A,String>.pure(value) >>- f) == f(value))(context)
 			}
 
 			static func identityRight <A> (_ value: A, _ context: String) -> Bool where A: Equatable {
-				return ((Reader<A,String>.init(value) >>- Reader<A,String>.init) == Reader<A,String>.init(value))(context)
+				return ((Reader<A,String>.pure(value) >>- Reader<A,String>.pure) == Reader<A,String>.pure(value))(context)
 			}
 
 			static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Reader<B,String>, _ g: @escaping (B) -> Reader<C,String>, _ context: String) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-				return ((Reader<A,String>.init(value) >>- f >>- g) == (Reader<A,String>.init(value) >>- { f($0) >>- g }))(context)
+				return ((Reader<A,String>.pure(value) >>- f >>- g) == (Reader<A,String>.pure(value) >>- { f($0) >>- g }))(context)
 			}
 		}
 // MARK: - Result
         enum OnResult {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Result<B,AnyError>) -> Bool where A: Equatable, B: Equatable {
-                return (Result<A,AnyError>.init(value) >>- f) == f(value)
+                return (Result<A,AnyError>.pure(value) >>- f) == f(value)
             }
 
             static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
-                return (Result<A,AnyError>.init(value) >>- Result<A,AnyError>.init) == Result<A,AnyError>.init(value)
+                return (Result<A,AnyError>.pure(value) >>- Result<A,AnyError>.pure) == Result<A,AnyError>.pure(value)
             }
 
             static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Result<B,AnyError>, _ g: @escaping (B) -> Result<C,AnyError>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Result<A,AnyError>.init(value) >>- f >>- g) == (Result<A,AnyError>.init(value) >>- { f($0) >>- g })
+                return (Result<A,AnyError>.pure(value) >>- f >>- g) == (Result<A,AnyError>.pure(value) >>- { f($0) >>- g })
             }
         }
 // MARK: - Writer
         enum OnWriter {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> Writer<B,String>) -> Bool where A: Equatable, B: Equatable {
-                return (Writer<A,String>.init(value) >>- f) == f(value)
+                return (Writer<A,String>.pure(value) >>- f) == f(value)
             }
 
             static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
-                return (Writer<A,String>.init(value) >>- Writer<A,String>.init) == Writer<A,String>.init(value)
+                return (Writer<A,String>.pure(value) >>- Writer<A,String>.pure) == Writer<A,String>.pure(value)
             }
 
             static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> Writer<B,String>, _ g: @escaping (B) -> Writer<C,String>) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return (Writer<A,String>.init(value) >>- f >>- g) == (Writer<A,String>.init(value) >>- { f($0) >>- g })
+                return (Writer<A,String>.pure(value) >>- f >>- g) == (Writer<A,String>.pure(value) >>- { f($0) >>- g })
             }
         }
     }

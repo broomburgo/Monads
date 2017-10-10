@@ -10,7 +10,7 @@ extension {{ type1.name }} where Self: Reducible, Self.ReducibleElementType == E
 {% for type2 in types.protocols|annotated:"map"|annotated:"concrete" %}
 
 	public func traverse<T>(_ transform: @escaping (ElementType) -> T) -> {{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.secondaryParameter %},{{ type1.annotations.secondaryParameter }}{% endif %}>{% if type2.annotations.secondaryParameter %},T.{{ type2.annotations.secondaryParameter }}{% endif %}> where T: {{ type2.name }}{% if type1.annotations.traverseRequirement %}, T.{{ type1.annotations.traverseRequirement }}{% endif %} {
-		return reduce({{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.secondaryParameter %},{{ type1.annotations.secondaryParameter }}{% endif %}>{% if type2.annotations.secondaryParameter %},T.{{ type2.annotations.secondaryParameter }}{% endif %}>.init(.neutral)) { (acc,x) in
+		return reduce({{ type2.annotations.concrete }}<{{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.secondaryParameter %},{{ type1.annotations.secondaryParameter }}{% endif %}>{% if type2.annotations.secondaryParameter %},T.{{ type2.annotations.secondaryParameter }}{% endif %}>.pure(.neutral)) { (acc,x) in
 			transform(x).map({{ type1.annotations.concrete }}<T.ElementType{% if type1.annotations.secondaryParameter %},{{ type1.annotations.secondaryParameter }}{% endif %}>.appending) <*> acc
 		}
 	}

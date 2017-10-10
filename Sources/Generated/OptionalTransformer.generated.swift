@@ -12,7 +12,7 @@ extension ArrayType where ElementType: OptionalType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Array<Optional<A>>) -> Array<Optional<A>> {
 		return flatMap { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Optional.none) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -25,7 +25,7 @@ extension DeferredType where ElementType: OptionalType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Deferred<Optional<A>>) -> Deferred<Optional<A>> {
 		return flatMap { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Optional.none) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -38,7 +38,7 @@ extension EffectType where ElementType: OptionalType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Effect<Optional<A>>) -> Effect<Optional<A>> {
 		return flatMap { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Optional.none) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -51,7 +51,7 @@ extension OptionalType where ElementType: OptionalType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Optional<Optional<A>>) -> Optional<Optional<A>> {
 		return flatMap { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Optional.none) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -64,7 +64,7 @@ extension ReaderType where ElementType: OptionalType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Reader<Optional<A>,EnvironmentType>) -> Reader<Optional<A>,EnvironmentType> {
 		return flatMap { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Optional.none) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -77,7 +77,7 @@ extension ResultType where ElementType: OptionalType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Result<Optional<A>,ErrorType>) -> Result<Optional<A>,ErrorType> {
 		return flatMap { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Optional.none) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -90,7 +90,7 @@ extension WriterType where ElementType: OptionalType {
 	public func flatMapT <A> (_ transform: @escaping (ElementType.ElementType) -> Writer<Optional<A>,LogType>) -> Writer<Optional<A>,LogType> {
 		return flatMap { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Optional.none) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -105,7 +105,7 @@ extension ArrayType where ElementType: EffectType, ElementType.ElementType: Opti
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Effect<Optional<A>>>) -> Array<Effect<Optional<A>>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Effect.init(Optional.none)) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -118,7 +118,7 @@ extension ArrayType where ElementType: OptionalType, ElementType.ElementType: Op
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Optional<Optional<A>>>) -> Array<Optional<Optional<A>>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Optional.init(Optional.none)) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -131,7 +131,7 @@ extension ArrayType where ElementType: ResultType, ElementType.ElementType: Opti
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Result<Optional<A>,ElementType.ErrorType>>) -> Array<Result<Optional<A>,ElementType.ErrorType>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Result.init(Optional.none)) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -144,7 +144,7 @@ extension ArrayType where ElementType: WriterType, ElementType.ElementType: Opti
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Array<Writer<Optional<A>,ElementType.LogType>>) -> Array<Writer<Optional<A>,ElementType.LogType>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Writer.init(Optional.none)) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -157,7 +157,7 @@ extension DeferredType where ElementType: EffectType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Effect<Optional<A>>>) -> Deferred<Effect<Optional<A>>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Effect.init(Optional.none)) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -170,7 +170,7 @@ extension DeferredType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Optional<Optional<A>>>) -> Deferred<Optional<Optional<A>>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Optional.init(Optional.none)) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -183,7 +183,7 @@ extension DeferredType where ElementType: ResultType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Result<Optional<A>,ElementType.ErrorType>>) -> Deferred<Result<Optional<A>,ElementType.ErrorType>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Result.init(Optional.none)) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -196,7 +196,7 @@ extension DeferredType where ElementType: WriterType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Deferred<Writer<Optional<A>,ElementType.LogType>>) -> Deferred<Writer<Optional<A>,ElementType.LogType>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Writer.init(Optional.none)) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -209,7 +209,7 @@ extension EffectType where ElementType: EffectType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Effect<Effect<Optional<A>>>) -> Effect<Effect<Optional<A>>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Effect.init(Optional.none)) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -222,7 +222,7 @@ extension EffectType where ElementType: OptionalType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Effect<Optional<Optional<A>>>) -> Effect<Optional<Optional<A>>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Optional.init(Optional.none)) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -235,7 +235,7 @@ extension EffectType where ElementType: ResultType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Effect<Result<Optional<A>,ElementType.ErrorType>>) -> Effect<Result<Optional<A>,ElementType.ErrorType>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Result.init(Optional.none)) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -248,7 +248,7 @@ extension EffectType where ElementType: WriterType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Effect<Writer<Optional<A>,ElementType.LogType>>) -> Effect<Writer<Optional<A>,ElementType.LogType>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Writer.init(Optional.none)) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -261,7 +261,7 @@ extension OptionalType where ElementType: EffectType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Optional<Effect<Optional<A>>>) -> Optional<Effect<Optional<A>>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Effect.init(Optional.none)) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -274,7 +274,7 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Optional<Optional<Optional<A>>>) -> Optional<Optional<Optional<A>>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Optional.init(Optional.none)) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -287,7 +287,7 @@ extension OptionalType where ElementType: ResultType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Optional<Result<Optional<A>,ElementType.ErrorType>>) -> Optional<Result<Optional<A>,ElementType.ErrorType>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Result.init(Optional.none)) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -300,7 +300,7 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Optional<Writer<Optional<A>,ElementType.LogType>>) -> Optional<Writer<Optional<A>,ElementType.LogType>> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Writer.init(Optional.none)) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -313,7 +313,7 @@ extension ReaderType where ElementType: EffectType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Effect<Optional<A>>,EnvironmentType>) -> Reader<Effect<Optional<A>>,EnvironmentType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Effect.init(Optional.none)) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -326,7 +326,7 @@ extension ReaderType where ElementType: OptionalType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Optional<Optional<A>>,EnvironmentType>) -> Reader<Optional<Optional<A>>,EnvironmentType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Optional.init(Optional.none)) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -339,7 +339,7 @@ extension ReaderType where ElementType: ResultType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Result<Optional<A>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Optional<A>,ElementType.ErrorType>,EnvironmentType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Result.init(Optional.none)) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -352,7 +352,7 @@ extension ReaderType where ElementType: WriterType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Reader<Writer<Optional<A>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Optional<A>,ElementType.LogType>,EnvironmentType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Writer.init(Optional.none)) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -365,7 +365,7 @@ extension ResultType where ElementType: EffectType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Result<Effect<Optional<A>>,ErrorType>) -> Result<Effect<Optional<A>>,ErrorType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Effect.init(Optional.none)) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -378,7 +378,7 @@ extension ResultType where ElementType: OptionalType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Result<Optional<Optional<A>>,ErrorType>) -> Result<Optional<Optional<A>>,ErrorType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Optional.init(Optional.none)) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -391,7 +391,7 @@ extension ResultType where ElementType: ResultType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Result<Result<Optional<A>,ElementType.ErrorType>,ErrorType>) -> Result<Result<Optional<A>,ElementType.ErrorType>,ErrorType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Result.init(Optional.none)) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -404,7 +404,7 @@ extension ResultType where ElementType: WriterType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Result<Writer<Optional<A>,ElementType.LogType>,ErrorType>) -> Result<Writer<Optional<A>,ElementType.LogType>,ErrorType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Writer.init(Optional.none)) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -417,7 +417,7 @@ extension WriterType where ElementType: EffectType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Writer<Effect<Optional<A>>,LogType>) -> Writer<Effect<Optional<A>>,LogType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Effect.init(Optional.none)) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -430,7 +430,7 @@ extension WriterType where ElementType: OptionalType, ElementType.ElementType: O
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Writer<Optional<Optional<A>>,LogType>) -> Writer<Optional<Optional<A>>,LogType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Optional.init(Optional.none)) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -443,7 +443,7 @@ extension WriterType where ElementType: ResultType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Writer<Result<Optional<A>,ElementType.ErrorType>,LogType>) -> Writer<Result<Optional<A>,ElementType.ErrorType>,LogType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Result.init(Optional.none)) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -456,7 +456,7 @@ extension WriterType where ElementType: WriterType, ElementType.ElementType: Opt
 	public func flatMapTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType) -> Writer<Writer<Optional<A>,ElementType.LogType>,LogType>) -> Writer<Writer<Optional<A>,ElementType.LogType>,LogType> {
 		return flatMapT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Writer.init(Optional.none)) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -471,7 +471,7 @@ extension ArrayType where ElementType: EffectType, ElementType.ElementType: Effe
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Effect<Effect<Optional<A>>>>) -> Array<Effect<Effect<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Effect.init(Effect.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -484,7 +484,7 @@ extension ArrayType where ElementType: EffectType, ElementType.ElementType: Opti
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Effect<Optional<Optional<A>>>>) -> Array<Effect<Optional<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Effect.init(Optional.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -497,7 +497,7 @@ extension ArrayType where ElementType: EffectType, ElementType.ElementType: Resu
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>>) -> Array<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Effect.init(Result.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -510,7 +510,7 @@ extension ArrayType where ElementType: EffectType, ElementType.ElementType: Writ
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>>) -> Array<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Effect.init(Writer.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -523,7 +523,7 @@ extension ArrayType where ElementType: OptionalType, ElementType.ElementType: Ef
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Effect<Optional<A>>>>) -> Array<Optional<Effect<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Optional.init(Effect.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -536,7 +536,7 @@ extension ArrayType where ElementType: OptionalType, ElementType.ElementType: Op
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Optional<Optional<A>>>>) -> Array<Optional<Optional<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Optional.init(Optional.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -549,7 +549,7 @@ extension ArrayType where ElementType: OptionalType, ElementType.ElementType: Re
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>>) -> Array<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Optional.init(Result.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -562,7 +562,7 @@ extension ArrayType where ElementType: OptionalType, ElementType.ElementType: Wr
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>>) -> Array<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Optional.init(Writer.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -575,7 +575,7 @@ extension ArrayType where ElementType: ResultType, ElementType.ElementType: Effe
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Effect<Optional<A>>,ElementType.ErrorType>>) -> Array<Result<Effect<Optional<A>>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Result.init(Effect.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -588,7 +588,7 @@ extension ArrayType where ElementType: ResultType, ElementType.ElementType: Opti
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Optional<Optional<A>>,ElementType.ErrorType>>) -> Array<Result<Optional<Optional<A>>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Result.init(Optional.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -601,7 +601,7 @@ extension ArrayType where ElementType: ResultType, ElementType.ElementType: Resu
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Array<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Result.init(Result.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -614,7 +614,7 @@ extension ArrayType where ElementType: ResultType, ElementType.ElementType: Writ
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Array<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Result.init(Writer.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -627,7 +627,7 @@ extension ArrayType where ElementType: WriterType, ElementType.ElementType: Effe
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Effect<Optional<A>>,ElementType.LogType>>) -> Array<Writer<Effect<Optional<A>>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Writer.init(Effect.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -640,7 +640,7 @@ extension ArrayType where ElementType: WriterType, ElementType.ElementType: Opti
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Optional<Optional<A>>,ElementType.LogType>>) -> Array<Writer<Optional<Optional<A>>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Writer.init(Optional.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -653,7 +653,7 @@ extension ArrayType where ElementType: WriterType, ElementType.ElementType: Resu
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Array<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Writer.init(Result.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -666,7 +666,7 @@ extension ArrayType where ElementType: WriterType, ElementType.ElementType: Writ
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Array<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Array<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Array.init(Writer.init(Writer.init(Optional.none))) })
+			ifNone: { Array.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -679,7 +679,7 @@ extension DeferredType where ElementType: EffectType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Effect<Effect<Optional<A>>>>) -> Deferred<Effect<Effect<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Effect.init(Effect.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -692,7 +692,7 @@ extension DeferredType where ElementType: EffectType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Effect<Optional<Optional<A>>>>) -> Deferred<Effect<Optional<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Effect.init(Optional.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -705,7 +705,7 @@ extension DeferredType where ElementType: EffectType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>>) -> Deferred<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Effect.init(Result.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -718,7 +718,7 @@ extension DeferredType where ElementType: EffectType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>>) -> Deferred<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Effect.init(Writer.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -731,7 +731,7 @@ extension DeferredType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Effect<Optional<A>>>>) -> Deferred<Optional<Effect<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Optional.init(Effect.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -744,7 +744,7 @@ extension DeferredType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Optional<Optional<A>>>>) -> Deferred<Optional<Optional<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Optional.init(Optional.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -757,7 +757,7 @@ extension DeferredType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>>) -> Deferred<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Optional.init(Result.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -770,7 +770,7 @@ extension DeferredType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>>) -> Deferred<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Optional.init(Writer.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -783,7 +783,7 @@ extension DeferredType where ElementType: ResultType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Effect<Optional<A>>,ElementType.ErrorType>>) -> Deferred<Result<Effect<Optional<A>>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Result.init(Effect.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -796,7 +796,7 @@ extension DeferredType where ElementType: ResultType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Optional<Optional<A>>,ElementType.ErrorType>>) -> Deferred<Result<Optional<Optional<A>>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Result.init(Optional.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -809,7 +809,7 @@ extension DeferredType where ElementType: ResultType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Deferred<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Result.init(Result.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -822,7 +822,7 @@ extension DeferredType where ElementType: ResultType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Deferred<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Result.init(Writer.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -835,7 +835,7 @@ extension DeferredType where ElementType: WriterType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Effect<Optional<A>>,ElementType.LogType>>) -> Deferred<Writer<Effect<Optional<A>>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Writer.init(Effect.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -848,7 +848,7 @@ extension DeferredType where ElementType: WriterType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Optional<Optional<A>>,ElementType.LogType>>) -> Deferred<Writer<Optional<Optional<A>>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Writer.init(Optional.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -861,7 +861,7 @@ extension DeferredType where ElementType: WriterType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Deferred<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Writer.init(Result.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -874,7 +874,7 @@ extension DeferredType where ElementType: WriterType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Deferred<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Deferred<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Deferred.init(Writer.init(Writer.init(Optional.none))) })
+			ifNone: { Deferred.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -887,7 +887,7 @@ extension EffectType where ElementType: EffectType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Effect<Effect<Optional<A>>>>) -> Effect<Effect<Effect<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Effect.init(Effect.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -900,7 +900,7 @@ extension EffectType where ElementType: EffectType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Effect<Optional<Optional<A>>>>) -> Effect<Effect<Optional<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Effect.init(Optional.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -913,7 +913,7 @@ extension EffectType where ElementType: EffectType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>>) -> Effect<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Effect.init(Result.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -926,7 +926,7 @@ extension EffectType where ElementType: EffectType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>>) -> Effect<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Effect.init(Writer.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -939,7 +939,7 @@ extension EffectType where ElementType: OptionalType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Optional<Effect<Optional<A>>>>) -> Effect<Optional<Effect<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Optional.init(Effect.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -952,7 +952,7 @@ extension EffectType where ElementType: OptionalType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Optional<Optional<Optional<A>>>>) -> Effect<Optional<Optional<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Optional.init(Optional.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -965,7 +965,7 @@ extension EffectType where ElementType: OptionalType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>>) -> Effect<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Optional.init(Result.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -978,7 +978,7 @@ extension EffectType where ElementType: OptionalType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>>) -> Effect<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Optional.init(Writer.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -991,7 +991,7 @@ extension EffectType where ElementType: ResultType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Result<Effect<Optional<A>>,ElementType.ErrorType>>) -> Effect<Result<Effect<Optional<A>>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Result.init(Effect.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1004,7 +1004,7 @@ extension EffectType where ElementType: ResultType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Result<Optional<Optional<A>>,ElementType.ErrorType>>) -> Effect<Result<Optional<Optional<A>>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Result.init(Optional.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1017,7 +1017,7 @@ extension EffectType where ElementType: ResultType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Effect<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Result.init(Result.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1030,7 +1030,7 @@ extension EffectType where ElementType: ResultType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Effect<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Result.init(Writer.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1043,7 +1043,7 @@ extension EffectType where ElementType: WriterType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Writer<Effect<Optional<A>>,ElementType.LogType>>) -> Effect<Writer<Effect<Optional<A>>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Writer.init(Effect.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1056,7 +1056,7 @@ extension EffectType where ElementType: WriterType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Writer<Optional<Optional<A>>,ElementType.LogType>>) -> Effect<Writer<Optional<Optional<A>>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Writer.init(Optional.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1069,7 +1069,7 @@ extension EffectType where ElementType: WriterType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Effect<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Writer.init(Result.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1082,7 +1082,7 @@ extension EffectType where ElementType: WriterType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Effect<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Effect<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Effect.init(Writer.init(Writer.init(Optional.none))) })
+			ifNone: { Effect.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1095,7 +1095,7 @@ extension OptionalType where ElementType: EffectType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Effect<Effect<Optional<A>>>>) -> Optional<Effect<Effect<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Effect.init(Effect.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1108,7 +1108,7 @@ extension OptionalType where ElementType: EffectType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Effect<Optional<Optional<A>>>>) -> Optional<Effect<Optional<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Effect.init(Optional.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1121,7 +1121,7 @@ extension OptionalType where ElementType: EffectType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>>) -> Optional<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Effect.init(Result.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1134,7 +1134,7 @@ extension OptionalType where ElementType: EffectType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>>) -> Optional<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Effect.init(Writer.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1147,7 +1147,7 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Optional<Effect<Optional<A>>>>) -> Optional<Optional<Effect<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Optional.init(Effect.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1160,7 +1160,7 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Optional<Optional<Optional<A>>>>) -> Optional<Optional<Optional<Optional<A>>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Optional.init(Optional.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1173,7 +1173,7 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>>) -> Optional<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Optional.init(Result.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1186,7 +1186,7 @@ extension OptionalType where ElementType: OptionalType, ElementType.ElementType:
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>>) -> Optional<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Optional.init(Writer.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1199,7 +1199,7 @@ extension OptionalType where ElementType: ResultType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Result<Effect<Optional<A>>,ElementType.ErrorType>>) -> Optional<Result<Effect<Optional<A>>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Result.init(Effect.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1212,7 +1212,7 @@ extension OptionalType where ElementType: ResultType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Result<Optional<Optional<A>>,ElementType.ErrorType>>) -> Optional<Result<Optional<Optional<A>>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Result.init(Optional.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1225,7 +1225,7 @@ extension OptionalType where ElementType: ResultType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>>) -> Optional<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Result.init(Result.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1238,7 +1238,7 @@ extension OptionalType where ElementType: ResultType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>>) -> Optional<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Result.init(Writer.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1251,7 +1251,7 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Writer<Effect<Optional<A>>,ElementType.LogType>>) -> Optional<Writer<Effect<Optional<A>>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Writer.init(Effect.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1264,7 +1264,7 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Writer<Optional<Optional<A>>,ElementType.LogType>>) -> Optional<Writer<Optional<Optional<A>>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Writer.init(Optional.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1277,7 +1277,7 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>>) -> Optional<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Writer.init(Result.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1290,7 +1290,7 @@ extension OptionalType where ElementType: WriterType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Optional<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>>) -> Optional<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Optional.init(Writer.init(Writer.init(Optional.none))) })
+			ifNone: { Optional.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1303,7 +1303,7 @@ extension ReaderType where ElementType: EffectType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Effect<Optional<A>>>,EnvironmentType>) -> Reader<Effect<Effect<Optional<A>>>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Effect.init(Effect.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1316,7 +1316,7 @@ extension ReaderType where ElementType: EffectType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Optional<Optional<A>>>,EnvironmentType>) -> Reader<Effect<Optional<Optional<A>>>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Effect.init(Optional.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1329,7 +1329,7 @@ extension ReaderType where ElementType: EffectType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>,EnvironmentType>) -> Reader<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Effect.init(Result.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1342,7 +1342,7 @@ extension ReaderType where ElementType: EffectType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>,EnvironmentType>) -> Reader<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Effect.init(Writer.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1355,7 +1355,7 @@ extension ReaderType where ElementType: OptionalType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Effect<Optional<A>>>,EnvironmentType>) -> Reader<Optional<Effect<Optional<A>>>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Optional.init(Effect.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1368,7 +1368,7 @@ extension ReaderType where ElementType: OptionalType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Optional<Optional<A>>>,EnvironmentType>) -> Reader<Optional<Optional<Optional<A>>>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Optional.init(Optional.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1381,7 +1381,7 @@ extension ReaderType where ElementType: OptionalType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>,EnvironmentType>) -> Reader<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Optional.init(Result.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1394,7 +1394,7 @@ extension ReaderType where ElementType: OptionalType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>,EnvironmentType>) -> Reader<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Optional.init(Writer.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1407,7 +1407,7 @@ extension ReaderType where ElementType: ResultType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Effect<Optional<A>>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Effect<Optional<A>>,ElementType.ErrorType>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Result.init(Effect.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1420,7 +1420,7 @@ extension ReaderType where ElementType: ResultType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Optional<Optional<A>>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Optional<Optional<A>>,ElementType.ErrorType>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Result.init(Optional.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1433,7 +1433,7 @@ extension ReaderType where ElementType: ResultType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Result.init(Result.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1446,7 +1446,7 @@ extension ReaderType where ElementType: ResultType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType>) -> Reader<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Result.init(Writer.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1459,7 +1459,7 @@ extension ReaderType where ElementType: WriterType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Effect<Optional<A>>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Effect<Optional<A>>,ElementType.LogType>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Writer.init(Effect.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1472,7 +1472,7 @@ extension ReaderType where ElementType: WriterType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Optional<Optional<A>>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Optional<Optional<A>>,ElementType.LogType>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Writer.init(Optional.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1485,7 +1485,7 @@ extension ReaderType where ElementType: WriterType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Writer.init(Result.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1498,7 +1498,7 @@ extension ReaderType where ElementType: WriterType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Reader<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType>) -> Reader<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>,EnvironmentType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Reader.init(Writer.init(Writer.init(Optional.none))) })
+			ifNone: { Reader.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1511,7 +1511,7 @@ extension ResultType where ElementType: EffectType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Effect<Effect<Optional<A>>>,ErrorType>) -> Result<Effect<Effect<Optional<A>>>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Effect.init(Effect.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1524,7 +1524,7 @@ extension ResultType where ElementType: EffectType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Effect<Optional<Optional<A>>>,ErrorType>) -> Result<Effect<Optional<Optional<A>>>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Effect.init(Optional.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1537,7 +1537,7 @@ extension ResultType where ElementType: EffectType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>,ErrorType>) -> Result<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Effect.init(Result.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1550,7 +1550,7 @@ extension ResultType where ElementType: EffectType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>,ErrorType>) -> Result<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Effect.init(Writer.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1563,7 +1563,7 @@ extension ResultType where ElementType: OptionalType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Optional<Effect<Optional<A>>>,ErrorType>) -> Result<Optional<Effect<Optional<A>>>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Optional.init(Effect.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1576,7 +1576,7 @@ extension ResultType where ElementType: OptionalType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Optional<Optional<Optional<A>>>,ErrorType>) -> Result<Optional<Optional<Optional<A>>>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Optional.init(Optional.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1589,7 +1589,7 @@ extension ResultType where ElementType: OptionalType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>,ErrorType>) -> Result<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Optional.init(Result.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1602,7 +1602,7 @@ extension ResultType where ElementType: OptionalType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>,ErrorType>) -> Result<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Optional.init(Writer.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1615,7 +1615,7 @@ extension ResultType where ElementType: ResultType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Result<Effect<Optional<A>>,ElementType.ErrorType>,ErrorType>) -> Result<Result<Effect<Optional<A>>,ElementType.ErrorType>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Result.init(Effect.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1628,7 +1628,7 @@ extension ResultType where ElementType: ResultType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Result<Optional<Optional<A>>,ElementType.ErrorType>,ErrorType>) -> Result<Result<Optional<Optional<A>>,ElementType.ErrorType>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Result.init(Optional.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1641,7 +1641,7 @@ extension ResultType where ElementType: ResultType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,ErrorType>) -> Result<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Result.init(Result.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1654,7 +1654,7 @@ extension ResultType where ElementType: ResultType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,ErrorType>) -> Result<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Result.init(Writer.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1667,7 +1667,7 @@ extension ResultType where ElementType: WriterType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Writer<Effect<Optional<A>>,ElementType.LogType>,ErrorType>) -> Result<Writer<Effect<Optional<A>>,ElementType.LogType>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Writer.init(Effect.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1680,7 +1680,7 @@ extension ResultType where ElementType: WriterType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Writer<Optional<Optional<A>>,ElementType.LogType>,ErrorType>) -> Result<Writer<Optional<Optional<A>>,ElementType.LogType>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Writer.init(Optional.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1693,7 +1693,7 @@ extension ResultType where ElementType: WriterType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,ErrorType>) -> Result<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Writer.init(Result.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1706,7 +1706,7 @@ extension ResultType where ElementType: WriterType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Result<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>,ErrorType>) -> Result<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>,ErrorType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Result.init(Writer.init(Writer.init(Optional.none))) })
+			ifNone: { Result.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1719,7 +1719,7 @@ extension WriterType where ElementType: EffectType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Effect<Effect<Optional<A>>>,LogType>) -> Writer<Effect<Effect<Optional<A>>>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Effect.init(Effect.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1732,7 +1732,7 @@ extension WriterType where ElementType: EffectType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Effect<Optional<Optional<A>>>,LogType>) -> Writer<Effect<Optional<Optional<A>>>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Effect.init(Optional.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1745,7 +1745,7 @@ extension WriterType where ElementType: EffectType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>,LogType>) -> Writer<Effect<Result<Optional<A>,ElementType.ElementType.ErrorType>>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Effect.init(Result.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1758,7 +1758,7 @@ extension WriterType where ElementType: EffectType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>,LogType>) -> Writer<Effect<Writer<Optional<A>,ElementType.ElementType.LogType>>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Effect.init(Writer.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1771,7 +1771,7 @@ extension WriterType where ElementType: OptionalType, ElementType.ElementType: E
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Optional<Effect<Optional<A>>>,LogType>) -> Writer<Optional<Effect<Optional<A>>>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Optional.init(Effect.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1784,7 +1784,7 @@ extension WriterType where ElementType: OptionalType, ElementType.ElementType: O
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Optional<Optional<Optional<A>>>,LogType>) -> Writer<Optional<Optional<Optional<A>>>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Optional.init(Optional.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1797,7 +1797,7 @@ extension WriterType where ElementType: OptionalType, ElementType.ElementType: R
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>,LogType>) -> Writer<Optional<Result<Optional<A>,ElementType.ElementType.ErrorType>>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Optional.init(Result.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1810,7 +1810,7 @@ extension WriterType where ElementType: OptionalType, ElementType.ElementType: W
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>,LogType>) -> Writer<Optional<Writer<Optional<A>,ElementType.ElementType.LogType>>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Optional.init(Writer.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1823,7 +1823,7 @@ extension WriterType where ElementType: ResultType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Result<Effect<Optional<A>>,ElementType.ErrorType>,LogType>) -> Writer<Result<Effect<Optional<A>>,ElementType.ErrorType>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Result.init(Effect.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1836,7 +1836,7 @@ extension WriterType where ElementType: ResultType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Result<Optional<Optional<A>>,ElementType.ErrorType>,LogType>) -> Writer<Result<Optional<Optional<A>>,ElementType.ErrorType>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Result.init(Optional.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1849,7 +1849,7 @@ extension WriterType where ElementType: ResultType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,LogType>) -> Writer<Result<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.ErrorType>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Result.init(Result.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1862,7 +1862,7 @@ extension WriterType where ElementType: ResultType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,LogType>) -> Writer<Result<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.ErrorType>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Result.init(Writer.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1875,7 +1875,7 @@ extension WriterType where ElementType: WriterType, ElementType.ElementType: Eff
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Writer<Effect<Optional<A>>,ElementType.LogType>,LogType>) -> Writer<Writer<Effect<Optional<A>>,ElementType.LogType>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Writer.init(Effect.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1888,7 +1888,7 @@ extension WriterType where ElementType: WriterType, ElementType.ElementType: Opt
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Writer<Optional<Optional<A>>,ElementType.LogType>,LogType>) -> Writer<Writer<Optional<Optional<A>>,ElementType.LogType>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Writer.init(Optional.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1901,7 +1901,7 @@ extension WriterType where ElementType: WriterType, ElementType.ElementType: Res
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,LogType>) -> Writer<Writer<Result<Optional<A>,ElementType.ElementType.ErrorType>,ElementType.LogType>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Writer.init(Result.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }
@@ -1914,7 +1914,7 @@ extension WriterType where ElementType: WriterType, ElementType.ElementType: Wri
 	public func flatMapTTT <A> (_ transform: @escaping (ElementType.ElementType.ElementType.ElementType) -> Writer<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>,LogType>) -> Writer<Writer<Writer<Optional<A>,ElementType.ElementType.LogType>,ElementType.LogType>,LogType> {
 		return flatMapTT { $0.run(
 			ifSome: { transform($0) },
-			ifNone: { Writer.init(Writer.init(Writer.init(Optional.none))) })
+			ifNone: { Writer.pure(Optional<A>.none) })
 		}
 	}
 }

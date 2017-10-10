@@ -1,12 +1,6 @@
 public protocol PureConstructible {
 	associatedtype ElementType
-	init(_ value: ElementType)
-}
-
-extension PureConstructible {
-	public static func pure(_ value: ElementType) -> Self {
-		return Self.init(value)
-	}
+	static func pure(_ value: ElementType)  -> Self
 }
 
 extension PureConstructible where ElementType: PureConstructible {

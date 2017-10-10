@@ -32,8 +32,8 @@ public struct Reader<T,E>: ReaderType {
 		self.execute = execute
 	}
 
-	public init(_ value: ElementType) {
-		self.init { _ in value }
+	public static func pure(_ value: ElementType) -> Reader {
+		return Reader.init { _ in value }
 	}
 
 	public func run(_ environment: E) -> T {
