@@ -22,6 +22,10 @@ extension Optional: OptionalType {
 		self = nil
 	}
 
+	public static func pure(_ value: Wrapped) -> Optional<Wrapped> {
+		return Optional(value)
+	}
+
 	public func run<A>(ifSome: (Wrapped) throws -> A, ifNone: () throws -> A) rethrows -> A {
 		if let this = self {
 			return try ifSome(this)

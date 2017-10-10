@@ -22,8 +22,8 @@ public struct Effect<T>: EffectType {
 		self.execute = execute
 	}
 
-	public init(_ value: ElementType) {
-		self.init { value }
+	public static func pure(_ value: ElementType) -> Effect {
+		return Effect.init { value }
 	}
 
 	public func run() -> T {
@@ -57,7 +57,7 @@ extension EffectType where ElementType: EffectType {
 
 extension Effect where ElementType: Monoid {
 	public static var empty: Effect {
-		return Effect.init(.empty)
+		return Effect.pure(.empty)
 	}
 
 	public static func <> (left: Effect, right: Effect) -> Effect {
@@ -73,7 +73,7 @@ extension EffectType where ElementType: Monoid {
 	}
 
 	static func appending(_ x: ElementType) -> Endo<Effect<ElementType>> {
-		return { $0 <> Effect.init(x) }
+		return { $0 <> Effect.pure(x) }
 	}
 }
 

@@ -36,8 +36,8 @@ public final class Deferred<T>: DeferredType {
 		}
 	}
 
-	public convenience init(_ value: T) {
-		self.init(value: value)
+	public static func pure(_ value: T) -> Deferred {
+		return Deferred(value: value)
 	}
 
 	public func run(_ callback: @escaping (T) -> ()) {

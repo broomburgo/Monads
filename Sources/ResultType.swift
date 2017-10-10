@@ -33,8 +33,8 @@ public enum Result<T,E>: ResultType where E: Error {
 	case failure(E)
 	case cancel
 
-	public init(_ value: ElementType) {
-		self = .success(value)
+	public static func pure(_ value: ElementType) -> Result {
+		return .success(value)
 	}
 
 	public init(_ error: ErrorType) {

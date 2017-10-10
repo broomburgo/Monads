@@ -16,8 +16,8 @@ public protocol ArrayType: PureConstructible {
 extension Array: ArrayType {
 	public typealias ElementType = Element
 
-	public init(_ value: ElementType) {
-		self = [value]
+	public static func pure(_ value: ElementType) -> Array {
+		return [value]
 	}
 
 	public func run(_ callback: @escaping (Element) throws -> ()) rethrows {
