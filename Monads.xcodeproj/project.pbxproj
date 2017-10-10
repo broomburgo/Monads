@@ -15,8 +15,8 @@
 		384AB9501F55622200DE1335 /* Functional.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 384AB94C1F55620600DE1335 /* Functional.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		384AB9521F5564AB00DE1335 /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A79AE1F545FAD000B169E /* AnyError.swift */; };
 		384AB9531F55651500DE1335 /* Functional.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384AB94C1F55620600DE1335 /* Functional.framework */; };
-		384AB9551F55659C00DE1335 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384AB9541F55659C00DE1335 /* Operadics.framework */; };
-		384AB9561F5565A000DE1335 /* Operadics.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 384AB9541F55659C00DE1335 /* Operadics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		385863901F8D10C5001A9B98 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3858638F1F8D10C0001A9B98 /* Operadics.framework */; };
+		385863911F8D10C7001A9B98 /* Operadics.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3858638F1F8D10C0001A9B98 /* Operadics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		389C0EF91F2F2D5D0030243A /* Map.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389C0EF81F2F2D5D0030243A /* Map.generated.swift */; };
 		389C0EFA1F2F2D5D0030243A /* Map.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389C0EF81F2F2D5D0030243A /* Map.generated.swift */; };
 		389D15841F31C59A003D4CCA /* ResultTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389D15831F31C59A003D4CCA /* ResultTypeTests.swift */; };
@@ -97,8 +97,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				385863911F8D10C7001A9B98 /* Operadics.framework in CopyFiles */,
 				38FDFF0C1F2B6613002ECC3A /* SwiftCheck.framework in CopyFiles */,
-				384AB9561F5565A000DE1335 /* Operadics.framework in CopyFiles */,
 				38FDFF0D1F2B6613002ECC3A /* Abstract.framework in CopyFiles */,
 				384AB9501F55622200DE1335 /* Functional.framework in CopyFiles */,
 			);
@@ -115,7 +115,7 @@
 		384AB9451F5553B500DE1335 /* buildOperadics.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = buildOperadics.sh; sourceTree = "<group>"; };
 		384AB94C1F55620600DE1335 /* Functional.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Functional.framework; path = Carthage/Build/Mac/Functional.framework; sourceTree = "<group>"; };
 		384AB94E1F55621100DE1335 /* Functional.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Functional.framework; path = Carthage/Build/iOS/Functional.framework; sourceTree = "<group>"; };
-		384AB9541F55659C00DE1335 /* Operadics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Operadics.framework; path = Carthage/Build/Mac/Operadics.framework; sourceTree = "<group>"; };
+		3858638F1F8D10C0001A9B98 /* Operadics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Operadics.framework; path = Carthage/Build/Mac/Operadics.framework; sourceTree = "<group>"; };
 		38808CEF1F26A81700792FEA /* Apply.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Apply.generated.swift; sourceTree = "<group>"; };
 		38808CF01F26A81700792FEA /* Zip.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip.generated.swift; sourceTree = "<group>"; };
 		388D771F1F28D501001EAC57 /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
@@ -180,7 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				384AB9531F55651500DE1335 /* Functional.framework in Frameworks */,
-				384AB9551F55659C00DE1335 /* Operadics.framework in Frameworks */,
+				385863901F8D10C5001A9B98 /* Operadics.framework in Frameworks */,
 				38FDFEDE1F2B6059002ECC3A /* Monads.framework in Frameworks */,
 				38FDFF091F2B6600002ECC3A /* SwiftCheck.framework in Frameworks */,
 				38FDFF0A1F2B6607002ECC3A /* Abstract.framework in Frameworks */,
@@ -268,7 +268,7 @@
 		38F4A3A91F1E62B6003966EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				384AB9541F55659C00DE1335 /* Operadics.framework */,
+				3858638F1F8D10C0001A9B98 /* Operadics.framework */,
 				384AB94E1F55621100DE1335 /* Functional.framework */,
 				384AB94C1F55620600DE1335 /* Functional.framework */,
 				38E4B7AA1F2772A400EEC287 /* SwiftCheck.framework */,
