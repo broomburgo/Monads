@@ -12,29 +12,29 @@ extension Law {
 		{% if type.annotations.requiredContextForPropertyBasedTests %}
 		enum On{{ type.name }} {
 			static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> {% call object type "B" %}, _ context: {{ type.annotations.requiredContextForPropertyBasedTests }}) -> Bool where A: Equatable, B: Equatable {
-				return (({% call object type "A" %}.init(value) >>- f) == f(value))(context)
+				return (({% call object type "A" %}.pure(value) >>- f) == f(value))(context)
 			}
 
 			static func identityRight <A> (_ value: A, _ context: {{ type.annotations.requiredContextForPropertyBasedTests }}) -> Bool where A: Equatable {
-				return (({% call object type "A" %}.init(value) >>- {% call object type "A" %}.init) == {% call object type "A" %}.init(value))(context)
+				return (({% call object type "A" %}.pure(value) >>- {% call object type "A" %}.pure) == {% call object type "A" %}.pure(value))(context)
 			}
 
 			static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> {% call object type "B" %}, _ g: @escaping (B) -> {% call object type "C" %}, _ context: {{ type.annotations.requiredContextForPropertyBasedTests }}) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-				return (({% call object type "A" %}.init(value) >>- f >>- g) == ({% call object type "A" %}.init(value) >>- { f($0) >>- g }))(context)
+				return (({% call object type "A" %}.pure(value) >>- f >>- g) == ({% call object type "A" %}.pure(value) >>- { f($0) >>- g }))(context)
 			}
 		}
 		{% else %}
         enum On{{ type.name }} {
             static func identityLeft <A,B> (_ value: A, _ f: @escaping (A) -> {% call object type "B" %}) -> Bool where A: Equatable, B: Equatable {
-                return ({% call object type "A" %}.init(value) >>- f) == f(value)
+                return ({% call object type "A" %}.pure(value) >>- f) == f(value)
             }
 
             static func identityRight <A> (_ value: A) -> Bool where A: Equatable {
-                return ({% call object type "A" %}.init(value) >>- {% call object type "A" %}.init) == {% call object type "A" %}.init(value)
+                return ({% call object type "A" %}.pure(value) >>- {% call object type "A" %}.pure) == {% call object type "A" %}.pure(value)
             }
 
             static func associativity<A,B,C>(_ value: A, _ f: @escaping (A) -> {% call object type "B" %}, _ g: @escaping (B) -> {% call object type "C" %}) -> Bool where A: Equatable, B: Equatable, C: Equatable {
-                return ({% call object type "A" %}.init(value) >>- f >>- g) == ({% call object type "A" %}.init(value) >>- { f($0) >>- g })
+                return ({% call object type "A" %}.pure(value) >>- f >>- g) == ({% call object type "A" %}.pure(value) >>- { f($0) >>- g })
             }
         }
 		{% endif %}
