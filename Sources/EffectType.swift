@@ -85,6 +85,12 @@ extension Effect: Reducible {
 
 // MARK: - Utility
 
+extension Effect {
+	public static func fixed(_ value: @escaping @autoclosure () -> ElementType) -> Effect<ElementType> {
+		return Effect.init(execute: value)
+	}
+}
+
 extension Effect where T == () {
 	public static var ignored: Effect {
 		return .init { }
