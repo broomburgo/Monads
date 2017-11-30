@@ -12,7 +12,8 @@ public protocol ResultType: PureConstructible {
 	associatedtype ErrorType: Error
 	init(_ error: ErrorType)
 	init()
-	func run <A> (ifSuccess: (ElementType) -> A, ifFailure: (ErrorType) -> A, ifCancel: () -> A) -> A
+	func run() throws -> ElementType?
+	func fold <A> (ifSuccess: (ElementType) -> A, ifFailure: (ErrorType) -> A, ifCancel: () -> A) -> A
 }
 
 // MARK: - Concrete
@@ -45,7 +46,7 @@ public enum Result<T,E>: ResultType where E: Error {
 		self = .cancel
 	}
 
-	public func run<A>(ifSuccess: (T) -> A, ifFailure: (E) -> A, ifCancel: () -> A) -> A {
+	public func fold<A>(ifSuccess: (T) -> A, ifFailure: (E) -> A, ifCancel: () -> A) -> A {
 		switch self {
 		case .success(let value):
 			return ifSuccess(value)
@@ -56,7 +57,7 @@ public enum Result<T,E>: ResultType where E: Error {
 		}
 	}
 
-	public func get() throws -> ElementType? {
+	public func run() throws -> ElementType? {
 		switch self {
 		case .success(let value):
 			return value
@@ -87,7 +88,7 @@ extension Result where T: Equatable, E: Equatable {
 
 extension ResultType {
 	public func map <A> (_ transform: @escaping (ElementType) -> A) -> Result<A,ErrorType> {
-		return run(
+		return fold(
 			ifSuccess: { .success(transform($0)) },
 			ifFailure: { .failure($0) },
 			ifCancel: { .cancel })
@@ -98,8 +99,8 @@ extension ResultType {
 
 extension ResultType where ElementType: ResultType, ElementType.ErrorType == ErrorType {
 	public var joined: Result<ElementType.ElementType,ErrorType> {
-		return run(
-			ifSuccess: { $0.run(
+		return fold(
+			ifSuccess: { $0.fold(
 				ifSuccess: { .success($0) },
 				ifFailure: { .failure($0) },
 				ifCancel: { .cancel }) },
@@ -112,12 +113,12 @@ extension ResultType where ElementType: ResultType, ElementType.ErrorType == Err
 
 extension ResultType where ErrorType: Semigroup {
 	public static func zip <A,B> (_ a: A, _ b: B) -> Result<(A.ElementType,B.ElementType),ErrorType> where A: ResultType, B: ResultType, A.ErrorType == ErrorType, B.ErrorType == ErrorType, ElementType == (A.ElementType,B.ElementType) {
-		return a.run(
-			ifSuccess: { aValue in b.run(
+		return a.fold(
+			ifSuccess: { aValue in b.fold(
 				ifSuccess: { bValue in .success((aValue,bValue)) },
 				ifFailure: { bError in .failure(bError) },
 				ifCancel: { .cancel }) },
-			ifFailure: { aError in b.run(
+			ifFailure: { aError in b.fold(
 				ifSuccess: { _ in .failure(aError) },
 				ifFailure: { bError in .failure(aError <> bError)},
 				ifCancel: { .cancel }) },
@@ -133,7 +134,7 @@ extension ResultType {
 	}
 
 	static func appending(_ x: ElementType) -> Endo<Result<ElementType,ErrorType>> {
-		return { $0.run(
+		return { $0.fold(
 			ifSuccess: Result.success,
 			ifFailure: { _ in Result.success(x) },
 			ifCancel: { Result.success(x) })
@@ -160,35 +161,35 @@ extension Result: Reducible {
 
 extension ResultType {
 	public func mapError<E>(_ transform: @escaping (ErrorType) -> E) -> Result<ElementType,E> {
-		return run(
+		return fold(
 			ifSuccess: Result.success,
 			ifFailure: Result.failure • transform,
 			ifCancel: { Result.cancel })
 	}
 
 	public func fallback(to defaultValue: ElementType) -> Result<ElementType,ErrorType> {
-		return run(
+		return fold(
 			ifSuccess: Result.success,
 			ifFailure: { _ in Result.success(defaultValue) },
 			ifCancel: { Result.success(defaultValue) })
 	}
 
 	public var toOptionalValue: ElementType? {
-		return run(
+		return fold(
 			ifSuccess: F.identity,
 			ifFailure: { _ in nil },
 			ifCancel: { nil })
 	}
 
 	public var toOptionalError: ErrorType? {
-		return run(
+		return fold(
 			ifSuccess: { _ in nil },
 			ifFailure: F.identity,
 			ifCancel: { nil })
 	}
 
 	public var isCanceled: Bool {
-		return run(
+		return fold(
 			ifSuccess: { _ in false },
 			ifFailure: { _ in false },
 			ifCancel: { true })

@@ -7,7 +7,8 @@ import Functional
 // sourcery: transformer1, transformer2
 public protocol OptionalType: PureConstructible {
 	init()
-	func run<A>(ifSome: (ElementType) throws -> A, ifNone: () throws -> A) rethrows -> A
+	var run: ElementType? { get }
+	func fold<A>(ifSome: (ElementType) throws -> A, ifNone: () throws -> A) rethrows -> A
 }
 
 // MARK: - Concrete
@@ -26,7 +27,11 @@ extension Optional: OptionalType {
 		return Optional(value)
 	}
 
-	public func run<A>(ifSome: (Wrapped) throws -> A, ifNone: () throws -> A) rethrows -> A {
+	public var run: Wrapped? {
+		return self
+	}
+
+	public func fold<A>(ifSome: (Wrapped) throws -> A, ifNone: () throws -> A) rethrows -> A {
 		if let this = self {
 			return try ifSome(this)
 		} else {
@@ -39,7 +44,7 @@ extension Optional: OptionalType {
 
 extension OptionalType {
 	public func map <A> (_ transform: @escaping (ElementType) throws -> A) rethrows -> Optional<A> {
-		return try run(
+		return try fold(
 			ifSome: { try .some(transform($0)) },
 			ifNone: { .none })
 	}
@@ -49,8 +54,8 @@ extension OptionalType {
 
 extension OptionalType where ElementType: OptionalType {
 	public var joined: Optional<ElementType.ElementType> {
-		return run(
-			ifSome: { $0.run(
+		return fold(
+			ifSome: { $0.fold(
 				ifSome: { .some($0) },
 				ifNone: { .none }) },
 			ifNone: { .none })
@@ -96,25 +101,25 @@ extension OptionalType {
 	}
 
 	public func get(or getElseValue: @autoclosure () -> ElementType) -> ElementType {
-		return run(
+		return fold(
 			ifSome: F.identity,
 			ifNone: getElseValue)
 	}
 
 	public func get(orError getError: @autoclosure () -> Error) throws -> ElementType {
-		return try run(
+		return try fold(
 			ifSome: F.identity,
 			ifNone: { throw getError() })
 	}
 
 	public func toResult<E>(getError: @autoclosure () -> E) -> Result<ElementType,E> where E: Error {
-		return run(
+		return fold(
 			ifSome: { .success($0) },
 			ifNone: { .failure(getError()) })
 	}
 
 	public var isNil: Bool {
-		return run(
+		return fold(
 			ifSome: { _ in false },
 			ifNone: { true })
 	}
@@ -124,7 +129,7 @@ extension OptionalType {
 	}
 
 	public func ifNotNil(_ action: @escaping (ElementType) -> ()) {
-		run(ifSome: action,
+		fold(ifSome: action,
 		    ifNone: {})
 	}
 }

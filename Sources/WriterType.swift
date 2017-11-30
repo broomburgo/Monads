@@ -113,6 +113,11 @@ extension WriterType {
 		return Self(value: oldValue, log: oldLog <> newLog)
 	}
 
+	public func remember(_ oldLog: LogType) -> Self {
+		let (oldValue,newLog) = run
+		return Self(value: oldValue, log: oldLog <> newLog)
+	}
+
 	public func read(_ transform: (ElementType) -> LogType) -> Self {
 		let (oldValue,oldLog) = run
 		return Self(value: oldValue, log: oldLog <> transform(oldValue))
